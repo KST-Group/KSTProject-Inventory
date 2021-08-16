@@ -3,8 +3,13 @@ class Assets {
   Assets._();
 
   static const String iconsAccount = 'assets/icons/account.svg';
+  static const String iconsCompany = 'assets/icons/company.svg';
   static const String iconsDashboardLayout = 'assets/icons/dashboard_layout.svg';
+  static const String iconsDataTransfer = 'assets/icons/data_transfer.svg';
   static const String iconsDeviceManager = 'assets/icons/device_manager.svg';
+  static const String iconsDownload = 'assets/icons/download.svg';
+  static const String iconsEmployee = 'assets/icons/employee.svg';
+  static const String iconsInventory = 'assets/icons/inventory.svg';
   static const String iconsLaptop = 'assets/icons/laptop.svg';
   static const String iconsMobile = 'assets/icons/mobile.svg';
   static const String iconsMultipleDevices = 'assets/icons/multiple_devices.svg';
@@ -12,6 +17,7 @@ class Assets {
   static const String iconsReset = 'assets/icons/reset.svg';
   static const String iconsSadFace = 'assets/icons/sad_face.svg';
   static const String iconsSetting = 'assets/icons/setting.png';
+  static const String iconsUpload = 'assets/icons/upload.svg';
   static const String iconsUser = 'assets/icons/user.svg';
   static const String imagesKst = 'assets/images/kst.png';
   static const String imagesSadFace = 'assets/images/sad_face.png';

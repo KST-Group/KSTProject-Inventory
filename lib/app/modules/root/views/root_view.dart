@@ -6,7 +6,7 @@ import 'package:kst_inventory/app/modules/root/controllers/root_controller.dart'
 import 'package:kst_inventory/app/routes/app_routes.dart';
 import 'package:kst_inventory/services/auth_service.dart';
 
-import '../../home/views/menu_bar.dart';
+import 'menu_bar.dart';
 
 class RootView extends GetView {
   @override

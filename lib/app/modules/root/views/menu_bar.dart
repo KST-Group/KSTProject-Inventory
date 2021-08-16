@@ -40,7 +40,11 @@ class MenuBar extends GetView<HomeController> {
                   SizedBox(
                     height: 10,
                   ),
-                  Text('Inventory'),
+                  _title(
+                      tile: 'Inventory',
+                      ico: 'assets/icons/inventory.svg',
+                      iconColor: Colors.blue,
+                      textColor: Colors.blue),
                   SizedBox(
                     height: 10,
                   ),
@@ -51,34 +55,51 @@ class MenuBar extends GetView<HomeController> {
                       delegate.toNamed(Routes.DEVICE);
                     },
                   ),
-                  Text('Transfer'),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  _title(
+                    tile: 'Transfer',
+                    ico: 'assets/icons/data_transfer.svg',
+                    iconColor: Colors.redAccent,
+                    textColor: Colors.blue,
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
                   menuButton(
-                    ico: 'assets/icons/reset.svg',
+                    ico: 'assets/icons/download.svg',
                     title: 'Check In',
                     onTap: () {
                       delegate.toNamed(Routes.CHECKIN);
                     },
                   ),
-                  // menuButton(
-                  //   title: 'Check Out',
-                  //   onTap: () {},
-                  // ),
-                  // Text('Order'),
-                  // menuButton(
-                  //   title: 'Order',
-                  //   onTap: () {},
-                  // ),
-                  // menuButton(
-                  //   title: 'Receive',
-                  //   onTap: () {},
-                  // ),
-                  // Text('Repair'),
-                  // menuButton(title: 'Repair', onTap: () {}),
-                  Text('Settings'),
-                  // menuButton(
-                  //   title: 'Company',
-                  //   onTap: () {},
-                  // ),
+                  menuButton(
+                    ico: 'assets/icons/upload.svg',
+                    title: 'Check Out',
+                    onTap: () {},
+                  ),
+                  _title(
+                      tile: 'Organizations',
+                      ico: 'assets/icons/company.svg',
+                      iconColor: Colors.redAccent,
+                      textColor: Colors.blue),
+
+                  menuButton(
+                    ico: 'assets/icons/employee.svg',
+                    title: 'Employees',
+                    onTap: () {
+                      delegate.toNamed(Routes.EMPLOYEE);
+                    },
+                  ),
+                  menuButton(
+                    ico: 'assets/icons/company.svg',
+                    title: 'Company Profile',
+                    onTap: () {
+                      delegate.toNamed(Routes.EMPLOYEE);
+                    },
+                  ),
+                  //_title(tile: 'Settings'),
                   menuButton(
                     title: 'User',
                     ico: 'assets/icons/user.svg',
@@ -86,11 +107,6 @@ class MenuBar extends GetView<HomeController> {
                       delegate.toNamed(Routes.USER);
                     },
                   ),
-                  // Text('Report'),
-                  // menuButton(
-                  //   title: 'Report',
-                  //   onTap: () {},
-                  // ),
                 ],
               ),
             ),
@@ -113,6 +129,32 @@ class MenuBar extends GetView<HomeController> {
         style: TextStyle(color: Colors.black, fontSize: 18),
       ),
       onTap: onTap,
+    );
+  }
+
+  _title(
+      {required String tile,
+      Color? textColor,
+      Color? iconColor,
+      required String ico}) {
+    return Container(
+      padding: EdgeInsets.only(top: 20, bottom: 20),
+      child: Row(
+        children: [
+          Text(
+            '$tile',
+            style: TextStyle(color: textColor),
+          ),
+          SizedBox(
+            width: 10,
+          ),
+          SvgPicture.asset(
+            ico,
+            width: 18,
+            color: iconColor,
+          ),
+        ],
+      ),
     );
   }
 }

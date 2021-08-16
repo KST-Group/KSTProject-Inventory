@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kst_inventory/models/brand.dart';
+import 'package:kst_inventory/models/device.dart';
 import 'package:kst_inventory/models/device_type.dart';
 import 'package:kst_inventory/services/device_services.dart';
 
 class DeviceController extends GetxController {
-  var dropdownValue = 'One'.obs;
   var dropdownType = '1'.obs;
   List<Types> listType = [];
 
@@ -34,7 +34,26 @@ class DeviceController extends GetxController {
     ///Methods
     getDeviceType();
     getBrandData();
+
+    ///Devices
+    getDevice();
     super.onInit();
+  }
+
+  ///Search Box
+  Future onSearch(String value) async{
+
+    print(value);
+    if (value.length == 0) {
+      getDevice();
+    } else {
+      String search = value.toString().toLowerCase().trim();
+      listDevice.value = listDevice.where((element) {
+        String name = element.deviceName.toString().toLowerCase().trim();
+        String deviceId = element.deviceId.toString().toLowerCase().trim();
+        return name.contains(search) || deviceId.contains(search);
+      }).toList().obs;
+    }
   }
 
   ///Brand
@@ -68,10 +87,6 @@ class DeviceController extends GetxController {
   ///Add Device Type
   TextEditingController? deviceType;
 
-  onChangedValue(String value) {
-    dropdownValue.value = value;
-  }
-
   onChangeType(String? value) {
     dropdownType.value = value!;
   }
@@ -81,7 +96,6 @@ class DeviceController extends GetxController {
     DeviceService.to.getDeviceTypeData().then((value) {
       DeviceType deviceType = value;
       listType = deviceType.data!;
-      print(listType.length);
     });
   }
 
@@ -97,5 +111,25 @@ class DeviceController extends GetxController {
         print(value);
       });
     }
+  }
+
+  ///Get all devices
+  var filterType = '1'.obs;
+  var listDevice = [].obs;
+
+  Future getDevice() async {
+    DeviceService.to.getAllDevice().then((value) {
+      listDevice.value = value.data!;
+    });
+  }
+
+  void onFilterType(String value) {
+    filterType.value = value;
+    String filter = value.toString().toLowerCase().trim();
+    print(filter);
+    listDevice.value = listDevice.where((element) {
+      var typeId = element.typeId.toString().trim();
+      return typeId.contains(filter);
+    }).toList();
   }
 }

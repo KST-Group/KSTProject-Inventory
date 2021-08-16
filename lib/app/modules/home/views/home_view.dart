@@ -6,7 +6,7 @@ import 'package:kst_inventory/app/routes/app_routes.dart';
 import 'package:kst_inventory/models/user_model.dart';
 import 'package:kst_inventory/services/prefs_service.dart';
 
-import 'menu_bar.dart';
+import '../../root/views/menu_bar.dart';
 
 class HomeView extends GetView<HomeController> {
   @override
@@ -15,7 +15,7 @@ class HomeView extends GetView<HomeController> {
       builder: (context, delegate, currentRoute) {
         return Scaffold(
           body: GetRouterOutlet(
-            initialRoute: Routes.DEVICE,
+            initialRoute: Routes.EMPLOYEE,
             key: Get.nestedKey(Routes.HOME),
           ),
         );

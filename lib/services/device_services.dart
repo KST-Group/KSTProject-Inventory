@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:kst_inventory/app/middleware/http_value.dart';
 import 'package:kst_inventory/models/brand.dart';
+import 'package:kst_inventory/models/device.dart';
 import 'package:kst_inventory/models/device_type.dart';
 
 class DeviceService extends GetxService {
@@ -66,6 +67,20 @@ class DeviceService extends GetxService {
       }
     } on HttpException catch (error) {
       print(error);
+    }
+  }
+
+  ///Device
+  ///Get all Devices
+  Future<Devices> getAllDevice() async {
+    try {
+      final response = await http.get(deviceUrl);
+      if (response.statusCode == 200) {
+        return Devices.fromMap(jsonDecode(response.body));
+      }
+      throw response.statusCode;
+    } on HttpException catch (error) {
+      throw error;
     }
   }
 }

@@ -6,6 +6,8 @@ import 'package:kst_inventory/app/modules/dashboard/bindings/dashboard_binding.d
 import 'package:kst_inventory/app/modules/dashboard/views/dashboard_view.dart';
 import 'package:kst_inventory/app/modules/devices/bindings/device_binding.dart';
 import 'package:kst_inventory/app/modules/devices/views/device_view.dart';
+import 'package:kst_inventory/app/modules/employees/bindings/employee_binding.dart';
+import 'package:kst_inventory/app/modules/employees/views/employee_view.dart';
 import 'package:kst_inventory/app/modules/home/bindings/home_binding.dart';
 import 'package:kst_inventory/app/modules/home/views/home_view.dart';
 import 'package:kst_inventory/app/modules/login/bindings/login_binding.dart';
@@ -74,6 +76,14 @@ class AppPages {
               name: Paths.CHECKIN,
               page: () => CheckInView(),
               binding: CheckInBinding(),
+            ),
+            GetPage(
+              name: Paths.EMPLOYEE,
+              page: () => EmployeeView(),
+              binding: EmployeeBinding(),
+              // middlewares: [
+              //   EnsureAuthedMiddleware(),
+              // ],
             ),
             GetPage(
               name: Paths.USER,

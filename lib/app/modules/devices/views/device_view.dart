@@ -46,84 +46,108 @@ class DeviceView extends GetView<DeviceController> {
               SizedBox(
                 height: 20,
               ),
+              Divider(),
               Expanded(
                 child: SingleChildScrollView(
                   scrollDirection: Axis.vertical,
                   child: SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     physics: ScrollPhysics(),
-                    child: DataTable(
-                      columns: [
-                        DataColumn(
-                          label: Text('No'),
-                        ),
-                        DataColumn(
-                          label: Text('Device ID'),
-                        ),
-                        DataColumn(
-                          label: Text('Name'),
-                        ),
-                        DataColumn(
-                          label: Text('Status'),
-                        ),
-                        DataColumn(
-                          label: Text('Comment'),
-                        ),
-                        DataColumn(
-                          label: Text('Join Domain'),
-                        ),
-                        DataColumn(
-                          label: Text('Model'),
-                        ),
-                        DataColumn(
-                          label: Text('Service Tag SN'),
-                        ),
-                        DataColumn(
-                          label: Text('Local ID'),
-                        ),
-                        DataColumn(
-                          label: Text('Computer Name'),
-                        ),
-                        DataColumn(
-                          label: Text('CPU'),
-                        ),
-                        DataColumn(
-                          label: Text('RAM'),
-                        ),
-                        DataColumn(
-                          label: Text('Hard dist'),
-                        ),
-                        DataColumn(
-                          label: Text('Provider'),
-                        ),
-                        DataColumn(
-                          label: Text('Price'),
-                        ),
-                        DataColumn(
-                          label: Text('Warranty'),
-                        ),
-                      ],
-                      rows: List.generate(
-                        100,
-                        (index) => DataRow(
-                          cells: [
-                            DataCell(Text('${index + 1}')),
-                            DataCell(Text('67897')),
-                            DataCell(Text('Laptop')),
-                            DataCell(Text('In use')),
-                            DataCell(Text('New')),
-                            DataCell(Text('Workgroup')),
-                            DataCell(Text('ASPIRE E14')),
-                            DataCell(Text('24P00')),
-                            DataCell(Text('VTP-ICT-012')),
-                            DataCell(Text('Computer Name')),
-                            DataCell(Text('CORE i5')),
-                            DataCell(Text('8GB')),
-                            DataCell(Text('8GB')),
-                            DataCell(Text('8GB')),
-                            DataCell(Text('8GB')),
-                            DataCell(Text('8GB')),
-                          ],
+                    child: Obx(
+                      () => DataTable(
+                        columns: [
+                          DataColumn(
+                            label: Text('No'),
+                          ),
+                          DataColumn(
+                            label: Text('Device ID'),
+                          ),
+                          DataColumn(
+                            label: Text('Name'),
+                          ),
+                          DataColumn(
+                            label: Text('Type'),
+                          ),
+
+                          DataColumn(
+                            label: Text('Status'),
+                          ),
+                          DataColumn(
+                            label: Text('Comment'),
+                          ),
+                          DataColumn(
+                            label: Text('Join Domain'),
+                          ),
+                          DataColumn(
+                            label: Text('Model'),
+                          ),
+                          DataColumn(
+                            label: Text('Service Tag SN'),
+                          ),
+                          DataColumn(
+                            label: Text('Local ID'),
+                          ),
+                          DataColumn(
+                            label: Text('Computer Name'),
+                          ),
+                          DataColumn(
+                            label: Text('CPU'),
+                          ),
+                          DataColumn(
+                            label: Text('RAM'),
+                          ),
+                          DataColumn(
+                            label: Text('Hard dist'),
+                          ),
+                          DataColumn(
+                            label: Text('Provider'),
+                          ),
+                          DataColumn(
+                            label: Text('Price'),
+                          ),
+                          DataColumn(
+                            label: Text('Warranty'),
+                          ),
+                        ],
+                        rows: List.generate(
+                          controller.listDevice.length,
+                          (index) => DataRow(
+                            cells: [
+                              DataCell(Text('${index + 1}')),
+                              DataCell(Text(
+                                  '${controller.listDevice[index].deviceId}')),
+                              DataCell(Text(
+                                  '${controller.listDevice[index].deviceName}')),
+                              DataCell(Text(
+                                  '${controller.listDevice[index].typeId}')),
+                              DataCell(Text(
+                                  '${controller.listDevice[index].statuss}')),
+                              DataCell(Text(
+                                  '${controller.listDevice[index].comments}')),
+                              DataCell(Text(
+                                  '${controller.listDevice[index].joinDomain}')),
+                              DataCell(Text(
+                                  '${controller.listDevice[index].model}')),
+                              DataCell(Text(
+                                  '${controller.listDevice[index].servicetagSn}')),
+                              DataCell(Text(
+                                  '${controller.listDevice[index].localId}')),
+                              DataCell(Text(
+                                  '${controller.listDevice[index].computername}')),
+                              DataCell(
+                                  Text('${controller.listDevice[index].cpus}')),
+                              DataCell(
+                                  Text('${controller.listDevice[index].ram}')),
+                              DataCell(Text(
+                                  '${controller.listDevice[index].hardisk}')),
+                              DataCell(Text(
+                                  '${controller.listDevice[index].provider}')),
+                              DataCell(Text(
+                                  '${controller.listDevice[index].price}')),
+                              DataCell(Text(
+                                  '${controller.listDevice[index].warranty}')),
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -143,18 +167,25 @@ class DeviceView extends GetView<DeviceController> {
       width: 500,
       child: TextField(
         decoration: InputDecoration(
-            isDense: true,
-            suffixIcon: Icon(Icons.search),
-            hintText: "What are you looking for?",
-            border: OutlineInputBorder(
-              borderSide: BorderSide(),
-            ),
-            focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.black))),
+          isDense: true,
+          suffixIcon: Icon(Icons.search),
+          hintText: "What are you looking for?",
+          border: OutlineInputBorder(
+            borderSide: BorderSide(),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.black),
+          ),
+        ),
+        onChanged: (value) {
+          controller.onSearch(value);
+        },
+        onSubmitted: (value) {
+          controller.onSearch(value);
+        },
       ),
     );
   }
-
   deviceType() {
     return Container(
       child: Row(
@@ -176,17 +207,16 @@ class DeviceView extends GetView<DeviceController> {
                 isDense: true,
                 hint: Text('Select one'),
                 underline: Container(),
-                value: controller.dropdownValue.value,
-                onChanged: (String? value) {
-                  controller.onChangedValue(value!);
-                },
-                items: <String>['One', 'Two', 'Tree', 'Four']
-                    .map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
+                value: controller.filterType.value,
+                items: controller.listType.map((value) {
+                  return DropdownMenuItem(
+                    value: value.typeId.toString(),
+                    child: Text(value.deviceType.toString()),
                   );
                 }).toList(),
+                onChanged: (String? value) {
+                  controller.onFilterType(value!);
+                },
               ),
             ),
           ),

@@ -10,8 +10,9 @@ Uri getUserUrl = Uri.http(_baseUrl, '/users');
 Uri addUserUrl = Uri.http(_baseUrl, '/users/add');
 Uri deleteUserUrl(String username) => Uri.http(_baseUrl, '/users/$username');
 
-
-///Devices
+///Device
+Uri deviceUrl = Uri.http(_baseUrl, '/devices');
+///DevicesType
 Uri typeUrl = Uri.http(_baseUrl, '/devicetype');
 Uri addTypeUrl = Uri.http(_baseUrl, '/devicetype/add');
 
