@@ -9,6 +9,9 @@ abstract class Routes {
   static const CHECKIN = Paths.HOME + Paths.CHECKIN;
   static const USER = Paths.HOME + Paths.USER;
   static const EMPLOYEE = Paths.HOME + Paths.EMPLOYEE;
+  static const COMPANY=Paths.HOME+Paths.COMPANY;
+  static String COMPANY_PROFILE(String companyId)=>'$COMPANY/$companyId';
+
 
   static String LOGIN_THEN(String afterSuccessfulLogin) =>
       '$LOGIN?then=${Uri.encodeQueryComponent(afterSuccessfulLogin)}';
@@ -23,4 +26,6 @@ abstract class Paths {
   static const CHECKIN = '/checkin';
   static const USER = '/user';
   static const EMPLOYEE = '/employee';
+  static const COMPANY='/company';
+  static const COMPANY_PROFILE='/:companyId';
 }

@@ -2,6 +2,10 @@ import 'package:get/get.dart';
 import 'package:kst_inventory/app/middleware/auth_middleware.dart';
 import 'package:kst_inventory/app/modules/check_in/bindings/checkin_binding.dart';
 import 'package:kst_inventory/app/modules/check_in/views/checkin_view.dart';
+import 'package:kst_inventory/app/modules/company_profiles/blindings/company_profile_blinding.dart';
+import 'package:kst_inventory/app/modules/company_profiles/views/company_profile_view.dart';
+import 'package:kst_inventory/app/modules/companys/bindings/company_binding.dart';
+import 'package:kst_inventory/app/modules/companys/views/company_view.dart';
 import 'package:kst_inventory/app/modules/dashboard/bindings/dashboard_binding.dart';
 import 'package:kst_inventory/app/modules/dashboard/views/dashboard_view.dart';
 import 'package:kst_inventory/app/modules/devices/bindings/device_binding.dart';
@@ -85,6 +89,22 @@ class AppPages {
               //   EnsureAuthedMiddleware(),
               // ],
             ),
+            GetPage(
+                name: Paths.COMPANY,
+                page: () => CompanyView(),
+                binding: CompanyBinding(),
+                transition: Transition.zoom,
+                children: [
+                  GetPage(
+                    name: Paths.COMPANY_PROFILE,
+                    page: () => CompanyProfileView(),
+                    binding: CompanyProfileBlinding(),
+                  ),
+                ]
+                // middlewares: [
+                //   EnsureAuthedMiddleware(),
+                // ],
+                ),
             GetPage(
               name: Paths.USER,
               page: () => UserView(),

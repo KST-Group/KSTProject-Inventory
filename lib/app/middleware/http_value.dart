@@ -1,4 +1,5 @@
 import 'package:kst_inventory/models/brand.dart';
+import 'package:kst_inventory/models/companys.dart';
 
 const String _baseUrl = "127.0.0.1:3000";
 
@@ -20,3 +21,11 @@ Uri addTypeUrl = Uri.http(_baseUrl, '/devicetype/add');
 ///Brands
 Uri brandUrl = Uri.http(_baseUrl, '/brands');
 Uri addBrandUrl = Uri.http(_baseUrl, '/brands/add');
+
+///Company
+Uri companyUrl = Uri.http(_baseUrl, '/company');
+Uri deleteCompanyUrl = Uri.http(_baseUrl, '/company/delete');
+Uri addCompanyUrl = Uri.http(_baseUrl, '/company/add');
+
+///Department
+Uri departByCompany(String companyId) => Uri.http(_baseUrl, '/department/cm/$companyId');

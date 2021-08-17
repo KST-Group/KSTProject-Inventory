@@ -85,16 +85,17 @@ class MenuBar extends GetView<HomeController> {
                       iconColor: Colors.redAccent,
                       textColor: Colors.blue),
 
-                  menuButton(
-                    ico: 'assets/icons/employee.svg',
-                    title: 'Employees',
-                    onTap: () {
-                      delegate.toNamed(Routes.EMPLOYEE);
-                    },
-                  ),
+
                   menuButton(
                     ico: 'assets/icons/company.svg',
                     title: 'Company Profile',
+                    onTap: () {
+                      delegate.toNamed(Routes.COMPANY);
+                    },
+                  ),
+                  menuButton(
+                    ico: 'assets/icons/employee.svg',
+                    title: 'Employees',
                     onTap: () {
                       delegate.toNamed(Routes.EMPLOYEE);
                     },
