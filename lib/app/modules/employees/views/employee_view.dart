@@ -23,25 +23,29 @@ class EmployeeView extends GetView<EmployeeController> {
                 Expanded(
                   child: Container(
                     child: SingleChildScrollView(
-                      child: DataTable(
-                        columns: [
-                          DataColumn(label: Text('No')),
-                          DataColumn(label: Text('Employee ID')),
-                          DataColumn(label: Text('Gender')),
-                          DataColumn(label: Text('Name La')),
-                          DataColumn(label: Text('Name EN')),
-                          DataColumn(label: Text('Email')),
+                      child: Row(
+                        children: [
+                          DataTable(
+                            columns: [
+                              DataColumn(label: Text('No')),
+                              DataColumn(label: Text('Employee ID')),
+                              DataColumn(label: Text('Gender')),
+                              DataColumn(label: Text('Name La')),
+                              DataColumn(label: Text('Name EN')),
+                              DataColumn(label: Text('Email')),
+                            ],
+                            rows: List.generate(100, (index) {
+                              return DataRow(cells: [
+                                DataCell(Text('${index + 1}')),
+                                DataCell(Text('001')),
+                                DataCell(Text('Male')),
+                                DataCell(Text('Khamkone')),
+                                DataCell(Text('Khamkone')),
+                                DataCell(Text('khamkone@ksd.la')),
+                              ]);
+                            }),
+                          ),
                         ],
-                        rows: List.generate(100, (index) {
-                          return DataRow(cells: [
-                            DataCell(Text('${index + 1}')),
-                            DataCell(Text('001')),
-                            DataCell(Text('Male')),
-                            DataCell(Text('Khamkone')),
-                            DataCell(Text('Khamkone')),
-                            DataCell(Text('khamkone@ksd.la')),
-                          ]);
-                        }),
                       ),
                     ),
                   ),

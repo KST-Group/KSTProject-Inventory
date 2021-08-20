@@ -20,7 +20,7 @@ class CompanyView extends GetView<CompanyController> {
                     Text(
                       'Company Profile',
                       style:
-                          TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     SizedBox(
                       width: 10,
@@ -28,7 +28,7 @@ class CompanyView extends GetView<CompanyController> {
                     SvgPicture.asset(
                       'assets/icons/company.svg',
                       color: Colors.redAccent,
-                      width: 35,
+                      width: 30,
                     ),
                   ],
                 ),
@@ -62,98 +62,68 @@ class CompanyView extends GetView<CompanyController> {
         } else {
           return Column(
             children: List.generate(controller.listCompany.length, (index) {
-              return GestureDetector(
+              return Container(
+                margin: EdgeInsets.only(bottom: 20),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Card(
-                      child: Container(
-                        padding: EdgeInsets.all(15),
-                        width: 500,
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              child: Row(
-                                children: [
-                                  SvgPicture.asset(
-                                    'assets/icons/company.svg',
-                                    color: Colors.black54,
-                                    width: 100,
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'No: ${controller.listCompany[index].companyId}',
-                                        style: TextStyle(fontSize: 16),
-                                      ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      Text(
-                                          'Name: ${controller.listCompany[index].company}'),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      Text(
-                                          'Tel: ${controller.listCompany[index].tel}'),
-                                    ],
-                                  ),
-                                ],
-                              ),
+                    Row(
+                      children: [
+                        SizedBox(
+                          width: 500,
+                          child: ListTile(
+                            leading: SvgPicture.asset(
+                              'assets/icons/company.svg',
+                              width: 40,
+                              color: Colors.grey,
                             ),
-                            IconButton(
-                              onPressed: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return AlertDialog(
-                                      title: Text('Warning'),
-                                      content: Text('Are you sure to delete?'),
-                                      actions: [
-                                        TextButton(
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                            child: Text('Cancel')),
-                                        TextButton(
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                              controller.deleteCompany(
-                                                  companyId:
-                                                      '${controller.listCompany[index].companyId}');
-                                            },
-                                            child: Text('Ok')),
-                                      ],
-                                    );
-                                  },
-                                );
-                              },
+                            title: Text(
+                                'Name: ${controller.listCompany[index].company}'),
+                            subtitle: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  height: 15,
+                                ),
+                                Text(
+                                    'Description: ${controller.listCompany[index].description}'),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                    'Address: ${controller.listCompany[index].address}'),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                    'Tel: ${controller.listCompany[index].tel}'),
+                              ],
+                            ),
+                            trailing: IconButton(
                               icon: Icon(
                                 Icons.delete,
-                                color: Colors.redAccent,
+                                color: Colors.red,
                               ),
+                              onPressed: () {
+                                _showDialogOption(context, index);
+                              },
                             ),
-                          ],
+                            onTap: () {
+                              Get.rootDelegate.toNamed(Routes.COMPANY_DTAIL(
+                                controller.listCompany[index].companyId
+                                    .toString(),
+                              ));
+                            },
+                          ),
                         ),
-                      ),
+                      ],
+                    ),
+                    SizedBox(
+                      width: 500,
+                      child: Divider(),
                     ),
                   ],
                 ),
-                onTap: () {
-                  Get.rootDelegate.toNamed(
-                    Routes.COMPANY_PROFILE(
-                        '${controller.listCompany[index].companyId}'),
-                    arguments:
-                        controller.listCompany[index].companyId.toString(),
-                  );
-                },
               );
             }),
           );
@@ -171,7 +141,13 @@ class CompanyView extends GetView<CompanyController> {
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
-          children: [Icon(Icons.add), Text('New Company')],
+          children: [
+            Icon(
+              Icons.add,
+              color: Colors.green,
+            ),
+            Text('New Company')
+          ],
         ),
       ),
       onTap: () {
@@ -303,6 +279,35 @@ class CompanyView extends GetView<CompanyController> {
               ],
             );
           },
+        );
+      },
+    );
+  }
+
+  void _showDialogOption(BuildContext context, int index) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Warning'),
+          content: Text('Are you sure'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                controller.deleteCompany(
+                  companyId: controller.listCompany[index].companyId.toString(),
+                );
+              },
+              child: Text('OK'),
+            )
+          ],
         );
       },
     );

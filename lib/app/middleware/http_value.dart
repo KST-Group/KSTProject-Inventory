@@ -29,3 +29,11 @@ Uri addCompanyUrl = Uri.http(_baseUrl, '/company/add');
 
 ///Department
 Uri departByCompany(String companyId) => Uri.http(_baseUrl, '/department/cm/$companyId');
+Uri addDepartmentUrl = Uri.http(_baseUrl, '/department/add');
+Uri getDepartmentUrl = Uri.http(_baseUrl, '/department');
+Uri deleteDepartmentUrl = Uri.http(_baseUrl, '/department/delete');
+
+///Positions
+Uri positionUrl = Uri.http(_baseUrl, '/position');
+Uri addPositionUrl = Uri.http(_baseUrl, '/position/add');
+Uri deletePositionUrl = Uri.http(_baseUrl, '/position/delete');

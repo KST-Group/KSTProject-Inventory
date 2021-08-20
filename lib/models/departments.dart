@@ -37,21 +37,25 @@ class Department {
     this.departmentId,
     this.department,
     this.companyId,
+    this.description,
   });
 
   int? departmentId;
   String? department;
   int? companyId;
+  String? description;
 
   factory Department.fromMap(Map<String, dynamic> json) => Department(
     departmentId: json["departmentId"],
     department: json["department"],
     companyId: json["companyId"],
+    description:json['description'],
   );
 
   Map<String, dynamic> toMap() => {
     "departmentId": departmentId,
     "department": department,
     "companyId": companyId,
+    "description":description,
   };
 }

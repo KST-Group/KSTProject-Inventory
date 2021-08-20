@@ -66,4 +66,18 @@ class CompanyService extends GetxService {
       throw error;
     }
   }
+
+  ///Add a department
+  Future addDepart({required Map<dynamic, dynamic> data}) async {
+    try {
+      final response = await http.post(addDepartmentUrl, body: data);
+      if (response.statusCode == 200) {
+        return jsonDecode(response.body);
+      } else {
+        throw response.statusCode;
+      }
+    } on HttpException catch (error) {
+      throw error;
+    }
+  }
 }

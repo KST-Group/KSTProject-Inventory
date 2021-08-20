@@ -94,6 +94,20 @@ class MenuBar extends GetView<HomeController> {
                     },
                   ),
                   menuButton(
+                    ico: 'assets/icons/small_business.svg',
+                    title: 'Departments',
+                    onTap: () {
+                      delegate.toNamed(Routes.DEPARTMENT);
+                    },
+                  ),
+                  menuButton(
+                    ico: 'assets/icons/bulleted_list.svg',
+                    title: 'Positions',
+                    onTap: () {
+                      delegate.toNamed(Routes.POSITION);
+                    },
+                  ),
+                  menuButton(
                     ico: 'assets/icons/employee.svg',
                     title: 'Employees',
                     onTap: () {

@@ -5,7 +5,9 @@ import 'package:url_strategy/url_strategy.dart';
 
 import 'services/auth_service.dart';
 import 'services/company_services.dart';
+import 'services/department_services.dart';
 import 'services/device_services.dart';
+import 'services/position_service.dart';
 import 'services/prefs_service.dart';
 import 'services/user_service.dart';
 
@@ -29,6 +31,8 @@ class MyApp extends StatelessWidget {
           Get.put(UserServices());
           Get.put(DeviceService());
           Get.put(CompanyService());
+          Get.put(DepartmentServices());
+          Get.put(PositionServices());
         },
       ),
       getPages: AppPages.routes,
