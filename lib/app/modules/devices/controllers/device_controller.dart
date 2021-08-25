@@ -7,7 +7,7 @@ import 'package:kst_inventory/services/device_services.dart';
 
 class DeviceController extends GetxController {
   var dropdownType = '1'.obs;
-  List<Types> listType = [];
+
 
   ///Device
   var deviceId;
@@ -66,7 +66,7 @@ class DeviceController extends GetxController {
   }
 
   Future getBrandData() async {
-    DeviceService.to.getData().then((value) {
+    DeviceService.to.getDataBrand().then((value) {
       Brands brands = value;
       listBrand = brands.data!;
       print(listBrand.length);
@@ -92,12 +92,24 @@ class DeviceController extends GetxController {
   }
 
   ///DeviceType
+  var listType = [].obs;
+  var typeFilter=''.obs;
   Future getDeviceType() async {
     DeviceService.to.getDeviceTypeData().then((value) {
       DeviceType deviceType = value;
-      listType = deviceType.data!;
+      listType.value = deviceType.data!;
+      typeFilter.value=listType[0].deviceType.toString();
+
     });
   }
+
+  void onChangeFilter(){
+    
+
+  }
+
+
+
 
   ///Add Device type
   Future addDeviceType() async {
@@ -114,22 +126,12 @@ class DeviceController extends GetxController {
   }
 
   ///Get all devices
-  var filterType = '1'.obs;
-  var listDevice = [].obs;
 
+  RxList<Device> listDevice = RxList([]);
   Future getDevice() async {
     DeviceService.to.getAllDevice().then((value) {
       listDevice.value = value.data!;
     });
   }
 
-  void onFilterType(String value) {
-    filterType.value = value;
-    String filter = value.toString().toLowerCase().trim();
-    print(filter);
-    listDevice.value = listDevice.where((element) {
-      var typeId = element.typeId.toString().trim();
-      return typeId.contains(filter);
-    }).toList();
-  }
 }

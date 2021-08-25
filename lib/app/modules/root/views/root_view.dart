@@ -5,6 +5,7 @@ import 'package:kst_inventory/app/modules/home/views/home_view.dart';
 import 'package:kst_inventory/app/modules/root/controllers/root_controller.dart';
 import 'package:kst_inventory/app/routes/app_routes.dart';
 import 'package:kst_inventory/services/auth_service.dart';
+import 'package:kst_inventory/utils/constants.dart';
 
 import 'menu_bar.dart';
 
@@ -38,6 +39,7 @@ class RootView extends GetView {
 
   _appBar() {
     return AppBar(
+      backgroundColor: Appearance.appBarColor,
       leading: Container(
         margin: EdgeInsets.only(left: 20),
         child: Image(
@@ -47,16 +49,19 @@ class RootView extends GetView {
       ),
       title: Text(
         'KST-Inventory',
-        style: TextStyle(color: Colors.black),
+        style: TextStyle(color: Colors.white),
       ),
-      elevation: 1,
-      backgroundColor: Colors.white,
+      elevation: 2,
+
       actions: [
         Container(
           margin: EdgeInsets.only(right: 20),
           child: Row(
             children: [
-              Text('Adam', style: TextStyle(color: Colors.black),),
+              Text(
+                'Adam',
+                style: TextStyle(color: Colors.white),
+              ),
               CircleAvatar(
                 radius: 40,
                 backgroundColor: Colors.transparent,
@@ -66,7 +71,7 @@ class RootView extends GetView {
                   icon: SvgPicture.asset(
                     'assets/icons/user.svg',
                     width: 40,
-                    color: Colors.black,
+                    color: Colors.white,
                   ),
                   itemBuilder: (context) {
                     return [

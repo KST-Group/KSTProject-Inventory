@@ -3,6 +3,7 @@ class Assets {
   Assets._();
 
   static const String iconsAccount = 'assets/icons/account.svg';
+  static const String iconsAddtocart = 'assets/icons/addtocart.svg';
   static const String iconsBulletedList = 'assets/icons/bulleted_list.svg';
   static const String iconsCompany = 'assets/icons/company.svg';
   static const String iconsDashboardLayout = 'assets/icons/dashboard_layout.svg';
@@ -25,5 +26,6 @@ class Assets {
   static const String imagesKst = 'assets/images/kst.png';
   static const String imagesSadFace = 'assets/images/sad_face.png';
   static const String imagesSetting = 'assets/images/setting.png';
+  static const String imagesUser = 'assets/images/user.png';
 
 }

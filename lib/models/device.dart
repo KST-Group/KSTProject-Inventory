@@ -35,91 +35,84 @@ class Devices {
 class Device {
   Device({
     this.deviceId,
+    this.localId,
     this.deviceName,
-    this.statuss,
+    this.computername,
     this.comments,
     this.joinDomain,
     this.model,
     this.servicetagSn,
-    this.localId,
-    this.computername,
+    this.provider,
+    this.deviceType,
+    this.brand,
     this.cpus,
     this.ram,
     this.hardisk,
-    this.provider,
     this.price,
-    this.warranty,
-    this.startDate,
     this.expireDate,
     this.remark,
-    this.brandId,
-    this.typeId,
+    this.statuss,
   });
 
   String? deviceId;
+  String? localId;
   String? deviceName;
-  String? statuss;
+  String? computername;
   String? comments;
   String? joinDomain;
   String? model;
   String? servicetagSn;
-  String? localId;
-  String? computername;
+  String? provider;
+  String? deviceType;
+  String? brand;
   String? cpus;
   String? ram;
   String? hardisk;
-  String? provider;
   String? price;
-  String? warranty;
-  String? startDate;
   String? expireDate;
   String? remark;
-  int? brandId;
-  int? typeId;
+  String? statuss;
 
   factory Device.fromMap(Map<String, dynamic> json) => Device(
     deviceId: json["deviceId"],
+    localId: json["localId"],
     deviceName: json["device_name"],
-    statuss: json["statuss"] == null ? null : json["statuss"],
-    comments: json["comments"] == null ? null : json["comments"],
-    joinDomain: json["joinDomain"] == null ? null : json["joinDomain"],
-    model: json["model"] == null ? null : json["model"],
-    servicetagSn: json["servicetag_sn"] == null ? null : json["servicetag_sn"],
-    localId: json["localId"] == null ? null : json["localId"],
-    computername: json["computername"] == null ? null : json["computername"],
-    cpus: json["cpus"] == null ? null : json["cpus"],
-    ram: json["ram"] == null ? null : json["ram"],
-    hardisk: json["hardisk"] == null ? null : json["hardisk"],
-    provider: json["provider"] == null ? null : json["provider"],
-    price: json["price"] == null ? null : json["price"],
-    warranty: json["warranty"] == null ? null : json["warranty"],
-    startDate: json["startDate"] == null ? null : json["startDate"],
-    expireDate: json["expireDate"] == null ? null : json["expireDate"],
-    remark: json["remark"] == null ? null : json["remark"],
-    brandId: json["brandId"] == null ? null : json["brandId"],
-    typeId: json["typeId"] == null ? null : json["typeId"],
+    computername: json["computername"],
+    comments: json["comments"],
+    joinDomain: json["joinDomain"],
+    model: json["model"],
+    servicetagSn: json["servicetag_sn"],
+    provider: json["provider"],
+    deviceType: json["deviceType"],
+    brand: json["brand"],
+    cpus: json["cpus"],
+    ram: json["ram"],
+    hardisk: json["hardisk"],
+    price: json["price"],
+    expireDate: json["expireDate"],
+    remark: json["remark"],
+    statuss: json["statuss"],
   );
 
   Map<String, dynamic> toMap() => {
     "deviceId": deviceId,
+    "localId": localId,
     "device_name": deviceName,
-    "statuss": statuss == null ? null : statuss,
-    "comments": comments == null ? null : comments,
-    "joinDomain": joinDomain == null ? null : joinDomain,
-    "model": model == null ? null : model,
-    "servicetag_sn": servicetagSn == null ? null : servicetagSn,
-    "localId": localId == null ? null : localId,
-    "computername": computername == null ? null : computername,
-    "cpus": cpus == null ? null : cpus,
-    "ram": ram == null ? null : ram,
-    "hardisk": hardisk == null ? null : hardisk,
-    "provider": provider == null ? null : provider,
-    "price": price == null ? null : price,
-    "warranty": warranty == null ? null : warranty,
-    "startDate": startDate == null ? null : startDate,
-    "expireDate": expireDate == null ? null : expireDate,
-    "remark": remark == null ? null : remark,
-    "brandId": brandId == null ? null : brandId,
-    "typeId": typeId == null ? null : typeId,
+    "computername": computername,
+    "comments": comments,
+    "joinDomain": joinDomain,
+    "model": model,
+    "servicetag_sn": servicetagSn,
+    "provider": provider,
+    "deviceType": deviceType,
+    "brand": brand,
+    "cpus": cpus,
+    "ram": ram,
+    "hardisk": hardisk,
+    "price": price,
+    "expireDate": expireDate,
+    "remark": remark,
+    "statuss": statuss,
   };
 }
+

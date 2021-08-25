@@ -50,6 +50,7 @@ class CompanyService extends GetxService {
       }
     } on HttpException catch (error) {
       print(error);
+      
     }
   }
 

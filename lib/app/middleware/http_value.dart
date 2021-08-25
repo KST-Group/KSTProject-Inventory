@@ -1,3 +1,4 @@
+import 'package:kst_inventory/app/modules/employees/bindings/employee_binding.dart';
 import 'package:kst_inventory/models/brand.dart';
 import 'package:kst_inventory/models/companys.dart';
 
@@ -37,3 +38,8 @@ Uri deleteDepartmentUrl = Uri.http(_baseUrl, '/department/delete');
 Uri positionUrl = Uri.http(_baseUrl, '/position');
 Uri addPositionUrl = Uri.http(_baseUrl, '/position/add');
 Uri deletePositionUrl = Uri.http(_baseUrl, '/position/delete');
+
+///Employee
+Uri employeeUrl = Uri.http(_baseUrl, '/employee');
+Uri addEmployeeUrl = Uri.http(_baseUrl, '/employee/add');
+Uri delEmployeeUrl = Uri.http(_baseUrl, '/employee/del');

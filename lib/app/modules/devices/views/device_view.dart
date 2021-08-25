@@ -1,6 +1,9 @@
+import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kst_inventory/app/modules/devices/controllers/device_controller.dart';
+import 'package:kst_inventory/app/routes/app_routes.dart';
+import 'package:kst_inventory/models/device.dart';
 
 import 'add_device_view.dart';
 
@@ -14,28 +17,9 @@ class DeviceView extends GetView<DeviceController> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Devices',
-                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            title: Text('New Device'),
-                            content: AddDeviceView(),
-                          );
-                        },
-                      );
-                    },
-                    child: Text('New'),
-                  ),
-                ],
+              Text(
+                'Devices',
+                style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
               ),
               _searchBox(),
               SizedBox(
@@ -46,113 +30,10 @@ class DeviceView extends GetView<DeviceController> {
               SizedBox(
                 height: 20,
               ),
+              addButtonDevice(context),
               Divider(),
               Expanded(
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.vertical,
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    physics: ScrollPhysics(),
-                    child: Obx(
-                      () => DataTable(
-                        columns: [
-                          DataColumn(
-                            label: Text('No'),
-                          ),
-                          DataColumn(
-                            label: Text('Device ID'),
-                          ),
-                          DataColumn(
-                            label: Text('Name'),
-                          ),
-                          DataColumn(
-                            label: Text('Type'),
-                          ),
-
-                          DataColumn(
-                            label: Text('Status'),
-                          ),
-                          DataColumn(
-                            label: Text('Comment'),
-                          ),
-                          DataColumn(
-                            label: Text('Join Domain'),
-                          ),
-                          DataColumn(
-                            label: Text('Model'),
-                          ),
-                          DataColumn(
-                            label: Text('Service Tag SN'),
-                          ),
-                          DataColumn(
-                            label: Text('Local ID'),
-                          ),
-                          DataColumn(
-                            label: Text('Computer Name'),
-                          ),
-                          DataColumn(
-                            label: Text('CPU'),
-                          ),
-                          DataColumn(
-                            label: Text('RAM'),
-                          ),
-                          DataColumn(
-                            label: Text('Hard dist'),
-                          ),
-                          DataColumn(
-                            label: Text('Provider'),
-                          ),
-                          DataColumn(
-                            label: Text('Price'),
-                          ),
-                          DataColumn(
-                            label: Text('Warranty'),
-                          ),
-                        ],
-                        rows: List.generate(
-                          controller.listDevice.length,
-                          (index) => DataRow(
-                            cells: [
-                              DataCell(Text('${index + 1}')),
-                              DataCell(Text(
-                                  '${controller.listDevice[index].deviceId}')),
-                              DataCell(Text(
-                                  '${controller.listDevice[index].deviceName}')),
-                              DataCell(Text(
-                                  '${controller.listDevice[index].typeId}')),
-                              DataCell(Text(
-                                  '${controller.listDevice[index].statuss}')),
-                              DataCell(Text(
-                                  '${controller.listDevice[index].comments}')),
-                              DataCell(Text(
-                                  '${controller.listDevice[index].joinDomain}')),
-                              DataCell(Text(
-                                  '${controller.listDevice[index].model}')),
-                              DataCell(Text(
-                                  '${controller.listDevice[index].servicetagSn}')),
-                              DataCell(Text(
-                                  '${controller.listDevice[index].localId}')),
-                              DataCell(Text(
-                                  '${controller.listDevice[index].computername}')),
-                              DataCell(
-                                  Text('${controller.listDevice[index].cpus}')),
-                              DataCell(
-                                  Text('${controller.listDevice[index].ram}')),
-                              DataCell(Text(
-                                  '${controller.listDevice[index].hardisk}')),
-                              DataCell(Text(
-                                  '${controller.listDevice[index].provider}')),
-                              DataCell(Text(
-                                  '${controller.listDevice[index].price}')),
-                              DataCell(Text(
-                                  '${controller.listDevice[index].warranty}')),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+                child: _dataTable(),
               ),
             ],
           ),
@@ -161,6 +42,7 @@ class DeviceView extends GetView<DeviceController> {
     );
   }
 
+///////////////////////////////////////////////////////////////////////////
   _searchBox() {
     return Container(
       margin: EdgeInsets.only(top: 20),
@@ -186,6 +68,7 @@ class DeviceView extends GetView<DeviceController> {
       ),
     );
   }
+
   deviceType() {
     return Container(
       child: Row(
@@ -207,15 +90,15 @@ class DeviceView extends GetView<DeviceController> {
                 isDense: true,
                 hint: Text('Select one'),
                 underline: Container(),
-                value: controller.filterType.value,
+                value: controller.typeFilter.value,
                 items: controller.listType.map((value) {
                   return DropdownMenuItem(
-                    value: value.typeId.toString(),
+                    value: value.deviceType.toString(),
                     child: Text(value.deviceType.toString()),
                   );
                 }).toList(),
                 onChanged: (String? value) {
-                  controller.onFilterType(value!);
+                  controller.typeFilter(value!);
                 },
               ),
             ),
@@ -224,4 +107,122 @@ class DeviceView extends GetView<DeviceController> {
       ),
     );
   }
+
+  _dataTable() {
+    final columns = [
+      'Device ID',
+      'Local ID',
+      'Device Name',
+      'Computer Name',
+      'Comment',
+      'Join Domain',
+      'Model',
+      'Service Tag SN',
+      'Provider',
+      'Device Type',
+      'Brand',
+      'CPU',
+      'RAM',
+      'Hard Disk',
+      'Price',
+      'Warranty',
+      'Remark',
+      'Status',
+    ];
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: SingleChildScrollView(
+        child: Container(
+          child: Obx(
+            () => DataTable(
+              headingTextStyle: TextStyle(fontWeight: FontWeight.bold),
+              columns: getColumns(columns),
+              rows: getRows(controller.listDevice),
+              showCheckboxColumn: false,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  addButtonDevice(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        Container(
+          child: Container(
+            padding: EdgeInsets.only(left: 10, right: 10),
+            decoration: BoxDecoration(border: Border.all(color: Colors.green)),
+            height: 50,
+            child: InkWell(
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.add,
+                    color: Colors.green,
+                  ),
+                  Text('New Device')
+                ],
+              ),
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      title: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('New Device'),
+                          InkWell(
+                            child: Text(
+                              'Close',
+                              style: TextStyle(fontSize: 16, color: Colors.red),
+                            ),
+                            onTap: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ],
+                      ),
+                      content: AddDeviceView(),
+                    );
+                  },
+                );
+              },
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  List<DataColumn> getColumns(List<String> columns) =>
+      columns.map((column) => DataColumn(label: Text(column))).toList();
+
+  List<DataRow> getRows(RxList<Device> listDevice) => listDevice
+      .map(
+        (row) => DataRow(cells: [
+          DataCell(Text(row.deviceId.toString())),
+          DataCell(Text(row.localId.toString())),
+          DataCell(Text(row.deviceName.toString())),
+          DataCell(Text(row.computername.toString())),
+          DataCell(Text(row.comments.toString())),
+          DataCell(Text(row.joinDomain.toString())),
+          DataCell(Text(row.model.toString())),
+          DataCell(Text(row.servicetagSn.toString())),
+          DataCell(Text(row.provider.toString())),
+          DataCell(Text(row.deviceType.toString())),
+          DataCell(Text(row.brand.toString())),
+          DataCell(Text(row.cpus.toString())),
+          DataCell(Text(row.ram.toString())),
+          DataCell(Text(row.hardisk.toString())),
+          DataCell(Text(row.price.toString())),
+          DataCell(Text(row.expireDate.toString())),
+          DataCell(Text(row.remark.toString())),
+          DataCell(Text(row.statuss.toString())),
+
+        ]),
+      )
+      .toList();
 }

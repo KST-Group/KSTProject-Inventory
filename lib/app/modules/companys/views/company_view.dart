@@ -109,10 +109,14 @@ class CompanyView extends GetView<CompanyController> {
                               },
                             ),
                             onTap: () {
-                              Get.rootDelegate.toNamed(Routes.COMPANY_DTAIL(
-                                controller.listCompany[index].companyId
-                                    .toString(),
-                              ));
+                              Get.rootDelegate.toNamed(
+                                  Routes.COMPANY_DTAIL(
+                                    controller.listCompany[index].company
+                                        .toString(),
+                                  ),
+                                  arguments: controller
+                                      .listCompany[index].company
+                                      .toString());
                             },
                           ),
                         ),

@@ -41,7 +41,7 @@ class DeviceService extends GetxService {
   }
 
   ///Brands
-  Future<Brands> getData() async {
+  Future<Brands> getDataBrand() async {
     try {
       final response = await http.get(brandUrl);
       if (response.statusCode == 200) {

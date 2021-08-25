@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kst_inventory/models/companys.dart';
 import 'package:kst_inventory/services/company_services.dart';
+import 'package:kst_inventory/services/employee_services.dart';
 
 class CompanyController extends GetxController {
   @override
   void onInit() {
     getCompany();
+    getEmployeeData();
     super.onInit();
   }
 
@@ -45,4 +47,19 @@ class CompanyController extends GetxController {
       print(value);
     });
   }
+
+  ///Get Employee
+  var listEmployee = [].obs;
+  void getEmployeeData() {
+    EmployeeServices.to.getDataEmployee().then((value) {
+      listEmployee.value = value.data!;
+    });
+  }
+
+  // void setEmployeeData({required String value}){
+  //   listEmployee.value=listEmployee.where((element) {
+  //
+  //   }).toList();
+  //
+  // }
 }
