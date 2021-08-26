@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:kst_inventory/models/checkout.dart';
 import 'package:kst_inventory/models/device.dart';
@@ -7,34 +9,38 @@ import 'package:kst_inventory/services/device_services.dart';
 import 'package:kst_inventory/services/employee_services.dart';
 
 class CheckOutController extends GetxController {
+  ///Global
+  RxBool loading = RxBool(false);
+
   @override
   void onInit() {
     getEmployeeData();
     getDevice();
     getDataCheckoutOnly();
-    getAutoId();
     super.onInit();
   }
 
   ///Get Auto ID
   List<int> listCheckId = [];
-  RxString checkOutAutoId=RxString('');
+  RxString checkOutAutoId = RxString('');
 
   void getAutoId() {
     DateTime year = DateTime.now();
     int max = 0;
+
     if (lisCheckout.length == 0) {
       max = 1;
     } else {
       for (int i = 0; i < lisCheckout.length; i++) {
         listCheckId
-            .add(int.parse(lisCheckout[i].checkoutId.toString().substring(6)));
+            .add(int.parse(lisCheckout[i].checkoutId.toString().substring(5)));
       }
       max = listCheckId
               .reduce((value, element) => value > element ? value : element) +
           1;
     }
-    checkOutAutoId.value='CH${year.year.toString().substring(2)}${year.month.toString()}${max.toString().padLeft(4,'0')}';
+    checkOutAutoId.value =
+        'CH${year.year.toString().substring(2)}${year.month.toString()}${max.toString().padLeft(4, '0')}';
   }
 
   ///Get Checkout Data only
@@ -43,6 +49,7 @@ class CheckOutController extends GetxController {
   void getDataCheckoutOnly() {
     CheckoutServices.to.getCheckoutOnly().then((value) {
       lisCheckout.value = value.data!;
+      getAutoId();
     });
   }
 
@@ -51,29 +58,40 @@ class CheckOutController extends GetxController {
   ///Get Employee Data
   RxList<Employee> listEmployee = RxList([]);
 
-  void getEmployeeData() {
+  void getEmployeeData() async {
+    loading.value = true;
+    await Future.delayed(Duration(milliseconds: 3));
     EmployeeServices.to.getDataEmployee().then((value) {
       listEmployee.value = value.data!;
+
+      loading.value = false;
     });
   }
 
   ///Search
+  var employeeValueController = TextEditingController();
   var employeeValue = ''.obs;
 
   void onSearchDataEmployee() {
-    employeeValue.value = employeeValue.value.toString().toLowerCase().trim();
-    listEmployee.value = listEmployee.where((element) {
-      String employeeId = element.employeeId.toString().toLowerCase().trim();
-      String nameLa = element.nameLa.toString().toLowerCase().trim();
-      String nameEn = element.nameEn.toString().toLowerCase().trim();
-      String nickname = element.nickname.toString().toLowerCase().trim();
-      String email = element.email.toString().toLowerCase().trim();
-      return employeeId.contains(employeeValue.value) ||
-          nameLa.contains(employeeValue.value) ||
-          nameEn.contains(employeeValue.value) ||
-          nickname.contains(employeeValue.value) ||
-          email.contains(employeeValue.value);
-    }).toList();
+    loading.value = true;
+    if (employeeValueController.text.isEmpty) {
+      getEmployeeData();
+    } else {
+      String emp = employeeValueController.text.toLowerCase().trim();
+      listEmployee.value = listEmployee.where((element) {
+        String employeeId = element.employeeId.toString().toLowerCase().trim();
+        String nameLa = element.nameLa.toString().toLowerCase().trim();
+        String nameEn = element.nameEn.toString().toLowerCase().trim();
+        String nickname = element.nickname.toString().toLowerCase().trim();
+        String email = element.email.toString().toLowerCase().trim();
+        return employeeId.contains(emp) ||
+            nameLa.contains(emp) ||
+            nameEn.contains(emp) ||
+            nickname.contains(emp) ||
+            email.contains(emp);
+      }).toList();
+      loading.value = false;
+    }
   }
 
   ///Get Devices
@@ -101,19 +119,19 @@ class CheckOutController extends GetxController {
     print(device);
   }
 
-  void checkOutDevice() {
+  Future checkOutDevice() async {
     if (device.length == 0) {
       print('Please select at lease 1 device ');
     } else {
       CheckoutServices.to.createCheckout(data: {
-        'checkoutId': 'CH002',
+        'checkoutId': checkOutAutoId.value,
         'username': 'admin',
         'employeeId': employeeData.employeeId,
       }).then((value) {
         print('CheckOut:$value}');
         for (int i = 0; i < device.length; i++) {
           CheckoutServices.to.createDetail(data: {
-            'checkoutId': 'CH002',
+            'checkoutId': checkOutAutoId.value,
             'deviceId': device[i].toString(),
           }).then((value) {
             print('CheckOutDetail:$value}');
@@ -121,7 +139,14 @@ class CheckOutController extends GetxController {
           CheckoutServices.to.updatesStatus(data: {
             'deviceId': device[i].toString(),
           }).then((value) {
+            Fluttertoast.showToast(
+                msg: 'Success',
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.CENTER);
             print('Update Status:$value}');
+            getEmployeeData();
+            getDevice();
+            getDataCheckoutOnly();
           });
         }
       });

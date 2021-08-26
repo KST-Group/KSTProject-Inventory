@@ -50,7 +50,7 @@ class CheckOutDetailView extends GetView<CheckOutController> {
           SizedBox(
             width: 10,
           ),
-          Text('${controller.checkOutAutoId}'),
+          Obx(() => Text('${controller.checkOutAutoId.value}')),
         ],
       ),
     );

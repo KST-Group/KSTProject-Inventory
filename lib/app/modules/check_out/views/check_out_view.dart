@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:kst_inventory/app/modules/check_out/controllers/check_out_controller.dart';
 import 'package:kst_inventory/app/modules/check_out/views/check_out_detail_view.dart';
 import 'package:kst_inventory/models/employee.dart';
 import 'package:kst_inventory/utils/constants.dart';
+import 'package:kst_inventory/utils/dialog.dart';
 
 class CheckOutView extends GetView<CheckOutController> {
   @override
@@ -34,19 +36,29 @@ class CheckOutView extends GetView<CheckOutController> {
                           Row(
                             children: [],
                           ),
-                          Text('Employee'),
+                          Text('Select the employee for checkout devices'),
                           _searchBox(),
                           Row(
                             children: [
-                              Text('Results'),
+                              Text('Employees'),
                               SizedBox(
                                 width: 10,
                               ),
-                              TextButton(
-                                  onPressed: () {
-                                    controller.getEmployeeData();
-                                  },
-                                  child: Text('Clear')),
+                              Obx(() {
+                                if (controller.employeeValue.isEmpty ||
+                                    controller.employeeValue.value == '' ||
+                                    controller.employeeValue.value == null) {
+                                  return Container();
+                                }
+                                return TextButton(
+                                    onPressed: () {
+                                      controller.employeeValueController
+                                          .clear();
+                                      controller.employeeValue.value = '';
+                                      controller.getEmployeeData();
+                                    },
+                                    child: Text('Clear'));
+                              }),
                             ],
                           ),
                           SizedBox(
@@ -77,15 +89,16 @@ class CheckOutView extends GetView<CheckOutController> {
         children: [
           Expanded(
             child: TextField(
+              controller: controller.employeeValueController,
               decoration: InputDecoration(
                 isDense: true,
                 border: OutlineInputBorder(
-                  borderSide: BorderSide(),
+                  borderSide: BorderSide(color: Colors.grey),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(),
                 ),
-                hintText: 'ID, Name, Other...',
+                hintText: 'Type employee data',
                 suffixIcon: Icon(Icons.search),
               ),
               onChanged: (value) => controller.employeeValue.value = value,
@@ -94,25 +107,21 @@ class CheckOutView extends GetView<CheckOutController> {
           SizedBox(
             width: 20,
           ),
-          InkWell(
-            child: Container(
-              padding:
-                  EdgeInsets.only(left: 20, right: 20, top: 15, bottom: 10),
-              decoration: BoxDecoration(
-                color: Appearance.appBarColor,
+          Container(
+            child: TextButton(
+              style: ButtonStyle(
+                  padding: MaterialStateProperty.all(EdgeInsets.only(
+                      top: 20, bottom: 20, left: 20, right: 20)),
+                  backgroundColor:
+                      MaterialStateProperty.all(Appearance.appBarColor)),
+              child: Text(
+                'Search',
+                style: TextStyle(color: Colors.white),
               ),
-              child: Center(
-                child: Text(
-                  'Search',
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
-                ),
-              ),
+              onPressed: () {
+                controller.onSearchDataEmployee();
+              },
             ),
-            onTap: () {
-              controller.onSearchDataEmployee();
-            },
           ),
         ],
       ),
@@ -123,57 +132,79 @@ class CheckOutView extends GetView<CheckOutController> {
     return Container(
       child: SingleChildScrollView(
         child: Obx(
-          () => Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              DataTable(
-                columns: [
-                  DataColumn(label: Text('No')),
-                  DataColumn(label: Text('ID')),
-                  DataColumn(label: Text('Gender')),
-                  DataColumn(label: Text('Name (Lao)')),
-                  DataColumn(label: Text('Name (Eng)')),
-                  DataColumn(label: Text('Nickname')),
-                  DataColumn(label: Text('Email')),
-                  DataColumn(label: Text('Option')),
-                ],
-                rows: List.generate(controller.listEmployee.length, (index) {
-                  return DataRow(
-                    cells: [
-                      DataCell(Text('${index + 1}')),
-                      DataCell(
-                          Text('${controller.listEmployee[index].employeeId}')),
-                      DataCell(
-                          Text('${controller.listEmployee[index].gender}')),
-                      DataCell(
-                          Text('${controller.listEmployee[index].nameLa}')),
-                      DataCell(
-                          Text('${controller.listEmployee[index].nameEn}')),
-                      DataCell(
-                          Text('${controller.listEmployee[index].nickname}')),
-                      DataCell(Text('${controller.listEmployee[index].email}')),
-                      DataCell(TextButton(
-                        child: Text('Checkout'),
-                        onPressed: () {
-                          controller.employeeData = Employee(
-                            employeeId:
-                                controller.listEmployee[index].employeeId,
-                            nameEn: controller.listEmployee[index].nameEn,
-                            company: controller.listEmployee[index].company,
-                            department:
-                                controller.listEmployee[index].department,
-                            position: controller.listEmployee[index].position,
-                          );
+          () {
+            if (controller.loading.value == true) {
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CircularProgressIndicator(),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text('Loading...'),
+                  ],
+                ),
+              );
+            }
+            if (controller.listEmployee.length == 0) {
+              return Center(
+                child: Text('No data'),
+              );
+            }
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                DataTable(
+                  columns: [
+                    DataColumn(label: Text('No')),
+                    DataColumn(label: Text('ID')),
+                    DataColumn(label: Text('Gender')),
+                    DataColumn(label: Text('Name (Lao)')),
+                    DataColumn(label: Text('Name (Eng)')),
+                    DataColumn(label: Text('Nickname')),
+                    DataColumn(label: Text('Email')),
+                    DataColumn(label: Text('Option')),
+                  ],
+                  rows: List.generate(controller.listEmployee.length, (index) {
+                    return DataRow(
+                      cells: [
+                        DataCell(Text('${index + 1}')),
+                        DataCell(Text(
+                            '${controller.listEmployee[index].employeeId}')),
+                        DataCell(
+                            Text('${controller.listEmployee[index].gender}')),
+                        DataCell(
+                            Text('${controller.listEmployee[index].nameLa}')),
+                        DataCell(
+                            Text('${controller.listEmployee[index].nameEn}')),
+                        DataCell(
+                            Text('${controller.listEmployee[index].nickname}')),
+                        DataCell(
+                            Text('${controller.listEmployee[index].email}')),
+                        DataCell(TextButton(
+                          child: Text('Checkout'),
+                          onPressed: () {
+                            controller.employeeData = Employee(
+                              employeeId:
+                                  controller.listEmployee[index].employeeId,
+                              nameEn: controller.listEmployee[index].nameEn,
+                              company: controller.listEmployee[index].company,
+                              department:
+                                  controller.listEmployee[index].department,
+                              position: controller.listEmployee[index].position,
+                            );
 
-                          showDialogCheckOut(context);
-                        },
-                      )),
-                    ],
-                  );
-                }),
-              ),
-            ],
-          ),
+                            showDialogCheckOut(context);
+                          },
+                        )),
+                      ],
+                    );
+                  }),
+                ),
+              ],
+            );
+          },
         ),
       ),
     );

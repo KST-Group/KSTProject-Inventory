@@ -49,4 +49,4 @@ Uri delEmployeeUrl = Uri.http(_baseUrl, '/employee/del');
 Uri checkoutDeviceUrl = Uri.http(_baseUrl, '/checkout/add');
 Uri checkoutDetailUrl = Uri.http(_baseUrl, '/checkout/detail');
 Uri updateStatusUrl = Uri.http(_baseUrl, '/checkout/status');
-Uri checkOutDataUrl = Uri.http(_baseUrl, '/checkout/');
+Uri checkOutDataUrl = Uri.http(_baseUrl, '/checkout');
