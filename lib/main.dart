@@ -4,6 +4,7 @@ import 'package:kst_inventory/app/routes/app_page.dart';
 import 'package:url_strategy/url_strategy.dart';
 
 import 'services/auth_service.dart';
+import 'services/checkout_services.dart';
 import 'services/company_services.dart';
 import 'services/department_services.dart';
 import 'services/device_services.dart';
@@ -35,6 +36,7 @@ class MyApp extends StatelessWidget {
           Get.put(DepartmentServices());
           Get.put(PositionServices());
           Get.put(EmployeeServices());
+          Get.put(CheckoutServices());
         },
       ),
       getPages: AppPages.routes,

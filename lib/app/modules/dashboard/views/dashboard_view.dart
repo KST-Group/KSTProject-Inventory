@@ -29,37 +29,40 @@ class DashboardView extends GetView<DashboardController> {
                   child: Row(
                     children: [
                       cardItems(
-                        title: 'Inventory Devices',
+                        title: 'Stock',
                         ico: 'assets/icons/multiple_devices.svg',
                         data: '150',
-                        color: Appearance.appBarColor,
+                        color: Colors.red,
                       ),
-                      // cardItems(
-                      //   title: 'Laptop',
-                      //   ico: 'assets/icons/laptop.svg',
-                      //   data: '100',
-                      //   color: Colors.green,
-                      // ),
-                      // cardItems(
-                      //   title: 'Desktop',
-                      //   ico: 'assets/icons/pc.svg',
-                      //   data: '20',
-                      //   color: Colors.blue,
-                      // ),
-                      // cardItems(
-                      //   title: 'Mobiles',
-                      //   ico: 'assets/icons/mobile.svg',
-                      //   data: '20',
-                      //   color: Colors.amber,
-                      // ),
-                      // cardItems(
-                      //   title: 'Other',
-                      //   ico: 'assets/icons/device_manager.svg',
-                      //   data: '20',
-                      //   color: Colors.blue,
-                      // ),
+                      cardItems(
+                        title: 'Laptop',
+                        ico: 'assets/icons/laptop.svg',
+                        data: '100',
+                        color: Colors.green,
+                      ),
+                      cardItems(
+                        title: 'Desktop',
+                        ico: 'assets/icons/pc.svg',
+                        data: '20',
+                        color: Colors.blue,
+                      ),
+                      cardItems(
+                        title: 'Mobiles',
+                        ico: 'assets/icons/mobile.svg',
+                        data: '20',
+                        color: Colors.amber,
+                      ),
+                      cardItems(
+                        title: 'Other',
+                        ico: 'assets/icons/device_manager.svg',
+                        data: '20',
+                        color: Colors.blue,
+                      ),
                     ],
                   ),
+                ),
+                SizedBox(
+                  height: 20,
                 ),
                 Expanded(
                   child: Card(
@@ -153,9 +156,16 @@ class DashboardView extends GetView<DashboardController> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text(title,style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
-                  SizedBox(height: 15,),
-                  Text(data,style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold)),
+                  Text(
+                    title,
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Text(data,
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                 ],
               ),
             ),

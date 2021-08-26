@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kst_inventory/app/modules/check_out/controllers/check_out_controller.dart';
 import 'package:kst_inventory/app/modules/check_out/views/check_out_detail_view.dart';
+import 'package:kst_inventory/models/employee.dart';
 import 'package:kst_inventory/utils/constants.dart';
 
 class CheckOutView extends GetView<CheckOutController> {
@@ -154,42 +155,17 @@ class CheckOutView extends GetView<CheckOutController> {
                       DataCell(TextButton(
                         child: Text('Checkout'),
                         onPressed: () {
-                          showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog(
-                                title: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text('Check out'),
-                                    TextButton(
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                        child: Text(
-                                          'Close',
-                                          style: TextStyle(color: Colors.red),
-                                        ))
-                                  ],
-                                ),
-                                content: CheckOutDetailView(),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: Text('Cancel'),
-                                  ),
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: Text('OK'),
-                                  ),
-                                ],
-                              );
-                            },
+                          controller.employeeData = Employee(
+                            employeeId:
+                                controller.listEmployee[index].employeeId,
+                            nameEn: controller.listEmployee[index].nameEn,
+                            company: controller.listEmployee[index].company,
+                            department:
+                                controller.listEmployee[index].department,
+                            position: controller.listEmployee[index].position,
                           );
+
+                          showDialogCheckOut(context);
                         },
                       )),
                     ],
@@ -200,6 +176,73 @@ class CheckOutView extends GetView<CheckOutController> {
           ),
         ),
       ),
+    );
+  }
+
+  void showDialogCheckOut(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor: Colors.white,
+          elevation: 0,
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Check out',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: IconButton(
+                  icon: Icon(
+                    Icons.clear,
+                    color: Colors.red,
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              )
+            ],
+          ),
+          content: CheckOutDetailView(),
+          actions: [
+            TextButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.black45),
+                padding: MaterialStateProperty.all(EdgeInsets.all(15)),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text(
+                'Cancel',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+            TextButton(
+              style: ButtonStyle(
+                backgroundColor:
+                    MaterialStateProperty.all(Appearance.appBarColor),
+                padding: MaterialStateProperty.all(
+                    EdgeInsets.only(top: 15, bottom: 15, left: 20, right: 20)),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+                controller.checkOutDevice();
+              },
+              child: Text(
+                'OK',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }

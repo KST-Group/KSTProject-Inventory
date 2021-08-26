@@ -1,5 +1,8 @@
 import 'package:get/get.dart';
+import 'package:kst_inventory/models/checkout.dart';
 import 'package:kst_inventory/models/device.dart';
+import 'package:kst_inventory/models/employee.dart';
+import 'package:kst_inventory/services/checkout_services.dart';
 import 'package:kst_inventory/services/device_services.dart';
 import 'package:kst_inventory/services/employee_services.dart';
 
@@ -8,11 +11,45 @@ class CheckOutController extends GetxController {
   void onInit() {
     getEmployeeData();
     getDevice();
+    getDataCheckoutOnly();
+    getAutoId();
     super.onInit();
   }
 
+  ///Get Auto ID
+  List<int> listCheckId = [];
+  RxString checkOutAutoId=RxString('');
+
+  void getAutoId() {
+    DateTime year = DateTime.now();
+    int max = 0;
+    if (lisCheckout.length == 0) {
+      max = 1;
+    } else {
+      for (int i = 0; i < lisCheckout.length; i++) {
+        listCheckId
+            .add(int.parse(lisCheckout[i].checkoutId.toString().substring(6)));
+      }
+      max = listCheckId
+              .reduce((value, element) => value > element ? value : element) +
+          1;
+    }
+    checkOutAutoId.value='CH${year.year.toString().substring(2)}${year.month.toString()}${max.toString().padLeft(4,'0')}';
+  }
+
+  ///Get Checkout Data only
+  RxList<Checkout> lisCheckout = RxList([]);
+
+  void getDataCheckoutOnly() {
+    CheckoutServices.to.getCheckoutOnly().then((value) {
+      lisCheckout.value = value.data!;
+    });
+  }
+
+  Employee employeeData = Employee();
+
   ///Get Employee Data
-  var listEmployee = [].obs;
+  RxList<Employee> listEmployee = RxList([]);
 
   void getEmployeeData() {
     EmployeeServices.to.getDataEmployee().then((value) {
@@ -62,5 +99,37 @@ class CheckOutController extends GetxController {
       device.add(element.deviceId);
     });
     print(device);
+  }
+
+  void checkOutDevice() {
+    if (device.length == 0) {
+      print('Please select at lease 1 device ');
+    } else {
+      CheckoutServices.to.createCheckout(data: {
+        'checkoutId': 'CH002',
+        'username': 'admin',
+        'employeeId': employeeData.employeeId,
+      }).then((value) {
+        print('CheckOut:$value}');
+        for (int i = 0; i < device.length; i++) {
+          CheckoutServices.to.createDetail(data: {
+            'checkoutId': 'CH002',
+            'deviceId': device[i].toString(),
+          }).then((value) {
+            print('CheckOutDetail:$value}');
+          });
+          CheckoutServices.to.updatesStatus(data: {
+            'deviceId': device[i].toString(),
+          }).then((value) {
+            print('Update Status:$value}');
+          });
+        }
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 }

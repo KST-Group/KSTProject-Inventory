@@ -1,6 +1,7 @@
 import 'package:kst_inventory/app/modules/employees/bindings/employee_binding.dart';
 import 'package:kst_inventory/models/brand.dart';
 import 'package:kst_inventory/models/companys.dart';
+import 'package:kst_inventory/services/checkout_services.dart';
 
 const String _baseUrl = "127.0.0.1:3000";
 
@@ -43,3 +44,9 @@ Uri deletePositionUrl = Uri.http(_baseUrl, '/position/delete');
 Uri employeeUrl = Uri.http(_baseUrl, '/employee');
 Uri addEmployeeUrl = Uri.http(_baseUrl, '/employee/add');
 Uri delEmployeeUrl = Uri.http(_baseUrl, '/employee/del');
+
+///Checkout
+Uri checkoutDeviceUrl = Uri.http(_baseUrl, '/checkout/add');
+Uri checkoutDetailUrl = Uri.http(_baseUrl, '/checkout/detail');
+Uri updateStatusUrl = Uri.http(_baseUrl, '/checkout/status');
+Uri checkOutDataUrl = Uri.http(_baseUrl, '/checkout/');

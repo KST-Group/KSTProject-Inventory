@@ -8,19 +8,14 @@ class CheckOutDetailView extends GetView<CheckOutController> {
   Widget build(BuildContext context) {
     return Container(
       child: Column(
-        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Divider(),
           showCheckOutID(),
-          Text('EmployeeID'),
-          Text('Employee Name'),
-          Text('Company'),
-          Text('Department'),
-          Text('Position'),
+          _employeeDetail(),
           titleBox(),
           Divider(),
           Container(
-            height: 500,
             child: SingleChildScrollView(
               child: Obx(
                 () => DataTable(
@@ -55,7 +50,7 @@ class CheckOutDetailView extends GetView<CheckOutController> {
           SizedBox(
             width: 10,
           ),
-          Text('CH000001'),
+          Text('${controller.checkOutAutoId}'),
         ],
       ),
     );
@@ -102,7 +97,8 @@ class CheckOutDetailView extends GetView<CheckOutController> {
       'brand',
       'CPU',
       'RAM',
-      'Hard Disk'
+      'Hard Disk',
+      'Status'
     ];
     return columns
         .map((String column) => DataColumn(label: Text(column)))
@@ -122,6 +118,7 @@ class CheckOutDetailView extends GetView<CheckOutController> {
                 DataCell(Text(device.cpus.toString())),
                 DataCell(Text(device.ram.toString())),
                 DataCell(Text(device.hardisk.toString())),
+                DataCell(Text(device.statuss.toString())),
               ],
               selected: controller.selectedDevice.contains(device),
               onSelectChanged: (isSelected) {
@@ -133,4 +130,90 @@ class CheckOutDetailView extends GetView<CheckOutController> {
                 controller.onSelected();
               }))
       .toList();
+
+  _dataDetail({required String title, required String data}) {
+    return Container(
+      margin: EdgeInsets.only(top: 5, bottom: 5, left: 15, right: 20),
+      child: Row(
+        children: [
+          Container(
+            width: 200,
+            child: Text(
+              '$title:',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          Text(data),
+        ],
+      ),
+    );
+  }
+
+  checkEmployeeUseDevice() {
+    return Container(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Text('Using',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+          Container(
+            margin: EdgeInsets.only(left: 20, top: 10),
+            child: Text('Total: 3 Devices'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  _employeeDetail() {
+    return Container(
+      margin: EdgeInsets.only(right: 20),
+      padding: EdgeInsets.all(15),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.grey),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Employee Detail',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              _dataDetail(
+                  title: 'EmployeeID',
+                  data: controller.employeeData.employeeId.toString()),
+              _dataDetail(
+                title: 'Name',
+                data: controller.employeeData.nameEn.toString(),
+              ),
+              _dataDetail(
+                title: 'Company',
+                data: controller.employeeData.company.toString(),
+              ),
+              _dataDetail(
+                title: 'Department',
+                data: controller.employeeData.department.toString(),
+              ),
+              _dataDetail(
+                title: 'Position',
+                data: controller.employeeData.position.toString(),
+              ),
+            ],
+          ),
+          Container(
+            child: checkEmployeeUseDevice(),
+          ),
+        ],
+      ),
+    );
+  }
 }
