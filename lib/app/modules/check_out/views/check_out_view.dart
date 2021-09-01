@@ -96,7 +96,7 @@ class CheckOutView extends GetView<CheckOutController> {
                   borderSide: BorderSide(color: Colors.grey),
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(),
+                  borderSide: BorderSide(color: Colors.grey),
                 ),
                 hintText: 'Type employee data',
                 suffixIcon: Icon(Icons.search),
@@ -185,6 +185,7 @@ class CheckOutView extends GetView<CheckOutController> {
                         DataCell(TextButton(
                           child: Text('Checkout'),
                           onPressed: () {
+                            controller.searchTextController.clear();
                             controller.employeeData = Employee(
                               employeeId:
                                   controller.listEmployee[index].employeeId,
@@ -222,7 +223,7 @@ class CheckOutView extends GetView<CheckOutController> {
             children: [
               Text(
                 'Check out',
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25),
               ),
               TextButton(
                 onPressed: () {
@@ -240,12 +241,14 @@ class CheckOutView extends GetView<CheckOutController> {
               )
             ],
           ),
+          actionsPadding: EdgeInsets.only(bottom: 50, right: 50),
           content: CheckOutDetailView(),
           actions: [
             TextButton(
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(Colors.black45),
-                padding: MaterialStateProperty.all(EdgeInsets.all(15)),
+                padding: MaterialStateProperty.all(
+                    EdgeInsets.only(left: 40, right: 40, top: 20, bottom: 20)),
               ),
               onPressed: () {
                 Navigator.of(context).pop();
@@ -260,7 +263,7 @@ class CheckOutView extends GetView<CheckOutController> {
                 backgroundColor:
                     MaterialStateProperty.all(Appearance.appBarColor),
                 padding: MaterialStateProperty.all(
-                    EdgeInsets.only(top: 15, bottom: 15, left: 20, right: 20)),
+                    EdgeInsets.only(top: 20, bottom: 20, left: 50, right: 50)),
               ),
               onPressed: () {
                 Navigator.of(context).pop();

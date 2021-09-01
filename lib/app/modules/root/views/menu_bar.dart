@@ -110,6 +110,8 @@ class MenuBar extends GetView<HomeController> {
                                 print('Index=$currentIndex');
                               },
                             ),
+
+                            ///Transfer
                             _title(
                               tile: 'Transfer',
                               ico: 'assets/icons/data_transfer.svg',
@@ -138,6 +140,40 @@ class MenuBar extends GetView<HomeController> {
                                 delegate.toNamed(Routes.CHECKOUT);
                               },
                             ),
+
+                            ///Repair
+                            _title(
+                              tile: 'Maintenance',
+                              ico: 'assets/icons/maintenance.svg',
+                            ),
+                            menuButton(
+                              ico: 'assets/icons/maintenance.svg',
+                              title: 'Repair Device',
+                              onTap: () {
+                                delegate.toNamed(Routes.COMPANY);
+                              },
+                            ),
+
+                            ///Order
+                            _title(
+                              tile: 'Order Device',
+                              ico: 'assets/icons/maintenance.svg',
+                            ),
+                            menuButton(
+                              ico: 'assets/icons/maintenance.svg',
+                              title: 'Order',
+                              onTap: () {
+                                delegate.toNamed(Routes.COMPANY);
+                              },
+                            ),
+                            menuButton(
+                              ico: 'assets/icons/maintenance.svg',
+                              title: 'Receive',
+                              onTap: () {
+                                delegate.toNamed(Routes.COMPANY);
+                              },
+                            ),
+
                             _title(
                               tile: 'Organizations',
                               ico: 'assets/icons/company.svg',
@@ -183,6 +219,27 @@ class MenuBar extends GetView<HomeController> {
                             _title(
                               tile: 'Reports',
                               ico: 'assets/icons/company.svg',
+                            ),
+                            menuButton(
+                              ico: 'assets/icons/maintenance.svg',
+                              title: 'Report Device',
+                              onTap: () {
+                                delegate.toNamed(Routes.COMPANY);
+                              },
+                            ),
+                            menuButton(
+                              ico: 'assets/icons/maintenance.svg',
+                              title: 'Report Repair',
+                              onTap: () {
+                                delegate.toNamed(Routes.COMPANY);
+                              },
+                            ),
+                            menuButton(
+                              ico: 'assets/icons/maintenance.svg',
+                              title: 'Report Employee',
+                              onTap: () {
+                                delegate.toNamed(Routes.COMPANY);
+                              },
                             ),
                           ],
                         ),

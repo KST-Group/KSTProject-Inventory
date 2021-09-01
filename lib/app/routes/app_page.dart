@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:kst_inventory/app/middleware/auth_middleware.dart';
 import 'package:kst_inventory/app/modules/check_in/bindings/checkin_binding.dart';
+import 'package:kst_inventory/app/modules/check_in/views/checkin_detail_view.dart';
 import 'package:kst_inventory/app/modules/check_in/views/checkin_view.dart';
 import 'package:kst_inventory/app/modules/check_out/bindings/check_out_binding.dart';
 import 'package:kst_inventory/app/modules/check_out/views/check_out_view.dart';
@@ -13,8 +14,9 @@ import 'package:kst_inventory/app/modules/departments/bindings/department_blindi
 import 'package:kst_inventory/app/modules/departments/views/department_detail.dart';
 import 'package:kst_inventory/app/modules/departments/views/department_view.dart';
 import 'package:kst_inventory/app/modules/devices/bindings/device_binding.dart';
+import 'package:kst_inventory/app/modules/devices/bindings/update_device_binding.dart';
 import 'package:kst_inventory/app/modules/devices/views/device_view.dart';
-import 'package:kst_inventory/app/modules/devices/views/device_view_detail.dart';
+import 'package:kst_inventory/app/modules/devices/views/device_detail_view.dart';
 import 'package:kst_inventory/app/modules/employees/bindings/employee_binding.dart';
 import 'package:kst_inventory/app/modules/employees/views/employee_view.dart';
 import 'package:kst_inventory/app/modules/home/bindings/home_binding.dart';
@@ -90,14 +92,23 @@ class AppPages {
                   GetPage(
                     name: Paths.DEVICE_DETAIL,
                     page: () => DeviceViewDetail(),
-                    binding: DeviceBinding(),
+                    bindings: [
+                      DeviceBinding(),
+                      UpdateDeviceBinding(),
+                    ],
                   ),
                 ]),
             GetPage(
-              name: Paths.CHECKIN,
-              page: () => CheckInView(),
-              binding: CheckInBinding(),
-            ),
+                name: Paths.CHECKIN,
+                page: () => CheckInView(),
+                binding: CheckInBinding(),
+                children: [
+                  GetPage(
+                    name: Paths.CHECK_DETAIL,
+                    page: () => CheckInDetailView(),
+                    binding: CheckInBinding(),
+                  ),
+                ]),
             GetPage(
               name: Paths.CHECKOUT,
               page: () => CheckOutView(),

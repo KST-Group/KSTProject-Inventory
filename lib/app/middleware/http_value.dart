@@ -11,14 +11,20 @@ final Uri loginUrl = Uri.http(_baseUrl, '/login');
 Uri getAUserUrl(String username) => Uri.http(_baseUrl, '/users/$username');
 Uri getUserUrl = Uri.http(_baseUrl, '/users');
 Uri addUserUrl = Uri.http(_baseUrl, '/users/add');
+
 Uri deleteUserUrl(String username) => Uri.http(_baseUrl, '/users/$username');
 
 ///Device
 Uri deviceUrl = Uri.http(_baseUrl, '/devices');
+Uri addDeviceUrl = Uri.http(_baseUrl, '/devices/add');
+
+Uri getDeviceByIdeUrl(String deviceId) =>
+    Uri.http(_baseUrl, '/devices/$deviceId');
+Uri deleteByIdeUrl = Uri.http(_baseUrl, '/devices/del');
+
 ///DevicesType
 Uri typeUrl = Uri.http(_baseUrl, '/devicetype');
 Uri addTypeUrl = Uri.http(_baseUrl, '/devicetype/add');
-
 
 ///Brands
 Uri brandUrl = Uri.http(_baseUrl, '/brands');
@@ -30,7 +36,8 @@ Uri deleteCompanyUrl = Uri.http(_baseUrl, '/company/delete');
 Uri addCompanyUrl = Uri.http(_baseUrl, '/company/add');
 
 ///Department
-Uri departByCompany(String companyId) => Uri.http(_baseUrl, '/department/cm/$companyId');
+Uri departByCompany(String companyId) =>
+    Uri.http(_baseUrl, '/department/cm/$companyId');
 Uri addDepartmentUrl = Uri.http(_baseUrl, '/department/add');
 Uri getDepartmentUrl = Uri.http(_baseUrl, '/department');
 Uri deleteDepartmentUrl = Uri.http(_baseUrl, '/department/delete');

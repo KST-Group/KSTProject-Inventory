@@ -12,8 +12,43 @@ class CheckOutController extends GetxController {
   ///Global
   RxBool loading = RxBool(false);
 
+  // List<String>columns=[
+  //   // DataColumn(label: Text('No')),
+  //   // DataColumn(label: Text('ID')),
+  //   // DataColumn(label: Text('Gender')),
+  //   // DataColumn(label: Text('Name (Lao)')),
+  //   // DataColumn(label: Text('Name (Eng)')),
+  //   // DataColumn(label: Text('Nickname')),
+  //   // DataColumn(label: Text('Email')),
+  //   // DataColumn(label: Text('Option')),
+  // ];
+  final List<String> columnsDevice=[
+    'DeviceID',
+    '',
+    'LocalID',
+    '',
+    'Device Name',
+    '',
+    'Device Type',
+    '',
+    'Comment',
+    '',
+    'Model',
+    '',
+    'brand',
+    '',
+    'CPU',
+    '',
+    'RAM',
+    '',
+    'Hard Disk',
+    '',
+    'Status'
+  ];
+
   @override
   void onInit() {
+
     getEmployeeData();
     getDevice();
     getDataCheckoutOnly();
@@ -105,6 +140,29 @@ class CheckOutController extends GetxController {
         return status.contains('empty');
       }).toList();
     });
+  }
+
+  ///Search Device Checkout
+  RxList<Device> listSearchDevice = RxList([]);
+  TextEditingController searchTextController=TextEditingController();
+  var searchText = ''.obs;
+
+  void onSearchDeviceCheckout() {
+    String value = searchText.value.toString().toLowerCase().trim();
+    listSearchDevice.value = listDevices.where((device) {
+      String deviceId = device.deviceId.toString().toLowerCase().trim();
+      String localId = device.localId.toString().toLowerCase().trim();
+      String deviceName = device.deviceName.toString().toLowerCase().trim();
+      String deviceType = device.deviceType.toString().toLowerCase().trim();
+      String brand = device.brand.toString().toLowerCase().trim();
+      String model = device.model.toString().toLowerCase().trim();
+      return deviceId.contains(value) ||
+          localId.contains(value) ||
+          deviceName.contains(value) ||
+          deviceType.contains(value) ||
+          brand.contains(value) ||
+          model.contains(value);
+    }).toList();
   }
 
   ///Selected Device

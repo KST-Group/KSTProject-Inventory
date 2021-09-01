@@ -10,7 +10,9 @@ abstract class Routes {
   static String DEVICE_DETAIL(String deviceId) => '$DEVICE/$deviceId';
 
   static const CHECKIN = Paths.HOME + Paths.CHECKIN;
-  static const CHECKOUT=Paths.HOME+Paths.CHECKOUT;
+
+  static String CHECKIN_DETAIL(String employeeId) => '$CHECKIN/$employeeId';
+  static const CHECKOUT = Paths.HOME + Paths.CHECKOUT;
   static const USER = Paths.HOME + Paths.USER;
   static const EMPLOYEE = Paths.HOME + Paths.EMPLOYEE;
   static const COMPANY = Paths.HOME + Paths.COMPANY;
@@ -36,7 +38,8 @@ abstract class Paths {
   static const DEVICE = '/device';
   static const DEVICE_DETAIL = '/:deviceId';
   static const CHECKIN = '/checkin';
-  static const CHECKOUT='/checkout';
+  static const CHECK_DETAIL = '/:employeeId';
+  static const CHECKOUT = '/checkout';
   static const USER = '/user';
   static const EMPLOYEE = '/employee';
   static const COMPANY = '/company';

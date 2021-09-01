@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:kst_inventory/app/middleware/http_value.dart';
@@ -17,7 +18,7 @@ class DeviceService extends GetxService {
       final response = await http.get(typeUrl);
       final jsonStr = jsonDecode(response.body);
       if (response.statusCode == 200) {
-        return DeviceType.fromMap(jsonStr);
+        return DeviceTypes.fromMap(jsonStr);
       } else {
         return response.statusCode;
       }
@@ -26,17 +27,21 @@ class DeviceService extends GetxService {
     }
   }
 
-  Future addDeviceType({required String deviceType}) async {
+  Future addDeviceType({
+    required Map<String, dynamic> data,
+  }) async {
     try {
-      final response = await http.post(addTypeUrl, body: {
-        'devicetype': deviceType,
-      });
-
+      final response = await http.post(
+        addTypeUrl,
+        body: data,
+      );
       if (response.statusCode == 200) {
         return response.body;
+      } else {
+        throw response.statusCode;
       }
     } on HttpException catch (error) {
-      print(error);
+      throw error;
     }
   }
 
@@ -79,6 +84,48 @@ class DeviceService extends GetxService {
         return Devices.fromMap(jsonDecode(response.body));
       }
       throw response.statusCode;
+    } on HttpException catch (error) {
+      throw error;
+    }
+  }
+
+  ///Add Device Data
+  Future addDevice({required Map<String, dynamic> data}) async {
+    try {
+      final response = await http.post(addDeviceUrl, body: data);
+      if (response.statusCode == 200) {
+        return jsonDecode(response.body);
+      } else {
+        throw response.statusCode;
+      }
+    } on HttpException catch (error) {
+      throw error;
+    }
+  }
+
+  Future<Devices> getDeviceById({required String deviceId}) async {
+    try {
+      final response = await http.get(getDeviceByIdeUrl(deviceId));
+      if (response.statusCode == 200) {
+        return Devices.fromMap(jsonDecode(response.body));
+      } else {
+        throw response.statusCode;
+      }
+    } on HttpException catch (error) {
+      throw error;
+    }
+  }
+
+  ///Delete device
+  Future deleteDevice({required String deviceId}) async {
+    try {
+      final response =
+          await http.delete(deleteByIdeUrl, body: {'deviceId': deviceId});
+      if (response.statusCode == 200) {
+        return jsonDecode(response.body);
+      } else {
+        throw response.statusCode;
+      }
     } on HttpException catch (error) {
       throw error;
     }

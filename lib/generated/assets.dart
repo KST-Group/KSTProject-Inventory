@@ -2,6 +2,8 @@
 class Assets {
   Assets._();
 
+  static const String fontsRobotoBold = 'assets/fonts/Roboto-Bold.ttf';
+  static const String fontsRobotoRegular = 'assets/fonts/Roboto-Regular.ttf';
   static const String iconsAccount = 'assets/icons/account.svg';
   static const String iconsAddtocart = 'assets/icons/addtocart.svg';
   static const String iconsBulletedList = 'assets/icons/bulleted_list.svg';
@@ -10,9 +12,11 @@ class Assets {
   static const String iconsDataTransfer = 'assets/icons/data_transfer.svg';
   static const String iconsDeviceManager = 'assets/icons/device_manager.svg';
   static const String iconsDownload = 'assets/icons/download.svg';
+  static const String iconsEditProperty = 'assets/icons/edit_property.svg';
   static const String iconsEmployee = 'assets/icons/employee.svg';
   static const String iconsInventory = 'assets/icons/inventory.svg';
   static const String iconsLaptop = 'assets/icons/laptop.svg';
+  static const String iconsMaintenance = 'assets/icons/maintenance.svg';
   static const String iconsMobile = 'assets/icons/mobile.svg';
   static const String iconsMultipleDevices = 'assets/icons/multiple_devices.svg';
   static const String iconsPc = 'assets/icons/pc.svg';

@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:kst_inventory/app/modules/check_out/controllers/check_out_controller.dart';
 import 'package:kst_inventory/models/device.dart';
+import 'package:kst_inventory/utils/constants.dart';
 
 class CheckOutDetailView extends GetView<CheckOutController> {
   @override
@@ -16,12 +17,36 @@ class CheckOutDetailView extends GetView<CheckOutController> {
           titleBox(),
           Divider(),
           Container(
+            width: MediaQuery.of(context).size.width,
+          ),
+          Container(
             child: SingleChildScrollView(
               child: Obx(
-                () => DataTable(
-                  columns: getColumn(),
-                  rows: getRows(controller.listDevices),
-                ),
+                () {
+                  if (controller.listDevices.length == 0) {
+                    return Container(
+                      child: Text('No data'),
+                    );
+                  } else {
+                    return DataTable(
+                      dividerThickness: 1,
+                      headingRowColor:
+                          MaterialStateProperty.all(Colors.grey.shade100),
+                      headingTextStyle: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                        fontFamily: Appearance.font_Roboto,
+                      ),
+                      columnSpacing: 30,
+                      columns: getColumn(),
+                      rows: getRows(
+                        listDevices: controller.searchText.value.length == 0
+                            ? controller.listDevices
+                            : controller.listSearchDevice,
+                      ),
+                    );
+                  }
+                },
               ),
             ),
           ),
@@ -29,8 +54,20 @@ class CheckOutDetailView extends GetView<CheckOutController> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Device Total: ${controller.listDevices.length}'),
-              Obx(() => Text('Checkout Total: ${controller.device.length}')),
+              Padding(
+                padding: EdgeInsets.only(left: 20, top: 20),
+                child: Text(
+                  'Total: ${controller.listDevices.length} Devices',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ),
+              Obx(() => Padding(
+                padding: EdgeInsets.only(top: 20,right: 20),
+                child: Text(
+                      'Checkout Total: ${controller.device.length} Devices',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+              )),
             ],
           ),
         ],
@@ -56,6 +93,7 @@ class CheckOutDetailView extends GetView<CheckOutController> {
     );
   }
 
+  ///Search Box
   titleBox() {
     return Container(
       margin: EdgeInsets.only(top: 15, bottom: 10),
@@ -67,6 +105,7 @@ class CheckOutDetailView extends GetView<CheckOutController> {
             child: Container(
               margin: EdgeInsets.only(left: 20),
               child: TextField(
+                controller: controller.searchTextController,
                 decoration: InputDecoration(
                   isDense: true,
                   border: OutlineInputBorder(
@@ -78,6 +117,10 @@ class CheckOutDetailView extends GetView<CheckOutController> {
                   hintText: 'DeviceID, Name, Brand...',
                   suffixIcon: Icon(Icons.search),
                 ),
+                onChanged: (value) {
+                  controller.searchText.value = value;
+                  controller.onSearchDeviceCheckout();
+                },
               ),
             ),
           ),
@@ -87,37 +130,34 @@ class CheckOutDetailView extends GetView<CheckOutController> {
   }
 
   List<DataColumn> getColumn() {
-    final columns = [
-      'DeviceID',
-      'LocalID',
-      'Device Name',
-      'Device Type',
-      'Comment',
-      'Model',
-      'brand',
-      'CPU',
-      'RAM',
-      'Hard Disk',
-      'Status'
-    ];
-    return columns
+    return controller.columnsDevice
         .map((String column) => DataColumn(label: Text(column)))
         .toList();
   }
 
-  List<DataRow> getRows(RxList<Device> listDevices) => listDevices
+  List<DataRow> getRows({required RxList<Device> listDevices}) => listDevices
       .map((device) => DataRow(
               cells: [
                 DataCell(Text(device.deviceId.toString())),
+                DataCell(VerticalDivider()),
                 DataCell(Text(device.localId.toString())),
+                DataCell(VerticalDivider()),
                 DataCell(Text(device.deviceName.toString())),
+                DataCell(VerticalDivider()),
                 DataCell(Text(device.deviceType.toString())),
+                DataCell(VerticalDivider()),
                 DataCell(Text(device.comments.toString())),
+                DataCell(VerticalDivider()),
                 DataCell(Text(device.model.toString())),
+                DataCell(VerticalDivider()),
                 DataCell(Text(device.brand.toString())),
+                DataCell(VerticalDivider()),
                 DataCell(Text(device.cpus.toString())),
+                DataCell(VerticalDivider()),
                 DataCell(Text(device.ram.toString())),
+                DataCell(VerticalDivider()),
                 DataCell(Text(device.hardisk.toString())),
+                DataCell(VerticalDivider()),
                 DataCell(Text(device.statuss.toString())),
               ],
               selected: controller.selectedDevice.contains(device),

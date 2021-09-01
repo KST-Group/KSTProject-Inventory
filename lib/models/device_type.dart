@@ -1,13 +1,12 @@
-
-
 import 'dart:convert';
 
-DeviceType deviceTypeFromMap(String str) => DeviceType.fromMap(json.decode(str));
+DeviceTypes deviceTypesFromMap(String str) =>
+    DeviceTypes.fromMap(json.decode(str));
 
-String deviceTypeToMap(DeviceType data) => json.encode(data.toMap());
+String deviceTypesToMap(DeviceTypes data) => json.encode(data.toMap());
 
-class DeviceType {
-  DeviceType({
+class DeviceTypes {
+  DeviceTypes({
     this.error,
     this.data,
     this.message,
@@ -17,35 +16,35 @@ class DeviceType {
   List<Types>? data;
   String? message;
 
-  factory DeviceType.fromMap(Map<String, dynamic> json) => DeviceType(
-    error: json["error"],
-    data: List<Types>.from(json["data"].map((x) => Types.fromMap(x))),
-    message: json["message"],
-  );
+  factory DeviceTypes.fromMap(Map<String, dynamic> json) => DeviceTypes(
+        error: json["error"],
+        data: List<Types>.from(json["data"].map((x) => Types.fromMap(x))),
+        message: json["message"],
+      );
 
   Map<String, dynamic> toMap() => {
-    "error": error,
-    "data": List<dynamic>.from(data!.map((x) => x.toMap())),
-    "message": message,
-  };
+        "error": error,
+        "data": List<dynamic>.from(data!.map((x) => x.toMap())),
+        "message": message,
+      };
 }
 
 class Types {
   Types({
     this.typeId,
-    this.deviceType,
+    this.devicetype,
   });
 
   int? typeId;
-  String? deviceType;
+  String? devicetype;
 
   factory Types.fromMap(Map<String, dynamic> json) => Types(
-    typeId: json["typeId"],
-    deviceType: json["devicetype"],
-  );
+        typeId: json["typeId"],
+        devicetype: json["devicetype"],
+      );
 
   Map<String, dynamic> toMap() => {
-    "typeId": typeId,
-    "devicetype": deviceType,
-  };
+        "typeId": typeId,
+        "devicetype": devicetype,
+      };
 }

@@ -19,6 +19,19 @@ class CheckInController extends GetxController {
     'Option',
   ];
 
+  final List<String>columnDevices=[
+    'DeviceID',
+    'Local ID',
+    'Device Name',
+    'Bran',
+    'Model',
+    'Device Type',
+    'Service Tag/SN',
+    'CPU',
+    'Hard Disk',
+    'RAM',
+  ];
+
   ///Get employee data list
   RxList<Employee> listEmployees = RxList([]);
 

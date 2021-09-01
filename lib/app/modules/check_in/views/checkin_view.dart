@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kst_inventory/app/modules/check_in/controllers/checkin_controller.dart';
+import 'package:kst_inventory/app/routes/app_routes.dart';
 import 'package:kst_inventory/utils/constants.dart';
 
 class CheckInView extends GetView<CheckInController> {
@@ -48,6 +49,7 @@ class CheckInView extends GetView<CheckInController> {
                                     );
                                   }
                                   return DataTable(
+                                    showCheckboxColumn: false,
                                     headingTextStyle:
                                         TextStyle(fontWeight: FontWeight.bold),
                                     columns: _createColumn(),
@@ -99,14 +101,27 @@ class CheckInView extends GetView<CheckInController> {
       .toList();
 
   List<DataRow> _createRows() => controller.listEmployees
-      .map((row) => DataRow(cells: [
+      .map(
+        (row) => DataRow(
+          onSelectChanged: (value) {
+            Get.rootDelegate
+                .toNamed(Routes.CHECKIN_DETAIL(row.employeeId.toString()));
+          },
+          cells: [
             DataCell(Text(row.employeeId.toString())),
             DataCell(Text(row.gender.toString())),
             DataCell(Text(row.nameLa.toString())),
             DataCell(Text(row.nameEn.toString())),
             DataCell(Text(row.nickname.toString())),
             DataCell(Text(row.email.toString())),
-            DataCell(Text('Option')),
-          ]))
+            DataCell(
+              TextButton(
+                child: Text('CheckIn'),
+                onPressed: () {},
+              ),
+            ),
+          ],
+        ),
+      )
       .toList();
 }

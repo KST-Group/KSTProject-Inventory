@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kst_inventory/app/routes/app_page.dart';
+import 'package:kst_inventory/utils/constants.dart';
 import 'package:url_strategy/url_strategy.dart';
 
 import 'services/auth_service.dart';
@@ -24,6 +25,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp.router(
+      theme: ThemeData(
+        fontFamily: Appearance.font_Roboto,
+      ),
       debugShowCheckedModeBanner: false,
       title: 'KST Inventory',
       initialBinding: BindingsBuilder(
@@ -43,5 +47,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-
