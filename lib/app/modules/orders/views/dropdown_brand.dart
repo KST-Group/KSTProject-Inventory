@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:kst_inventory/app/modules/devices/controllers/device_controller.dart';
+import 'package:kst_inventory/app/modules/orders/controllers/order_controller.dart';
 
-class DropdownBrand extends GetView<DeviceController> {
+class DropdownBrand extends GetView<OrderController> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: EdgeInsets.only(top: 20),
       child: Row(
         children: [
           Container(
@@ -19,9 +20,10 @@ class DropdownBrand extends GetView<DeviceController> {
           SizedBox(
             width: 25,
           ),
-          Expanded(
-            child: Obx(
-              () => DropdownButtonFormField(
+          Obx(
+            () => Container(
+              width: 300,
+              child: DropdownButtonFormField(
                 hint: Text('Select Brand'),
                 decoration: InputDecoration(
                     isDense: true,
@@ -29,9 +31,9 @@ class DropdownBrand extends GetView<DeviceController> {
                     fillColor: Colors.white,
                     contentPadding: EdgeInsets.all(10),
                     border: OutlineInputBorder(
-                      borderSide: BorderSide.none,
+                      borderSide: BorderSide(),
                     )),
-                value: controller.selectedTypeValue,
+                value: controller.selectedBrandValue,
                 items: controller.listBrand
                     .map(
                       (type) => DropdownMenuItem(

@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:kst_inventory/app/middleware/http_value.dart';
 import 'package:kst_inventory/models/checkout.dart';
+import 'package:kst_inventory/models/using_device.dart';
 
 class CheckoutServices extends GetxService {
   static CheckoutServices get to => Get.find();
@@ -61,4 +62,6 @@ class CheckoutServices extends GetxService {
       throw error;
     }
   }
+
+
 }

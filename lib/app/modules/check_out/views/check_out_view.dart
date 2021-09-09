@@ -196,6 +196,9 @@ class CheckOutView extends GetView<CheckOutController> {
                               position: controller.listEmployee[index].position,
                             );
 
+                            controller.getTotalDevice(
+                                data:
+                                    '${controller.listEmployee[index].employeeId}');
                             showDialogCheckOut(context);
                           },
                         )),
@@ -223,7 +226,7 @@ class CheckOutView extends GetView<CheckOutController> {
             children: [
               Text(
                 'Check out',
-                style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25),
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
               ),
               TextButton(
                 onPressed: () {
@@ -252,6 +255,7 @@ class CheckOutView extends GetView<CheckOutController> {
               ),
               onPressed: () {
                 Navigator.of(context).pop();
+                controller.lisUsing();
               },
               child: Text(
                 'Cancel',
@@ -266,8 +270,7 @@ class CheckOutView extends GetView<CheckOutController> {
                     EdgeInsets.only(top: 20, bottom: 20, left: 50, right: 50)),
               ),
               onPressed: () {
-                Navigator.of(context).pop();
-                controller.checkOutDevice();
+                controller.checkOutDevice(context);
               },
               child: Text(
                 'OK',

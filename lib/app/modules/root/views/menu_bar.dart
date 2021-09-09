@@ -23,6 +23,10 @@ class MenuBar extends GetView<HomeController> {
           currentIndex = 2;
         } else if (currentLocation?.startsWith(Routes.CHECKOUT) == true) {
           currentIndex = 3;
+        } else if (currentLocation?.startsWith(Routes.ORDER) == true) {
+          currentIndex = 4;
+        } else if (currentLocation?.startsWith(Routes.EMPLOYEE) == true) {
+          currentIndex = 5;
         }
 
         return Container(
@@ -141,6 +145,31 @@ class MenuBar extends GetView<HomeController> {
                               },
                             ),
 
+                            // ///Order
+                            // _title(
+                            //   tile: 'Order Device',
+                            //   ico: 'assets/icons/maintenance.svg',
+                            // ),
+                            // menuButton(
+                            //   ico: 'assets/icons/maintenance.svg',
+                            //   title: 'Order',
+                            //   selectedColor: currentIndex == 4
+                            //       ? Appearance.selectedColor
+                            //       : null,
+                            //   showSelectedColor:
+                            //       currentIndex == 4 ? Colors.white : null,
+                            //   onTap: () {
+                            //     delegate.toNamed(Routes.ORDER);
+                            //   },
+                            // ),
+                            // menuButton(
+                            //   ico: 'assets/icons/maintenance.svg',
+                            //   title: 'Receive',
+                            //   onTap: () {
+                            //     delegate.toNamed(Routes.COMPANY);
+                            //   },
+                            // ),
+
                             ///Repair
                             _title(
                               tile: 'Maintenance',
@@ -154,53 +183,38 @@ class MenuBar extends GetView<HomeController> {
                               },
                             ),
 
-                            ///Order
-                            _title(
-                              tile: 'Order Device',
-                              ico: 'assets/icons/maintenance.svg',
-                            ),
-                            menuButton(
-                              ico: 'assets/icons/maintenance.svg',
-                              title: 'Order',
-                              onTap: () {
-                                delegate.toNamed(Routes.COMPANY);
-                              },
-                            ),
-                            menuButton(
-                              ico: 'assets/icons/maintenance.svg',
-                              title: 'Receive',
-                              onTap: () {
-                                delegate.toNamed(Routes.COMPANY);
-                              },
-                            ),
-
                             _title(
                               tile: 'Organizations',
                               ico: 'assets/icons/company.svg',
                             ),
 
+                            // menuButton(
+                            //   ico: 'assets/icons/company.svg',
+                            //   title: 'Company Profile',
+                            //   onTap: () {
+                            //     delegate.toNamed(Routes.COMPANY);
+                            //   },
+                            // ),
+                            // menuButton(
+                            //   ico: 'assets/icons/small_business.svg',
+                            //   title: 'Departments',
+                            //   onTap: () {
+                            //     delegate.toNamed(Routes.DEPARTMENT);
+                            //   },
+                            // ),
+                            // menuButton(
+                            //   ico: 'assets/icons/bulleted_list.svg',
+                            //   title: 'Positions',
+                            //   onTap: () {
+                            //     delegate.toNamed(Routes.POSITION);
+                            //   },
+                            // ),
                             menuButton(
-                              ico: 'assets/icons/company.svg',
-                              title: 'Company Profile',
-                              onTap: () {
-                                delegate.toNamed(Routes.COMPANY);
-                              },
-                            ),
-                            menuButton(
-                              ico: 'assets/icons/small_business.svg',
-                              title: 'Departments',
-                              onTap: () {
-                                delegate.toNamed(Routes.DEPARTMENT);
-                              },
-                            ),
-                            menuButton(
-                              ico: 'assets/icons/bulleted_list.svg',
-                              title: 'Positions',
-                              onTap: () {
-                                delegate.toNamed(Routes.POSITION);
-                              },
-                            ),
-                            menuButton(
+                              selectedColor: currentIndex == 5
+                                  ? Appearance.selectedColor
+                                  : null,
+                              showSelectedColor:
+                                  currentIndex == 5 ? Colors.white : null,
                               ico: 'assets/icons/employee.svg',
                               title: 'Employees',
                               onTap: () {
@@ -214,7 +228,6 @@ class MenuBar extends GetView<HomeController> {
                               onTap: () {
                                 delegate.toNamed(Routes.USER);
                               },
-
                             ),
                             _title(
                               tile: 'Reports',

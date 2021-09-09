@@ -4,9 +4,9 @@ abstract class Routes {
   static const HOME = Paths.HOME;
   static const LOGIN = Paths.LOGIN;
   static const DASHBOARD = Paths.HOME + Paths.DASHBOARD;
+  static String DEVICE_VIEW_DASHBOARD(String deviceId)=>'$DASHBOARD/$deviceId';
   static const SETTING = Paths.HOME + Paths.SETTING;
   static const DEVICE = Paths.HOME + Paths.DEVICE;
-
   static String DEVICE_DETAIL(String deviceId) => '$DEVICE/$deviceId';
 
   static const CHECKIN = Paths.HOME + Paths.CHECKIN;
@@ -28,12 +28,17 @@ abstract class Routes {
 
   static String LOGIN_THEN(String afterSuccessfulLogin) =>
       '$LOGIN?then=${Uri.encodeQueryComponent(afterSuccessfulLogin)}';
+
+  static const ORDER = Paths.HOME + Paths.ORDER;
+
+  static String ORDER_DETAIL(String orderId) => '$ORDER/$orderId';
 }
 
 abstract class Paths {
   static const HOME = '/home';
   static const LOGIN = '/login';
   static const DASHBOARD = '/dashboard';
+  static const DEVICE_VIEW_DASHBOARD='/:employeeId';
   static const SETTING = '/setting';
   static const DEVICE = '/device';
   static const DEVICE_DETAIL = '/:deviceId';
@@ -48,4 +53,6 @@ abstract class Paths {
   static const DEPART_DETAIL = '/:departmentId';
   static const POSITION = '/position';
   static const POSITION_DETIAL = '/:positionId';
+  static const ORDER = '/order';
+  static const ORDER_DETAIL = '/:orderId';
 }

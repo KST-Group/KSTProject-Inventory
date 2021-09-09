@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kst_inventory/app/modules/employees/controlers/employee_controller.dart';
+import 'package:kst_inventory/utils/constants.dart';
 
 class EmployeeView extends GetView<EmployeeController> {
   @override
@@ -8,91 +9,93 @@ class EmployeeView extends GetView<EmployeeController> {
     return GetRouterOutlet.builder(
       builder: (context, delegate, currentRoute) {
         return Scaffold(
+          backgroundColor: Appearance.backGroundColor,
           body: Container(
-            margin: EdgeInsets.all(30),
+            margin: EdgeInsets.all(25),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Employee',
-                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-                ),
-                _searchTextBox(),
-                Text('Filter'),
-                _filterBox(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    addButton(context: context),
-                  ],
+                  'Employees',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 Divider(),
                 Expanded(
-                  child: Obx(
-                    () {
-                      if (controller.listEmployee.length == 0) {
-                        return Container(
-                          child: Text('No data'),
-                        );
-                      }
-                      return Container(
-                        child: SingleChildScrollView(
-                          child: Row(
-                            children: [
-                              DataTable(
-                                columns: [
-                                  DataColumn(label: Text('No')),
-                                  DataColumn(label: Text('Employee ID')),
-                                  DataColumn(label: Text('Gender')),
-                                  DataColumn(label: Text('Name (Lao)')),
-                                  DataColumn(label: Text('Name (English)')),
-                                  DataColumn(label: Text('Nick Name')),
-                                  DataColumn(label: Text('Email')),
-                                  DataColumn(label: Text('Position')),
-                                  DataColumn(label: Text('Department')),
-                                  DataColumn(label: Text('Company')),
-                                  DataColumn(label: Text('Option')),
-                                ],
-                                rows: List.generate(
-                                    controller.listEmployee.length, (index) {
-                                  return DataRow(cells: [
-                                    DataCell(Text('${index + 1}')),
-                                    DataCell(Text(
-                                        '${controller.listEmployee[index].employeeId}')),
-                                    DataCell(Text(
-                                        '${controller.listEmployee[index].gender}')),
-                                    DataCell(Text(
-                                        '${controller.listEmployee[index].nameLa}')),
-                                    DataCell(Text(
-                                        '${controller.listEmployee[index].nameEn}')),
-                                    DataCell(Text(
-                                        '${controller.listEmployee[index].nickname ?? 'No Data'}')),
-                                    DataCell(Text(
-                                        '${controller.listEmployee[index].email ?? 'No data'}')),
-                                    DataCell(Text(
-                                        '${controller.listEmployee[index].position ?? 'No data'}')),
-                                    DataCell(Text(
-                                        '${controller.listEmployee[index].department ?? 'No data'}')),
-                                    DataCell(Text(
-                                        '${controller.listEmployee[index].company ?? 'No data'}')),
-                                    DataCell(IconButton(
-                                      icon: Icon(
-                                        Icons.delete,
-                                        color: Colors.red,
-                                      ),
-                                      onPressed: () {
-                                        _dialogOptionDelete(context, index);
-                                      },
-                                    )),
-                                  ]);
-                                }),
-                                dividerThickness: 2,
-                              ),
-                            ],
-                          ),
+                  child: Card(
+                    child: Container(
+                      padding: EdgeInsets.all(20),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                _searchTextBox(),
+                                addButton(context: context),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Obx(
+                                ()=> DataTable(
+                                    columns: [
+                                      DataColumn(label: Text('No')),
+                                      DataColumn(label: Text('Employee ID')),
+                                      DataColumn(label: Text('Gender')),
+                                      DataColumn(label: Text('Name (Lao)')),
+                                      DataColumn(label: Text('Name (English)')),
+                                      DataColumn(label: Text('Nick Name')),
+                                      DataColumn(label: Text('Email')),
+                                      DataColumn(label: Text('Position')),
+                                      DataColumn(label: Text('Department')),
+                                      DataColumn(label: Text('Company')),
+                                      DataColumn(label: Text('Action')),
+                                    ],
+                                    rows: List.generate(
+                                        controller.listEmployee.length, (index) {
+                                      return DataRow(cells: [
+                                        DataCell(Text('${index + 1}')),
+                                        DataCell(Text(
+                                            '${controller.listEmployee[index].employeeId}')),
+                                        DataCell(Text(
+                                            '${controller.listEmployee[index].gender}')),
+                                        DataCell(Text(
+                                            '${controller.listEmployee[index].nameLa}')),
+                                        DataCell(Text(
+                                            '${controller.listEmployee[index].nameEn}')),
+                                        DataCell(Text(
+                                            '${controller.listEmployee[index].nickname ?? 'No Data'}')),
+                                        DataCell(Text(
+                                            '${controller.listEmployee[index].email ?? 'No data'}')),
+                                        DataCell(Text(
+                                            '${controller.listEmployee[index].position ?? 'No data'}')),
+                                        DataCell(Text(
+                                            '${controller.listEmployee[index].department ?? 'No data'}')),
+                                        DataCell(Text(
+                                            '${controller.listEmployee[index].company ?? 'No data'}')),
+                                        DataCell(IconButton(
+                                          icon: Icon(
+                                            Icons.delete,
+                                            color: Colors.red,
+                                          ),
+                                          onPressed: () {
+                                            _dialogOptionDelete(context, index);
+                                          },
+                                        )),
+                                      ]);
+                                    }),
+                                    headingRowColor: MaterialStateProperty.all(
+                                        Appearance.backGroundColor),
+                                  headingTextStyle: TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
-                      );
-                    },
+                      ),
+                    ),
                   ),
                 ),
               ],
@@ -105,15 +108,17 @@ class EmployeeView extends GetView<EmployeeController> {
 
   _searchTextBox() {
     final border = const OutlineInputBorder(
-      borderSide: BorderSide(),
+      borderSide: BorderSide.none,
     );
     return Container(
       margin: EdgeInsets.only(top: 20, bottom: 20),
       width: 500,
       child: TextField(
         decoration: InputDecoration(
+          filled: true,
+          fillColor: Appearance.backGroundColor,
           isDense: true,
-          hintText: 'Employee ID or Name Other...',
+          hintText: 'Search...',
           border: border,
           focusedBorder: border,
           suffixIcon: Icon(Icons.search),

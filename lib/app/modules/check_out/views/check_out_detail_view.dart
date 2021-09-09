@@ -19,34 +19,36 @@ class CheckOutDetailView extends GetView<CheckOutController> {
           Container(
             width: MediaQuery.of(context).size.width,
           ),
-          Container(
-            child: SingleChildScrollView(
-              child: Obx(
-                () {
-                  if (controller.listDevices.length == 0) {
-                    return Container(
-                      child: Text('No data'),
-                    );
-                  } else {
-                    return DataTable(
-                      dividerThickness: 1,
-                      headingRowColor:
-                          MaterialStateProperty.all(Colors.grey.shade100),
-                      headingTextStyle: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                        fontFamily: Appearance.font_Roboto,
-                      ),
-                      columnSpacing: 30,
-                      columns: getColumn(),
-                      rows: getRows(
-                        listDevices: controller.searchText.value.length == 0
-                            ? controller.listDevices
-                            : controller.listSearchDevice,
-                      ),
-                    );
-                  }
-                },
+          Expanded(
+            child: Container(
+              child: SingleChildScrollView(
+                child: Obx(
+                  () {
+                    if (controller.listDevices.length == 0) {
+                      return Container(
+                        child: Text('No data'),
+                      );
+                    } else {
+                      return DataTable(
+                        dividerThickness: 1,
+                        headingRowColor:
+                            MaterialStateProperty.all(Colors.grey.shade100),
+                        headingTextStyle: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                          fontFamily: Appearance.font_Roboto,
+                        ),
+                        columnSpacing: 30,
+                        columns: getColumn(),
+                        rows: getRows(
+                          listDevices: controller.searchText.value.length == 0
+                              ? controller.listDevices
+                              : controller.listSearchDevice,
+                        ),
+                      );
+                    }
+                  },
+                ),
               ),
             ),
           ),
@@ -62,12 +64,12 @@ class CheckOutDetailView extends GetView<CheckOutController> {
                 ),
               ),
               Obx(() => Padding(
-                padding: EdgeInsets.only(top: 20,right: 20),
-                child: Text(
+                    padding: EdgeInsets.only(top: 20, right: 20),
+                    child: Text(
                       'Checkout Total: ${controller.device.length} Devices',
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
-              )),
+                  )),
             ],
           ),
         ],
@@ -197,11 +199,12 @@ class CheckOutDetailView extends GetView<CheckOutController> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Text('Using',
+          Text('Using Device',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
           Container(
             margin: EdgeInsets.only(left: 20, top: 10),
-            child: Text('Total: 3 Devices'),
+            child: Obx(() => Text(
+                'Total: ${controller.lisUsingByEmployee.length} Devices')),
           ),
         ],
       ),

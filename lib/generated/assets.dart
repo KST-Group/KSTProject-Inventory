@@ -23,6 +23,7 @@ class Assets {
   static const String iconsReset = 'assets/icons/reset.svg';
   static const String iconsSadFace = 'assets/icons/sad_face.svg';
   static const String iconsSetting = 'assets/icons/setting.png';
+  static const String iconsShoppingCart = 'assets/icons/shopping_cart.svg';
   static const String iconsSmallBusiness = 'assets/icons/small_business.svg';
   static const String iconsUpload = 'assets/icons/upload.svg';
   static const String iconsUser = 'assets/icons/user.svg';

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kst_inventory/app/modules/check_in/controllers/checkin_controller.dart';
 import 'package:kst_inventory/app/routes/app_routes.dart';
+import 'package:kst_inventory/models/employee_device.dart';
 import 'package:kst_inventory/utils/constants.dart';
 
 class CheckInView extends GetView<CheckInController> {
@@ -11,7 +12,7 @@ class CheckInView extends GetView<CheckInController> {
       builder: (context, delegate, currentRoute) {
         return Scaffold(
           body: Container(
-            margin: EdgeInsets.all(20),
+            padding: EdgeInsets.all(20),
             color: Appearance.backGroundColor,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -35,10 +36,14 @@ class CheckInView extends GetView<CheckInController> {
                             height: 15,
                           ),
                           _searchTextBox(),
-                          Divider(),
                           SizedBox(
-                            height: 15,
+                            height: 20,
                           ),
+                          Text('Employee using device'),
+                          Divider(),
+                          // SizedBox(
+                          //   height: 15,
+                          // ),
                           Expanded(child: SingleChildScrollView(
                             child: Container(
                               child: Obx(
@@ -49,11 +54,19 @@ class CheckInView extends GetView<CheckInController> {
                                     );
                                   }
                                   return DataTable(
+                                    headingRowColor: MaterialStateProperty.all(Appearance.backGroundColor),
+                                    showBottomBorder: true,
                                     showCheckboxColumn: false,
                                     headingTextStyle:
-                                        TextStyle(fontWeight: FontWeight.bold),
+                                        TextStyle(fontWeight: FontWeight.bold,fontSize: 16),
                                     columns: _createColumn(),
-                                    rows: _createRows(),
+                                    rows: _createRows(
+                                      list: controller.searchTextValue.value
+                                                  .length ==
+                                              0
+                                          ? controller.listEmployees
+                                          : controller.listEmployeesSearch,
+                                    ),
                                   );
                                 },
                               ),
@@ -84,11 +97,17 @@ class CheckInView extends GetView<CheckInController> {
           child: Container(
             width: 500,
             child: TextField(
+              controller: controller.searchController,
               decoration: InputDecoration(
-                  isDense: true,
-                  border: border,
-                  focusedBorder: border,
-                  hintText: 'Employee ID or Name'),
+                isDense: true,
+                border: border,
+                focusedBorder: border,
+                hintText: 'Employee ID or Name',
+              ),
+              onChanged: (value) {
+                controller.searchTextValue.value = value;
+                controller.getSearchEmployeeData();
+              },
             ),
           ),
         ),
@@ -100,28 +119,40 @@ class CheckInView extends GetView<CheckInController> {
       .map((column) => DataColumn(label: Text(column)))
       .toList();
 
-  List<DataRow> _createRows() => controller.listEmployees
+  List<DataRow> _createRows({required RxList<EmployeeDev> list}) => list
       .map(
-        (row) => DataRow(
+        (row) {
+          int index=list.indexOf(row);
+          return DataRow(
+
+
           onSelectChanged: (value) {
-            Get.rootDelegate
-                .toNamed(Routes.CHECKIN_DETAIL(row.employeeId.toString()));
+            controller.getUsingDevice(employeeId: row.employeeId.toString());
+            Get.rootDelegate.toNamed(
+              Routes.CHECKIN_DETAIL(
+                row.employeeId.toString(),
+              ),
+              arguments: row,
+            );
           },
           cells: [
+            DataCell(Text('${index+1}')),
             DataCell(Text(row.employeeId.toString())),
+            DataCell(VerticalDivider()),
             DataCell(Text(row.gender.toString())),
+            DataCell(VerticalDivider()),
             DataCell(Text(row.nameLa.toString())),
+            DataCell(VerticalDivider()),
             DataCell(Text(row.nameEn.toString())),
+            DataCell(VerticalDivider()),
             DataCell(Text(row.nickname.toString())),
+            DataCell(VerticalDivider()),
             DataCell(Text(row.email.toString())),
-            DataCell(
-              TextButton(
-                child: Text('CheckIn'),
-                onPressed: () {},
-              ),
-            ),
+            DataCell(VerticalDivider()),
+            DataCell(Text('${row.device.toString()} Device')),
           ],
-        ),
+        );
+        },
       )
       .toList();
 }

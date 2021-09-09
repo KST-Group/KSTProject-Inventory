@@ -7,29 +7,41 @@ import 'package:kst_inventory/models/brand.dart';
 import 'package:kst_inventory/models/device.dart';
 import 'package:kst_inventory/models/device_model.dart';
 import 'package:kst_inventory/models/device_type.dart';
+import 'package:kst_inventory/models/using_device.dart';
+import 'package:kst_inventory/services/checkout_services.dart';
 import 'package:kst_inventory/services/device_services.dart';
 
 class DeviceController extends GetxController {
   //Global
+  var loading = false.obs;
   final List<String> deviceColumns = [
-    'Status',
-    'Device ID',
-    'Local ID',
-    'Device Name',
-    'Computer Name',
+    'No',
+    '',
+    'ID',
+    '',
     'Device Type',
-    'Brand',
-    'Join Domain',
-    'Model',
-    'Service Tag SN',
-    'Provider',
-    'CPU',
-    'RAM',
-    'Hard Disk',
-    'Price',
-    'Warranty',
+    '',
     'Comment',
-    'Remark',
+    '',
+    'Status',
+    '',
+    'Join Domain',
+    '',
+    'Brand',
+    '',
+    'Model',
+    '',
+    'Service Tag/SN',
+    '',
+    'Computer Name',
+    '',
+    'Processor',
+    '',
+    'Main Memory',
+    '',
+    'Storage',
+    '',
+    'Action',
   ];
 
   @override
@@ -47,6 +59,7 @@ class DeviceController extends GetxController {
 
   ///Get DeviceBy Id
   RxList<Device> deviceDataById = RxList([]);
+
   void getDeviceById({required String deviceId}) {
     DeviceService.to.getDeviceById(deviceId: deviceId).then((value) {
       deviceDataById.value = value.data!;
@@ -80,8 +93,6 @@ class DeviceController extends GetxController {
 
   //////////////////////////////////////////////////////////////////////
   ///Filter Device
-
-  onChangedDeviceType() {}
 
   /////////////////// Add Device
   ///Auto_ID
@@ -199,33 +210,39 @@ class DeviceController extends GetxController {
   TextEditingController commentController = TextEditingController();
   TextEditingController remarkController = TextEditingController();
 
-  void addNewDeviceData() {
-    DeviceService.to
-        .addDevice(
-            data: DeviceModel(
-      deviceId: autoDeviceIdValue.value,
-      localId: localIDController.text,
-      deviceName: deviceNameController.text,
-      computername: computerNameController.text,
-      joinDomain: joinDomainController.text,
-      model: modelController.text,
-      servicetagSn: serviceTagController.text,
-      provider: providerController.text,
-      cpus: cpuController.text,
-      ram: ramController.text,
-      hardisk: hardDiskController.text,
-      price: priceController.text,
-      warranty: warrantyDate,
-      comments: commentController.text,
-      remark: remarkController.text,
-      typeId: selectedTypeValue.toString(),
-      brandId: selectedBrandValue.toString(),
-    ).toMap())
-        .then((value) {
-      print(value);
-      autoDeviceId();
-      getDevice();
-    });
+  void addNewDeviceData(BuildContext context) {
+    if (selectedTypeValue == null || selectedTypeValue == '') {
+      print('Select device type');
+    } else {
+      loading.value = true;
+      DeviceService.to
+          .addDevice(
+              data: DeviceModel(
+        deviceId: autoDeviceIdValue.value,
+        localId: localIDController.text,
+        deviceName: deviceNameController.text,
+        computername: computerNameController.text,
+        joinDomain: joinDomainController.text,
+        model: modelController.text,
+        servicetagSn: serviceTagController.text,
+        provider: providerController.text,
+        cpus: cpuController.text,
+        ram: ramController.text,
+        hardisk: hardDiskController.text,
+        price: priceController.text,
+        warranty: warrantyDate,
+        comments: commentController.text,
+        remark: remarkController.text,
+        typeId: selectedTypeValue.toString(),
+        brandId: selectedBrandValue.toString(),
+      ).toMap())
+          .then((value) {
+        Navigator.of(context).pop();
+        loading.value = false;
+        autoDeviceId();
+        getDevice();
+      });
+    }
   }
 
   ///Delete Device
@@ -235,6 +252,26 @@ class DeviceController extends GetxController {
       getDevice();
       Get.rootDelegate.popRoute().then((value) => Get.rootDelegate.popRoute());
     });
+  }
+
+  ///Get Using device
+  RxList<Using> listUsing = RxList([]);
+  var employeeName = ''.obs;
+
+  void usingByEmployee({required String data}) {
+    DeviceService.to.useDevice().then(
+      (value) {
+        listUsing.value = value.data!.where((element) {
+          String deviceId = element.deviceId.toString();
+          return deviceId.contains(data);
+        }).toList();
+        if (listUsing.length == 0) {
+          employeeName.value = 'None';
+        } else {
+          employeeName.value = listUsing[0].nameEn.toString();
+        }
+      },
+    );
   }
 
   @override

@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:kst_inventory/models/checkout.dart';
 import 'package:kst_inventory/models/device.dart';
 import 'package:kst_inventory/models/employee.dart';
+import 'package:kst_inventory/models/using_device.dart';
 import 'package:kst_inventory/services/checkout_services.dart';
 import 'package:kst_inventory/services/device_services.dart';
 import 'package:kst_inventory/services/employee_services.dart';
@@ -22,7 +23,7 @@ class CheckOutController extends GetxController {
   //   // DataColumn(label: Text('Email')),
   //   // DataColumn(label: Text('Option')),
   // ];
-  final List<String> columnsDevice=[
+  final List<String> columnsDevice = [
     'DeviceID',
     '',
     'LocalID',
@@ -48,10 +49,10 @@ class CheckOutController extends GetxController {
 
   @override
   void onInit() {
-
     getEmployeeData();
     getDevice();
     getDataCheckoutOnly();
+    getUseDevice();
     super.onInit();
   }
 
@@ -137,14 +138,14 @@ class CheckOutController extends GetxController {
     DeviceService.to.getAllDevice().then((value) {
       listDevices.value = value.data!.where((element) {
         String status = element.statuss.toString();
-        return status.contains('empty');
+        return status.contains('In Stock');
       }).toList();
     });
   }
 
   ///Search Device Checkout
   RxList<Device> listSearchDevice = RxList([]);
-  TextEditingController searchTextController=TextEditingController();
+  TextEditingController searchTextController = TextEditingController();
   var searchText = ''.obs;
 
   void onSearchDeviceCheckout() {
@@ -168,7 +169,6 @@ class CheckOutController extends GetxController {
   ///Selected Device
   RxList<Device> selectedDevice = RxList([]);
   var device = [].obs;
-
   void onSelected() {
     device.clear();
     selectedDevice.forEach((element) {
@@ -177,10 +177,11 @@ class CheckOutController extends GetxController {
     print(device);
   }
 
-  Future checkOutDevice() async {
+  Future checkOutDevice(BuildContext context) async {
     if (device.length == 0) {
       print('Please select at lease 1 device ');
     } else {
+      print(device);
       CheckoutServices.to.createCheckout(data: {
         'checkoutId': checkOutAutoId.value,
         'username': 'admin',
@@ -197,6 +198,8 @@ class CheckOutController extends GetxController {
           CheckoutServices.to.updatesStatus(data: {
             'deviceId': device[i].toString(),
           }).then((value) {
+            device.clear();
+            selectedDevice.clear();
             Fluttertoast.showToast(
                 msg: 'Success',
                 toastLength: Toast.LENGTH_SHORT,
@@ -205,10 +208,29 @@ class CheckOutController extends GetxController {
             getEmployeeData();
             getDevice();
             getDataCheckoutOnly();
+            getUseDevice();
+            Navigator.of(context).pop();
           });
         }
       });
     }
+  }
+
+  ///Using device
+  RxList<Using> lisUsing = RxList([]);
+  RxList<Using> lisUsingByEmployee = RxList([]);
+
+  void getUseDevice() {
+    DeviceService.to.useDevice().then((value) {
+      lisUsing.value = value.data!;
+    });
+  }
+
+  getTotalDevice({required String data}) {
+    lisUsingByEmployee.value = lisUsing.where((use) {
+      String employeeId = use.employeeId.toString();
+      return employeeId.contains(data);
+    }).toList();
   }
 
   @override

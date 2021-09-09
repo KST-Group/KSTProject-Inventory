@@ -1,59 +1,70 @@
-import 'package:kst_inventory/app/modules/employees/bindings/employee_binding.dart';
-import 'package:kst_inventory/models/brand.dart';
-import 'package:kst_inventory/models/companys.dart';
-import 'package:kst_inventory/services/checkout_services.dart';
+import 'package:kst_inventory/app/modules/orders/controllers/order_controller.dart';
 
-const String _baseUrl = "kst-inventory.herokuapp.com";
+const String _baseUrl = "127.0.0.1:3000";
 
-final Uri loginUrl = Uri.https(_baseUrl, '/login');
+final Uri loginUrl = Uri.http(_baseUrl, '/login');
 
 ///User
-Uri getAUserUrl(String username) => Uri.https(_baseUrl, '/users/$username');
-Uri getUserUrl = Uri.https(_baseUrl, '/users');
-Uri addUserUrl = Uri.https(_baseUrl, '/users/add');
+Uri getAUserUrl(String username) => Uri.http(_baseUrl, '/users/$username');
+Uri getUserUrl = Uri.http(_baseUrl, '/users');
+Uri addUserUrl = Uri.http(_baseUrl, '/users/add');
 
-Uri deleteUserUrl(String username) => Uri.https(_baseUrl, '/users/$username');
+Uri deleteUserUrl(String username) => Uri.http(_baseUrl, '/users/$username');
 
 ///Device
-Uri deviceUrl = Uri.https(_baseUrl, '/devices');
-Uri addDeviceUrl = Uri.https(_baseUrl, '/devices/add');
+Uri deviceUrl = Uri.http(_baseUrl, '/devices');
+
+Uri addDeviceUrl = Uri.http(_baseUrl, '/devices/add');
 
 Uri getDeviceByIdeUrl(String deviceId) =>
-    Uri.https(_baseUrl, '/devices/$deviceId');
-Uri deleteByIdeUrl = Uri.https(_baseUrl, '/devices/del');
+    Uri.http(_baseUrl, '/devices/id/$deviceId');
+Uri deleteByIdeUrl = Uri.http(_baseUrl, '/devices/del');
+Uri usingDevice = Uri.http(_baseUrl, '/devices/use');
 
 ///DevicesType
-Uri typeUrl = Uri.https(_baseUrl, '/devicetype');
-Uri addTypeUrl = Uri.https(_baseUrl, '/devicetype/add');
+Uri typeUrl = Uri.http(_baseUrl, '/devicetype');
+Uri addTypeUrl = Uri.http(_baseUrl, '/devicetype/add');
 
 ///Brands
-Uri brandUrl = Uri.https(_baseUrl, '/brands');
-Uri addBrandUrl = Uri.https(_baseUrl, '/brands/add');
+Uri brandUrl = Uri.http(_baseUrl, '/brands');
+Uri addBrandUrl = Uri.http(_baseUrl, '/brands/add');
 
 ///Company
-Uri companyUrl = Uri.https(_baseUrl, '/company');
-Uri deleteCompanyUrl = Uri.https(_baseUrl, '/company/delete');
-Uri addCompanyUrl = Uri.https(_baseUrl, '/company/add');
+Uri companyUrl = Uri.http(_baseUrl, '/company');
+Uri deleteCompanyUrl = Uri.http(_baseUrl, '/company/delete');
+Uri addCompanyUrl = Uri.http(_baseUrl, '/company/add');
 
 ///Department
 Uri departByCompany(String companyId) =>
-    Uri.https(_baseUrl, '/department/cm/$companyId');
-Uri addDepartmentUrl = Uri.https(_baseUrl, '/department/add');
-Uri getDepartmentUrl = Uri.https(_baseUrl, '/department');
-Uri deleteDepartmentUrl = Uri.https(_baseUrl, '/department/delete');
+    Uri.http(_baseUrl, '/department/cm/$companyId');
+Uri addDepartmentUrl = Uri.http(_baseUrl, '/department/add');
+Uri getDepartmentUrl = Uri.http(_baseUrl, '/department');
+Uri deleteDepartmentUrl = Uri.http(_baseUrl, '/department/delete');
 
 ///Positions
-Uri positionUrl = Uri.https(_baseUrl, '/position');
-Uri addPositionUrl = Uri.https(_baseUrl, '/position/add');
-Uri deletePositionUrl = Uri.https(_baseUrl, '/position/delete');
+Uri positionUrl = Uri.http(_baseUrl, '/position');
+Uri addPositionUrl = Uri.http(_baseUrl, '/position/add');
+Uri deletePositionUrl = Uri.http(_baseUrl, '/position/delete');
 
 ///Employee
-Uri employeeUrl = Uri.https(_baseUrl, '/employee');
-Uri addEmployeeUrl = Uri.https(_baseUrl, '/employee/add');
-Uri delEmployeeUrl = Uri.https(_baseUrl, '/employee/del');
+Uri employeeUrl = Uri.http(_baseUrl, '/employee');
+Uri addEmployeeUrl = Uri.http(_baseUrl, '/employee/add');
+Uri delEmployeeUrl = Uri.http(_baseUrl, '/employee/del');
+Uri delEmployeeDeviceUrl = Uri.http(_baseUrl, '/employee/device');
+Uri employeeUsingDeviceUrl = Uri.http(_baseUrl, '/employee/usings');
 
 ///Checkout
-Uri checkoutDeviceUrl = Uri.https(_baseUrl, '/checkout/add');
-Uri checkoutDetailUrl = Uri.https(_baseUrl, '/checkout/detail');
-Uri updateStatusUrl = Uri.https(_baseUrl, '/checkout/status');
-Uri checkOutDataUrl = Uri.https(_baseUrl, '/checkout');
+Uri checkoutDeviceUrl = Uri.http(_baseUrl, '/checkout/add');
+Uri checkoutDetailUrl = Uri.http(_baseUrl, '/checkout/detail');
+Uri updateStatusUrl = Uri.http(_baseUrl, '/checkout/status');
+Uri checkOutDataUrl = Uri.http(_baseUrl, '/checkout');
+
+
+///CheckIn
+Uri checkInDataUrl = Uri.http(_baseUrl, '/checkin');
+Uri addCheckInDataUrl = Uri.http(_baseUrl, '/checkin/add');
+Uri addCheckInDetailDataUrl = Uri.http(_baseUrl, '/checkin/adddetail');
+
+
+///Order
+Uri orderDataUrl = Uri.http(_baseUrl, '/order');

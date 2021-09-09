@@ -5,11 +5,13 @@ import 'package:kst_inventory/utils/constants.dart';
 import 'package:url_strategy/url_strategy.dart';
 
 import 'services/auth_service.dart';
+import 'services/checkin_services.dart';
 import 'services/checkout_services.dart';
 import 'services/company_services.dart';
 import 'services/department_services.dart';
 import 'services/device_services.dart';
 import 'services/employee_services.dart';
+import 'services/order_services.dart';
 import 'services/position_service.dart';
 import 'services/prefs_service.dart';
 import 'services/user_service.dart';
@@ -41,6 +43,8 @@ class MyApp extends StatelessWidget {
           Get.put(PositionServices());
           Get.put(EmployeeServices());
           Get.put(CheckoutServices());
+          Get.put(CheckInServices());
+          Get.put(OrderService());
         },
       ),
       getPages: AppPages.routes,

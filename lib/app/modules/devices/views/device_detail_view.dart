@@ -26,185 +26,81 @@ class DeviceViewDetail extends GetView<DeviceController> {
                 return Container(
                   padding: EdgeInsets.all(20),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
+                      _update(context, device),
                       Expanded(
-                        child: Card(
-                          child: Container(
-                            padding: EdgeInsets.all(15),
+                          child: Card(
+                        child: Container(
+                          child: SingleChildScrollView(
                             child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                _navigation(
-                                    context, device.deviceId.toString()),
-                                Expanded(
-                                  child: Row(
-                                    children: [
-                                      Expanded(
-                                        child: Container(
-                                          // decoration: BoxDecoration(
-                                          //   border: Border.all()
-                                          // ),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text('Device Detail',
-                                                  style: TextStyle(
-                                                      fontSize: 20,
-                                                      fontWeight:
-                                                          FontWeight.bold)),
-                                              _dataDetail(
-                                                title: 'Device ID',
-                                                data:
-                                                    device.deviceId.toString(),
-                                              ),
-                                              _dataDetail(
-                                                title: 'Local ID',
-                                                data: device.localId.toString(),
-                                              ),
-                                              _dataDetail(
-                                                title: 'Device Name',
-                                                data: device.deviceName
-                                                    .toString(),
-                                              ),
-                                              _dataDetail(
-                                                title: 'Computer Name',
-                                                data: device.computername
-                                                    .toString(),
-                                              ),
-                                              _dataDetail(
-                                                title: 'Device Type',
-                                                data: device.deviceType
-                                                    .toString(),
-                                              ),
-                                              _dataDetail(
-                                                title: 'Brand',
-                                                data: device.brand.toString(),
-                                              ),
-                                              _dataDetail(
-                                                title: 'Status',
-                                                data: device.statuss.toString(),
-                                              ),
-                                              _dataDetail(
-                                                title: 'Join Domain',
-                                                data: device.joinDomain
-                                                    .toString(),
-                                              ),
-                                              _dataDetail(
-                                                title: 'Model',
-                                                data: device.model.toString(),
-                                              ),
-                                              _dataDetail(
-                                                title: 'Service Tag /SN',
-                                                data: device.servicetagSn
-                                                    .toString(),
-                                              ),
-                                              _dataDetail(
-                                                title: 'CPU',
-                                                data: device.cpus.toString(),
-                                              ),
-                                              _dataDetail(
-                                                title: 'RAM',
-                                                data: device.ram.toString(),
-                                              ),
-                                              _dataDetail(
-                                                title: 'Hard Disk',
-                                                data: device.hardisk.toString(),
-                                              ),
-                                              // _bottom(),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 50,
-                                      ),
-                                      Expanded(
-                                          child: Container(
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'Other',
-                                              style: TextStyle(
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                            _dataDetail(
-                                              title: 'Provider',
-                                              data: device.provider.toString(),
-                                            ),
-                                            _dataDetail(
-                                              title: 'Price',
-                                              data: device.price.toString(),
-                                            ),
-                                            _dataDetail(
-                                              title: 'Warrant',
-                                              data:
-                                                  device.expireDate.toString(),
-                                            ),
-                                            SizedBox(
-                                              height: 20,
-                                            ),
-                                            Container(
-                                              padding: EdgeInsets.all(20),
-                                              decoration: BoxDecoration(
-                                                border: Border.all(
-                                                    color: Colors.grey),
-                                              ),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                children: [
-                                                  Row(
-                                                    children: [],
-                                                  ),
-                                                  Text(
-                                                    'Using data',
-                                                    style: TextStyle(
-                                                        fontSize: 18,
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                                  ),
-                                                  SizedBox(
-                                                    height: 10,
-                                                  ),
-                                                  _dataDetail(
-                                                    title: 'Use by',
-                                                    data: device.statuss ==
-                                                            'Using'
-                                                        ? 'Employee'
-                                                        : 'Empty',
-                                                  ),
-                                                  _dataDetail(
-                                                    title: 'Comment',
-                                                    data: device.comments
-                                                        .toString(),
-                                                  ),
-                                                  _dataDetail(
-                                                    title: 'Remark',
-                                                    data: device.remark
-                                                        .toString(),
-                                                  ),
-                                                  // Text(device.comments.toString()),
-                                                ],
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      )),
-                                    ],
-                                  ),
+                                _dataDetail(
+                                  title: 'Local ID',
+                                  data: device.localId.toString(),
                                 ),
-                                _bottom(context, device)
+                                _dataDetail(
+                                  title: 'Device Name',
+                                  data: device.deviceName.toString(),
+                                ),
+                                _dataDetail(
+                                  title: 'Computer Name',
+                                  data: device.computername.toString(),
+                                ),
+                                _dataDetail(
+                                  title: 'Device Type',
+                                  data: device.deviceType.toString(),
+                                ),
+                                _dataDetail(
+                                  title: 'Brand',
+                                  data: device.brand.toString(),
+                                ),
+                                _dataDetail(
+                                  title: 'Status',
+                                  data: device.statuss.toString(),
+                                ),
+                                _dataDetail(
+                                  title: 'Use by',
+                                  data: controller.employeeName.value,
+                                ),
+                                _dataDetail(
+                                  title: 'Join Domain',
+                                  data: device.joinDomain == ''
+                                      ? 'None'
+                                      : device.joinDomain.toString(),
+                                ),
+                                _dataDetail(
+                                  title: 'Model',
+                                  data: device.model.toString(),
+                                ),
+                                _dataDetail(
+                                  title: 'Service Tag /SN',
+                                  data: device.servicetagSn.toString(),
+                                ),
+                                _dataDetail(
+                                  title: 'Processor',
+                                  data: device.cpus.toString(),
+                                ),
+                                _dataDetail(
+                                  title: 'Main Memory',
+                                  data: device.ram.toString(),
+                                ),
+                                _dataDetail(
+                                  title: 'Storage',
+                                  data: device.hardisk.toString(),
+                                ),
+                                _dataDetail(
+                                  title: 'Warranty',
+                                  data: device.expireDate??'None',
+                                ),
                               ],
                             ),
                           ),
                         ),
-                      ),
+                      )),
+
+                      _navigation(context, device.deviceId.toString()),
                     ],
                   ),
                 );
@@ -235,15 +131,18 @@ class DeviceViewDetail extends GetView<DeviceController> {
                         ),
                         textAlign: TextAlign.end,
                       ),
-                      width: 200,
+                      width: 300,
                     ),
                     SizedBox(
-                      width: 18,
+                      width: 50,
                     ),
-                    Text(
-                      '$data',
-                      style: TextStyle(
-                          fontSize: 20, color: Appearance.appBarColor),
+                    Container(
+                      width: 300,
+                      child: Text(
+                        '$data',
+                        style: TextStyle(
+                            fontSize: 20, color: Appearance.appBarColor),
+                      ),
                     ),
                   ],
                 ),
@@ -306,7 +205,7 @@ class DeviceViewDetail extends GetView<DeviceController> {
     );
   }
 
-  _bottom(BuildContext context, Device device) {
+  _update(BuildContext context, Device device) {
     return Container(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,

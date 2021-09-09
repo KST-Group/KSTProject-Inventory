@@ -2,7 +2,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:kst_inventory/app/modules/devices/controllers/device_controller.dart';
-import 'package:kst_inventory/app/modules/devices/controllers/update_device_contoller.dart';
 import 'package:kst_inventory/models/device.dart';
 import 'package:kst_inventory/utils/constants.dart';
 

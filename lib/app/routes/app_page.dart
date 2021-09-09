@@ -10,11 +10,11 @@ import 'package:kst_inventory/app/modules/companys/views/company_detail_view.dar
 import 'package:kst_inventory/app/modules/companys/views/company_view.dart';
 import 'package:kst_inventory/app/modules/dashboard/bindings/dashboard_binding.dart';
 import 'package:kst_inventory/app/modules/dashboard/views/dashboard_view.dart';
+import 'package:kst_inventory/app/modules/dashboard/views/device_view_dashboard.dart';
 import 'package:kst_inventory/app/modules/departments/bindings/department_blinding.dart';
 import 'package:kst_inventory/app/modules/departments/views/department_detail.dart';
 import 'package:kst_inventory/app/modules/departments/views/department_view.dart';
 import 'package:kst_inventory/app/modules/devices/bindings/device_binding.dart';
-import 'package:kst_inventory/app/modules/devices/bindings/update_device_binding.dart';
 import 'package:kst_inventory/app/modules/devices/views/device_view.dart';
 import 'package:kst_inventory/app/modules/devices/views/device_detail_view.dart';
 import 'package:kst_inventory/app/modules/employees/bindings/employee_binding.dart';
@@ -23,6 +23,9 @@ import 'package:kst_inventory/app/modules/home/bindings/home_binding.dart';
 import 'package:kst_inventory/app/modules/home/views/home_view.dart';
 import 'package:kst_inventory/app/modules/login/bindings/login_binding.dart';
 import 'package:kst_inventory/app/modules/login/views/login_view.dart';
+import 'package:kst_inventory/app/modules/orders/bindings/oreder_binding.dart';
+import 'package:kst_inventory/app/modules/orders/views/order_detail_view.dart';
+import 'package:kst_inventory/app/modules/orders/views/order_view.dart';
 import 'package:kst_inventory/app/modules/positions/bindings/position_binding.dart';
 import 'package:kst_inventory/app/modules/positions/views/position_detial_view.dart';
 import 'package:kst_inventory/app/modules/positions/views/position_view.dart';
@@ -68,10 +71,16 @@ class AppPages {
           title: null,
           children: [
             GetPage(
-              name: Paths.DASHBOARD,
-              page: () => DashboardView(),
-              binding: DashboardBinding(),
-            ),
+                name: Paths.DASHBOARD,
+                page: () => DashboardView(),
+                binding: DashboardBinding(),
+                children: [
+                  GetPage(
+                    name: Paths.DEVICE_VIEW_DASHBOARD,
+                    page: () => DeviceViewDashboard(),
+                    binding: DashboardBinding(),
+                  )
+                ]),
             GetPage(
               middlewares: [
                 EnsureAuthedMiddleware(),
@@ -92,10 +101,7 @@ class AppPages {
                   GetPage(
                     name: Paths.DEVICE_DETAIL,
                     page: () => DeviceViewDetail(),
-                    bindings: [
-                      DeviceBinding(),
-                      UpdateDeviceBinding(),
-                    ],
+                    binding: DeviceBinding(),
                   ),
                 ]),
             GetPage(
@@ -114,6 +120,19 @@ class AppPages {
               page: () => CheckOutView(),
               binding: CheckOutBinding(),
             ),
+
+            ///Order Device
+            GetPage(
+                name: Paths.ORDER,
+                page: () => OrderView(),
+                binding: OrderBinding(),
+                children: [
+                  GetPage(
+                    name: Paths.ORDER_DETAIL,
+                    page: () => OrderDetailView(),
+                    binding: OrderBinding(),
+                  )
+                ]),
             GetPage(
               name: Paths.EMPLOYEE,
               page: () => EmployeeView(),

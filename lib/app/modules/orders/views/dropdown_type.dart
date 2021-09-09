@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:kst_inventory/app/modules/devices/controllers/device_controller.dart';
+import 'package:kst_inventory/app/modules/orders/controllers/order_controller.dart';
 import 'package:kst_inventory/utils/constants.dart';
 
-class DropDownType extends GetView<DeviceController> {
+class DropDownType extends GetView<OrderController> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -14,16 +14,19 @@ class DropDownType extends GetView<DeviceController> {
             width: 150,
             child: Text(
               'Device Type:',
-              style: TextStyle(fontWeight: FontWeight.bold),
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
               textAlign: TextAlign.end,
             ),
           ),
           SizedBox(
             width: 25,
           ),
-          Expanded(
-            child: Obx(
-              () => DropdownButtonFormField(
+          Obx(
+            () => Container(
+              width: 300,
+              child: DropdownButtonFormField(
                 menuMaxHeight: 200,
                 hint: Text('Select Type'),
                 decoration: InputDecoration(
@@ -32,10 +35,10 @@ class DropDownType extends GetView<DeviceController> {
                     fillColor: Colors.white,
                     contentPadding: EdgeInsets.all(10),
                     border: OutlineInputBorder(
-                      borderSide: BorderSide.none,
+                      borderSide: BorderSide(),
                     )),
                 value: controller.selectedTypeValue,
-                items: controller.listType
+                items: controller.listTypeValue
                     .map(
                       (type) => DropdownMenuItem(
                         child: Text(
@@ -54,7 +57,7 @@ class DropDownType extends GetView<DeviceController> {
           IconButton(
             tooltip: 'Add new device type',
             onPressed: () {
-              controller.message.value = '';
+              //controller.message.value = '';
               showDialog(
                 context: context,
                 builder: (context) => AlertDialog(

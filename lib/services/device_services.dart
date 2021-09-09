@@ -8,6 +8,7 @@ import 'package:kst_inventory/app/middleware/http_value.dart';
 import 'package:kst_inventory/models/brand.dart';
 import 'package:kst_inventory/models/device.dart';
 import 'package:kst_inventory/models/device_type.dart';
+import 'package:kst_inventory/models/using_device.dart';
 
 class DeviceService extends GetxService {
   static DeviceService get to => Get.find();
@@ -123,6 +124,20 @@ class DeviceService extends GetxService {
           await http.delete(deleteByIdeUrl, body: {'deviceId': deviceId});
       if (response.statusCode == 200) {
         return jsonDecode(response.body);
+      } else {
+        throw response.statusCode;
+      }
+    } on HttpException catch (error) {
+      throw error;
+    }
+  }
+
+  ///Get Device using
+  Future<UsingDevice> useDevice() async {
+    try {
+      final response = await http.get(usingDevice);
+      if (response.statusCode == 200) {
+        return UsingDevice.fromMap(jsonDecode(response.body));
       } else {
         throw response.statusCode;
       }
