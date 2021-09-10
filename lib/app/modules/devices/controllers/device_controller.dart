@@ -21,8 +21,6 @@ class DeviceController extends GetxController {
     '',
     'Device Type',
     '',
-    'Comment',
-    '',
     'Status',
     '',
     'Join Domain',

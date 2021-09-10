@@ -1,4 +1,8 @@
+import 'dart:io';
+
+import 'package:barcode/barcode.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:kst_inventory/app/modules/devices/controllers/device_controller.dart';
 import 'package:kst_inventory/app/routes/app_routes.dart';
@@ -76,7 +80,7 @@ class DeviceView extends GetView<DeviceController> {
                                 ],
                               );
                             } else {
-                              return _dataTable();
+                              return _dataTable(context);
                             }
                           }),
                         ),
@@ -156,7 +160,7 @@ class DeviceView extends GetView<DeviceController> {
     );
   }
 
-  _dataTable() {
+  _dataTable(BuildContext context) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: SingleChildScrollView(
@@ -186,6 +190,7 @@ class DeviceView extends GetView<DeviceController> {
                         controller.searchText.value.toString().length == 0
                             ? controller.listDevice
                             : controller.listSearch,
+                    context: context
                   ),
                   showCheckboxColumn: false,
                 ),
@@ -252,7 +257,7 @@ class DeviceView extends GetView<DeviceController> {
       )
       .toList();
 
-  List<DataRow> getRows({required RxList<Device> listDevice}) => listDevice.map(
+  List<DataRow> getRows({required RxList<Device> listDevice,required BuildContext context}) => listDevice.map(
         (row) {
           int index = listDevice.indexOf(row);
           return DataRow(
@@ -277,8 +282,6 @@ class DeviceView extends GetView<DeviceController> {
               DataCell(VerticalDivider()),
               DataCell(Text(row.deviceType.toString())),
               DataCell(VerticalDivider()),
-              DataCell(Text(row.comments.toString())),
-              DataCell(VerticalDivider()),
               DataCell(Text(row.statuss.toString())),
               DataCell(VerticalDivider()),
               DataCell(Text(
@@ -298,9 +301,57 @@ class DeviceView extends GetView<DeviceController> {
               DataCell(VerticalDivider()),
               DataCell(Text(row.hardisk.toString())),
               DataCell(VerticalDivider()),
-              DataCell(Text('Action')),
+              DataCell(InkWell(
+                child: Row(
+                  children: [
+                    SvgPicture.asset(
+                      'assets/icons/print.svg',
+                      width: 18,
+                      color: Colors.blue,
+                    ),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Text(
+                      'Print',
+                      style: TextStyle(color: Colors.blue, fontSize: 14),
+                    )
+                  ],
+                ),
+                onTap: () {
+                
+                  showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      title: Text('Code'),
+                      content: Text('Barcode'),
+                    ),
+                  );
+                },
+              )),
             ],
           );
         },
       ).toList();
+
+  void buildBarcode(
+    Barcode bc,
+    String data, {
+    String? filename,
+    double? width,
+    double? height,
+    double? fontHeight,
+  }) {
+    /// Create the Barcode
+    final svg = bc.toSvg(
+      data,
+      width: width ?? 200,
+      height: height ?? 80,
+      fontHeight: fontHeight,
+    );
+
+    // Save the image
+    filename ??= bc.name.replaceAll(RegExp(r'\s'), '-').toLowerCase();
+    File('$filename.svg').writeAsStringSync(svg);
+  }
 }

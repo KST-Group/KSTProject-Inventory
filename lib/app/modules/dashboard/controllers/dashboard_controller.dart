@@ -71,7 +71,13 @@ class DashboardController extends GetxController {
   void onSearchData() {
     listSearchDeviceData.value = listEmployeeUsingDevice.where((data) {
       String nameLa = data.nameLa.toString().toLowerCase().trim();
-      return nameLa.contains(searchTextValue.value);
+      String empId = data.employeeId.toString().toLowerCase().trim();
+      String nickName = data.nickname.toString().toLowerCase().trim();
+      String nameEn = data.nameEn.toString().toLowerCase().trim();
+      return nameLa.contains(searchTextValue.value) ||
+          empId.contains(searchTextValue.value) ||
+          nickName.contains(searchTextValue.value) ||
+          nameEn.contains(searchTextValue.value);
     }).toList();
   }
 
@@ -83,4 +89,20 @@ class DashboardController extends GetxController {
       listEmployeeUsingDevice.value = value.data!;
     });
   }
+
+  ///
+  ///
+  final List<String> deviceColumn = [
+    'No',
+    'Device ID',
+    'Device Name',
+    'Brand',
+    'Device Type',
+    'Model',
+    'Service Tag/SN',
+    'Computer Name',
+    'Processor',
+    'Main Memory',
+    'Storage'
+  ];
 }

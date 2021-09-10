@@ -41,8 +41,8 @@ class Using {
     this.deviceName,
     this.joinDomain,
     this.localId,
-    this.typeId,
-    this.brandId,
+    this.deviceType,
+    this.brand,
     this.model,
     this.servicetagSn,
     this.cpus,
@@ -60,8 +60,8 @@ class Using {
   String? deviceName;
   String? joinDomain;
   String? localId;
-  int? typeId;
-  int? brandId;
+  String? deviceType;
+  String? brand;
   String? model;
   String? servicetagSn;
   String? cpus;
@@ -79,8 +79,8 @@ class Using {
         deviceName: json["device_name"],
         joinDomain: json["joinDomain"],
         localId: json["localId"],
-        typeId: json["typeId"],
-        brandId: json["brandId"],
+        deviceType: json["devicetype"],
+        brand: json["brand"],
         model: json["model"],
         servicetagSn: json["servicetag_sn"],
         cpus: json["cpus"],
@@ -99,8 +99,8 @@ class Using {
         "device_name": deviceName,
         "joinDomain": joinDomain,
         "localId": localId,
-        "typeId": typeId,
-        "brandId": brandId,
+        "typeId": deviceType,
+        "brandId": brand,
         "model": model,
         "servicetag_sn": servicetagSn,
         "cpus": cpus,

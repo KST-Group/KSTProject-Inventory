@@ -25,8 +25,10 @@ class MenuBar extends GetView<HomeController> {
           currentIndex = 3;
         } else if (currentLocation?.startsWith(Routes.ORDER) == true) {
           currentIndex = 4;
-        } else if (currentLocation?.startsWith(Routes.EMPLOYEE) == true) {
+        } else if (currentLocation?.startsWith(Routes.REPAIR) == true) {
           currentIndex = 5;
+        }else if (currentLocation?.startsWith(Routes.EMPLOYEE) == true) {
+          currentIndex = 6;
         }
 
         return Container(
@@ -176,10 +178,15 @@ class MenuBar extends GetView<HomeController> {
                               ico: 'assets/icons/maintenance.svg',
                             ),
                             menuButton(
+                              selectedColor: currentIndex == 5
+                                  ? Appearance.selectedColor
+                                  : null,
+                              showSelectedColor:
+                              currentIndex == 5? Colors.white : null,
                               ico: 'assets/icons/maintenance.svg',
                               title: 'Repair Device',
                               onTap: () {
-                                delegate.toNamed(Routes.COMPANY);
+                                delegate.toNamed(Routes.REPAIR);
                               },
                             ),
 
@@ -210,11 +217,11 @@ class MenuBar extends GetView<HomeController> {
                             //   },
                             // ),
                             menuButton(
-                              selectedColor: currentIndex == 5
+                              selectedColor: currentIndex == 6
                                   ? Appearance.selectedColor
                                   : null,
                               showSelectedColor:
-                                  currentIndex == 5 ? Colors.white : null,
+                                  currentIndex == 6 ? Colors.white : null,
                               ico: 'assets/icons/employee.svg',
                               title: 'Employees',
                               onTap: () {

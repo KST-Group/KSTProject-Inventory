@@ -29,6 +29,8 @@ import 'package:kst_inventory/app/modules/orders/views/order_view.dart';
 import 'package:kst_inventory/app/modules/positions/bindings/position_binding.dart';
 import 'package:kst_inventory/app/modules/positions/views/position_detial_view.dart';
 import 'package:kst_inventory/app/modules/positions/views/position_view.dart';
+import 'package:kst_inventory/app/modules/repaires/bindings/repair_binding.dart';
+import 'package:kst_inventory/app/modules/repaires/views/repair_view.dart';
 import 'package:kst_inventory/app/modules/root/bindings/root_binding.dart';
 import 'package:kst_inventory/app/modules/root/views/root_view.dart';
 import 'package:kst_inventory/app/modules/settings/bindings/settong_binding.dart';
@@ -140,6 +142,12 @@ class AppPages {
               // middlewares: [
               //   EnsureAuthedMiddleware(),
               // ],
+            ),
+
+            GetPage(
+              name: Paths.REPAIR,
+              page: () => RepairView(),
+              binding: RepairBinding(),
             ),
             GetPage(
                 name: Paths.COMPANY,

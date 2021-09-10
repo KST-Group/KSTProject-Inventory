@@ -13,13 +13,66 @@ class DeviceViewDashboard extends GetView<DashboardController> {
           body: Container(
             padding: EdgeInsets.all(25),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Data')
+                Text(
+                  'Activity',
+                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                ),
+                Expanded(
+                  child: Card(
+                    child: Container(
+                      padding: EdgeInsets.all(20),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(),
+                          _employeeData(),
+                          Divider(),
+                          Expanded(
+                            child: Container(
+                              child: SingleChildScrollView(
+                                child: DataTable(
+                                  columns: [
+                                    DataColumn(label: Text('No')),
+                                    DataColumn(label: Text('Name')),
+                                  ],
+                                  rows: List.generate(
+                                    30,
+                                    (index) => DataRow(
+                                      cells: [
+                                        DataCell(Text('${index + 1}')),
+                                        DataCell(Text('Name')),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                )
               ],
             ),
           ),
         );
       },
+    );
+  }
+
+  _employeeData() {
+    return Container(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Employee Field'),
+          Text('Employee ID'),
+          Text('Name'),
+        ],
+      ),
     );
   }
 }
