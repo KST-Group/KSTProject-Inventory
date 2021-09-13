@@ -17,7 +17,7 @@ class DeviceController extends GetxController {
   final List<String> deviceColumns = [
     'No',
     '',
-    'ID',
+    'Devie ID',
     '',
     'Device Type',
     '',
@@ -57,7 +57,6 @@ class DeviceController extends GetxController {
 
   ///Get DeviceBy Id
   RxList<Device> deviceDataById = RxList([]);
-
   void getDeviceById({required String deviceId}) {
     DeviceService.to.getDeviceById(deviceId: deviceId).then((value) {
       deviceDataById.value = value.data!;
@@ -120,7 +119,6 @@ class DeviceController extends GetxController {
   ///Brand
   RxList<Brand> listBrand = RxList([]);
   String? selectedBrandValue;
-
   void getBrandData() {
     DeviceService.to.getDataBrand().then((value) {
       listBrand.value = value.data!;

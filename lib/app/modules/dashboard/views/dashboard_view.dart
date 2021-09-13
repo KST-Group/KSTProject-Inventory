@@ -14,7 +14,6 @@ import 'data_source.dart';
 class DashboardView extends GetView<DashboardController> {
   @override
   Widget build(BuildContext context) {
-    int _rowPerPage = PaginatedDataTable.defaultRowsPerPage;
     return GetRouterOutlet.builder(
       builder: (context, delegate, currentRoute) {
         return Scaffold(
@@ -28,110 +27,128 @@ class DashboardView extends GetView<DashboardController> {
                   'Dashboard',
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                 ),
-                SizedBox(
-                  height: 20,
-                ),
-                Container(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Text(
-                            'Overview',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          InkWell(
-                            child: Text(
-                              'View all devices',
-                              style: TextStyle(color: Colors.blue),
-                            ),
-                            onTap: () {
-                              Get.rootDelegate.toNamed(Routes.DEVICE);
-                            },
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Obx(
-                          () => Row(
-                            children: [
-                              cardItems(
-                                title: 'All Device',
-                                ico: 'assets/icons/multiple_devices.svg',
-                                data: '${controller.listDeviceData.length}',
-                                color: Colors.red,
-                              ),
-                              cardItems(
-                                title: 'In Stock',
-                                ico: 'assets/icons/product.svg',
-                                data: '0',
-                                color: Colors.amber,
-                              ),
-                              cardItems(
-                                title: 'Laptop',
-                                ico: 'assets/icons/laptop.svg',
-                                data: '${controller.listLaptopDevice.length}',
-                                color: Colors.green,
-                              ),
-                              cardItems(
-                                title: 'Desktop',
-                                ico: 'assets/icons/pc.svg',
-                                data: '${controller.listDesktopDevice.length}',
-                                color: Colors.blue,
-                              ),
-                              cardItems(
-                                title: 'Mobiles',
-                                ico: 'assets/icons/mobile.svg',
-                                data: '${controller.listMobileDevice.length}',
-                                color: Colors.amber,
-                              ),
-                              cardItems(
-                                title: 'Other',
-                                ico: 'assets/icons/device_manager.svg',
-                                data:
-                                    '${controller.listDeviceData.length - controller.listMobileDevice.length - controller.listDesktopDevice.length - controller.listLaptopDevice.length}',
-                                color: Colors.blue,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Divider(),
-                // Row(
-                //   children: [
-                //     Card(
-                //       elevation: 3,
-                //       child: Container(
-                //         width: 200,
-                //         height: 100,
-                //         child: Text('Current In Use'),
-                //       ),
-                //     ),
-                //     Card(
-                //       elevation: 3,
-                //       child: Container(
-                //         width: 200,
-                //         height: 100,
-                //         child: Text('Problem'),
-                //       ),
-                //     ),
-                //   ],
-                // ),
                 _searchBox(),
+                Container(
+                  child: Obx(() => controller.searchTextValue.value.length != 0
+                      ? Container()
+                      : Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Text(
+                                        'Overview',
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 5,
+                                      ),
+                                      InkWell(
+                                        child: Text(
+                                          'View all devices',
+                                          style: TextStyle(color: Colors.blue),
+                                        ),
+                                        onTap: () {
+                                          Get.rootDelegate
+                                              .toNamed(Routes.DEVICE);
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: Obx(
+                                      () => Row(
+                                        children: [
+                                          cardItems(
+                                            title: 'All Device',
+                                            ico:
+                                                'assets/icons/multiple_devices.svg',
+                                            data:
+                                                '${controller.listDeviceData.length}',
+                                            color: Colors.red,
+                                          ),
+                                          cardItems(
+                                            title: 'In Stock',
+                                            ico: 'assets/icons/product.svg',
+                                            data: '0',
+                                            color: Colors.amber,
+                                          ),
+                                          cardItems(
+                                            title: 'Laptop',
+                                            ico: 'assets/icons/laptop.svg',
+                                            data:
+                                                '${controller.listLaptopDevice.length}',
+                                            color: Colors.green,
+                                          ),
+                                          cardItems(
+                                            title: 'Desktop',
+                                            ico: 'assets/icons/pc.svg',
+                                            data:
+                                                '${controller.listDesktopDevice.length}',
+                                            color: Colors.blue,
+                                          ),
+                                          cardItems(
+                                            title: 'Mobiles',
+                                            ico: 'assets/icons/mobile.svg',
+                                            data:
+                                                '${controller.listMobileDevice.length}',
+                                            color: Colors.amber,
+                                          ),
+                                          cardItems(
+                                            title: 'Other',
+                                            ico:
+                                                'assets/icons/device_manager.svg',
+                                            data:
+                                                '${controller.listDeviceData.length - controller.listMobileDevice.length - controller.listDesktopDevice.length - controller.listLaptopDevice.length}',
+                                            color: Colors.blue,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Divider(),
+                            Text(
+                              'Device Activity',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Obx(
+                              () => Row(
+                                children: [
+                                  _deviceActivity(
+                                      title: 'Current In Use',
+                                      color: Colors.blue,
+                                      data: controller.listUsingDevice.length
+                                          .toString(),
+                                      icon: 'assets/icons/device_using.svg'),
+                                  _deviceActivity(
+                                      title: 'Issues',
+                                      color: Colors.red.shade900,
+                                      data: controller.listUsingDevice.length
+                                          .toString(),
+                                      icon: 'assets/icons/device_warning.svg'),
+                                ],
+                              ),
+                            ),
+                          ],
+                        )),
+                ),
                 Expanded(
                   child: Card(
                     elevation: 3,
@@ -243,8 +260,9 @@ class DashboardView extends GetView<DashboardController> {
                     ),
                     Text(
                       '$data Device',
-                      style:
-                          TextStyle(fontSize: 16,),
+                      style: TextStyle(
+                        fontSize: 16,
+                      ),
                     ),
                   ],
                 ),
@@ -274,7 +292,8 @@ class DashboardView extends GetView<DashboardController> {
             ),
             onSelectChanged: (isSelected) {
               Get.rootDelegate.toNamed(
-                  Routes.DEVICE_VIEW_DASHBOARD(using.employeeId.toString()));
+                  Routes.DEVICE_VIEW_DASHBOARD(using.employeeId.toString()),
+                  arguments: using);
             },
             cells: [
               DataCell(Text('${index + 1}')),
@@ -337,6 +356,51 @@ class DashboardView extends GetView<DashboardController> {
               ),
               SizedBox(
                 width: 10,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  _deviceActivity(
+      {required String title,
+      required Color color,
+      required String data,
+      required String icon}) {
+    return Container(
+      margin: EdgeInsets.only(right: 20),
+      child: Card(
+        color: color,
+        elevation: 3,
+        child: Container(
+          padding: EdgeInsets.all(10),
+          width: 200,
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  Text(
+                    '$title',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              SvgPicture.asset(
+                icon,
+                width: 30,
+                color: Colors.white,
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Text(
+                '$data Devices',
+                style: TextStyle(fontSize: 18, color: Colors.white),
               ),
             ],
           ),

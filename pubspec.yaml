@@ -23,11 +23,14 @@ dependencies:
   flutter_spinkit: ^5.1.0
   fluttertoast: ^8.0.8
   date_time_picker: ^2.1.0
-  syncfusion_flutter_xlsio: ^19.2.59-beta
   intl: ^0.17.0
   data_table_2: ^2.1.1
   barcode: ^2.1.0
   font_awesome_flutter: ^9.1.0
+  syncfusion_flutter_xlsio: ^19.2.60-beta
+  syncfusion_flutter_barcodes: ^19.2.60
+  printing: ^5.5.0
+  pdf: ^3.5.0
 
 
 dev_dependencies:
@@ -40,20 +43,20 @@ flutter:
   assets:
     - assets/icons/
     - assets/images/
-#    - assets/icons/setting.png
-#    - assets/icons/user.svg
-#    - assets/images/kst.png
-#    - assets/images/sad_face.png
+  #    - assets/icons/setting.png
+  #    - assets/icons/user.svg
+  #    - assets/images/kst.png
+  #    - assets/images/sad_face.png
   #   - images/a_dot_ham.jpeg
 
   fonts:
-     - family: Roboto
-       fonts:
-         - asset: assets/fonts/Roboto-Bold.ttf
-         - asset: assets/fonts/Roboto-Regular.ttf
-     - family: Inter
-       fonts:
-         - asset: assets/fonts/Inter-Bold.ttf
-         - asset: assets/fonts/Inter-Regular.ttf
+    - family: Roboto
+      fonts:
+        - asset: assets/fonts/Roboto-Bold.ttf
+        - asset: assets/fonts/Roboto-Regular.ttf
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/Inter-Bold.ttf
+        - asset: assets/fonts/Inter-Regular.ttf
   #         weight: 700
   #

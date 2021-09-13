@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:kst_inventory/app/modules/devices/controllers/device_controller.dart';
+import 'package:kst_inventory/app/modules/devices/views/components/pdf_view.dart';
 import 'package:kst_inventory/models/device.dart';
 import 'package:kst_inventory/utils/constants.dart';
 
@@ -26,81 +27,165 @@ class DeviceViewDetail extends GetView<DeviceController> {
                 return Container(
                   padding: EdgeInsets.all(20),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      _update(context, device),
+                      //_update(context, device),
+                      Text(
+                        'About Devices',
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
                       Expanded(
-                          child: Card(
-                        child: Container(
-                          child: SingleChildScrollView(
+                        child: Card(
+                          margin: EdgeInsets.only(top: 20),
+                          child: Container(
+                            padding: EdgeInsets.all(20),
                             child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                _dataDetail(
-                                  title: 'Local ID',
-                                  data: device.localId.toString(),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'Specifications',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        showDialog(
+                                          context: context,
+                                          builder: (context) => AlertDialog(
+                                            title: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text('Preview'),
+                                                TextButton(
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  child: Icon(Icons.clear,color: Colors.red,)
+                                                )
+                                              ],
+                                            ),
+                                            content: PdfView(),
+                                          ),
+                                        );
+                                      },
+                                      child: Row(
+                                        children: [
+                                          Icon(Icons.print),
+                                          Text('Print'),
+                                        ],
+                                      ),
+                                    )
+                                  ],
                                 ),
-                                _dataDetail(
-                                  title: 'Device Name',
-                                  data: device.deviceName.toString(),
-                                ),
-                                _dataDetail(
-                                  title: 'Computer Name',
-                                  data: device.computername.toString(),
-                                ),
-                                _dataDetail(
-                                  title: 'Device Type',
-                                  data: device.deviceType.toString(),
-                                ),
-                                _dataDetail(
-                                  title: 'Brand',
-                                  data: device.brand.toString(),
-                                ),
-                                _dataDetail(
-                                  title: 'Status',
-                                  data: device.statuss.toString(),
-                                ),
-                                _dataDetail(
-                                  title: 'Use by',
-                                  data: controller.employeeName.value,
-                                ),
-                                _dataDetail(
-                                  title: 'Join Domain',
-                                  data: device.joinDomain == ''
-                                      ? 'None'
-                                      : device.joinDomain.toString(),
-                                ),
-                                _dataDetail(
-                                  title: 'Model',
-                                  data: device.model.toString(),
-                                ),
-                                _dataDetail(
-                                  title: 'Service Tag /SN',
-                                  data: device.servicetagSn.toString(),
-                                ),
-                                _dataDetail(
-                                  title: 'Processor',
-                                  data: device.cpus.toString(),
-                                ),
-                                _dataDetail(
-                                  title: 'Main Memory',
-                                  data: device.ram.toString(),
-                                ),
-                                _dataDetail(
-                                  title: 'Storage',
-                                  data: device.hardisk.toString(),
-                                ),
-                                _dataDetail(
-                                  title: 'Warranty',
-                                  data: device.expireDate??'None',
-                                ),
+                                Divider(),
+                                Expanded(
+                                  child: Center(
+                                    child: Container(
+                                      width:
+                                          MediaQuery.of(context).size.width / 2,
+                                      child: SingleChildScrollView(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            _deviceData(
+                                              title: 'Device ID',
+                                              data: device.localId.toString(),
+                                              color: Appearance.backGroundColor,
+                                            ),
+                                            _deviceData(
+                                              title: 'Device Name',
+                                              data:
+                                                  device.deviceName.toString(),
+                                            ),
+                                            _deviceData(
+                                              title: 'Join Domain',
+                                              data:
+                                                  device.joinDomain.toString(),
+                                              color: Appearance.backGroundColor,
+                                            ),
+                                            _deviceData(
+                                              title: 'Status',
+                                              data: device.statuss.toString(),
+                                            ),
+                                            _deviceData(
+                                              title: 'Using by',
+                                              data:
+                                                  controller.employeeName.value,
+                                              color: Appearance.backGroundColor,
+                                            ),
+                                            _deviceData(
+                                              title: 'Device Type',
+                                              data:
+                                                  device.deviceType.toString(),
+                                            ),
+                                            _deviceData(
+                                              title: 'Brand',
+                                              data: device.brand.toString(),
+                                              color: Appearance.backGroundColor,
+                                            ),
+                                            _deviceData(
+                                              title: 'Model',
+                                              data: device.model.toString(),
+                                            ),
+                                            _deviceData(
+                                              title: 'Service Tag/SN',
+                                              data: device.servicetagSn
+                                                  .toString(),
+                                              color: Appearance.backGroundColor,
+                                            ),
+                                            _deviceData(
+                                              title: 'Processor',
+                                              data: device.cpus.toString(),
+                                            ),
+                                            _deviceData(
+                                              title: 'Main Memory',
+                                              data: device.ram.toString(),
+                                              color: Appearance.backGroundColor,
+                                            ),
+                                            _deviceData(
+                                              title: 'Storage',
+                                              data: device.hardisk.toString(),
+                                            ),
+                                            _deviceData(
+                                              title: 'Warranty',
+                                              data: device.expireDate ?? '--',
+                                              color: Appearance.backGroundColor,
+                                            ),
+                                            SizedBox(
+                                              height: 15,
+                                            ),
+                                            Text('Image'),
+                                            SizedBox(
+                                              height: 15,
+                                            ),
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                border: Border.all(),
+                                              ),
+                                              width: 200,
+                                              height: 200,
+                                              child: Icon(
+                                                  Icons.image_not_supported),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                )
                               ],
                             ),
                           ),
                         ),
-                      )),
-
-                      _navigation(context, device.deviceId.toString()),
+                      ),
                     ],
                   ),
                 );
@@ -155,56 +240,6 @@ class DeviceViewDetail extends GetView<DeviceController> {
     );
   }
 
-  _navigation(BuildContext context, String deviceId) {
-    return Container(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          IconButton(
-            tooltip: 'Delete this device',
-            onPressed: () {
-              showDialog(
-                context: context,
-                builder: (context) {
-                  return AlertDialog(
-                    title: Row(
-                      children: [
-                        Text('Warning!!'),
-                        Icon(
-                          Icons.warning,
-                          color: Colors.red,
-                        ),
-                      ],
-                    ),
-                    content: Text('Do you want to delete this device?'),
-                    actions: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: Text('Cancel'),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          controller.deleteDeviceById(deviceId: deviceId);
-                        },
-                        child: Text('OK'),
-                      ),
-                    ],
-                  );
-                },
-              );
-            },
-            icon: Icon(
-              Icons.delete,
-              color: Colors.red,
-            ),
-          )
-        ],
-      ),
-    );
-  }
-
   _update(BuildContext context, Device device) {
     return Container(
       child: Row(
@@ -249,6 +284,22 @@ class DeviceViewDetail extends GetView<DeviceController> {
               );
             },
           ),
+        ],
+      ),
+    );
+  }
+
+  _deviceData({required String title, required String data, Color? color}) {
+    return Container(
+      color: color,
+      padding: EdgeInsets.all(15),
+      child: Row(
+        children: [
+          Container(
+            child: Text('$title'),
+            width: 200,
+          ),
+          Text('$data'),
         ],
       ),
     );

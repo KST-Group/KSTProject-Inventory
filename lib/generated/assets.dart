@@ -13,6 +13,8 @@ class Assets {
   static const String iconsDashboardLayout = 'assets/icons/dashboard_layout.svg';
   static const String iconsDataTransfer = 'assets/icons/data_transfer.svg';
   static const String iconsDeviceManager = 'assets/icons/device_manager.svg';
+  static const String iconsDeviceUsing = 'assets/icons/device_using.svg';
+  static const String iconsDeviceWarning = 'assets/icons/device_warning.svg';
   static const String iconsDownload = 'assets/icons/download.svg';
   static const String iconsEditProperty = 'assets/icons/edit_property.svg';
   static const String iconsEmployee = 'assets/icons/employee.svg';

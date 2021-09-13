@@ -1,11 +1,14 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:kst_inventory/models/device.dart';
+import 'package:kst_inventory/models/using_device.dart';
 import 'package:kst_inventory/models/using_device_employee.dart';
 import 'package:kst_inventory/services/device_services.dart';
 import 'package:kst_inventory/services/employee_services.dart';
+import 'package:syncfusion_flutter_xlsio/xlsio.dart';
 
 class DashboardController extends GetxController {
   final List<String> columns = [
@@ -44,6 +47,7 @@ class DashboardController extends GetxController {
   RxList<Device> listLaptopDevice = RxList([]);
   RxList<Device> listDesktopDevice = RxList([]);
   RxList<Device> listMobileDevice = RxList([]);
+  RxList<Device> listUsingDevice = RxList([]);
 
   void getAllDeviceData() {
     DeviceService.to.getAllDevice().then((value) {
@@ -59,6 +63,10 @@ class DashboardController extends GetxController {
       listMobileDevice.value = listDeviceData.where((value) {
         String device = value.deviceType.toString();
         return device.contains('Mobile');
+      }).toList();
+      listUsingDevice.value = listDeviceData.where((value) {
+        String status = value.statuss.toString();
+        return status.contains('In Use');
       }).toList();
     });
   }
@@ -105,4 +113,32 @@ class DashboardController extends GetxController {
     'Main Memory',
     'Storage'
   ];
+  RxList<Using> listUsingDeviceData = RxList([]);
+
+  void getDeviceUsing(String data) {
+    DeviceService.to.useDevice().then((value) {
+      listUsingDeviceData.value = value.data!.where((element) {
+        String employeeId = element.employeeId.toString();
+        return employeeId.contains(data);
+      }).toList();
+    });
+  }
+
+  createExcelWorkbook() {
+    // Create a new Excel document.
+    final Workbook workbook = new Workbook();
+//Accessing worksheet via index.
+    final Worksheet sheet = workbook.worksheets[0];
+//Add Text.
+    sheet.getRangeByName('A1').setText('Hello World');
+//Add Number
+    sheet.getRangeByName('A3').setNumber(44);
+//Add DateTime
+    sheet.getRangeByName('A5').setDateTime(DateTime(2020, 12, 12, 1, 10, 20));
+// Save the document.
+    final List<int> bytes = workbook.saveAsStream();
+    File('AddingTextNumberDateTime.xlsx').writeAsBytes(bytes);
+//Dispose the workbook.
+    workbook.dispose();
+  }
 }

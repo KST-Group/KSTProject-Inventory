@@ -1,6 +1,5 @@
 import 'dart:io';
-
-import 'package:barcode/barcode.dart';
+import 'package:syncfusion_flutter_barcodes/barcodes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -39,7 +38,28 @@ class DeviceView extends GetView<DeviceController> {
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 _searchBox(),
-                                Icon(Icons.arrow_drop_down),
+                                Obx(
+                                  () => DropdownButton(
+                                    isDense: true,
+                                    underline: Container(
+                                      width: 1,
+                                    ),
+                                    value: controller.selectedBrandValue,
+                                    items: controller.listBrand
+                                        .map(
+                                          (brand) => DropdownMenuItem(
+                                            child: Text(
+                                              brand.brand.toString(),
+                                            ),
+                                            value: brand.brand.toString(),
+                                          ),
+                                        )
+                                        .toList(),
+                                    onChanged: (value) {
+                                      print(value);
+                                    },
+                                  ),
+                                ),
                                 SizedBox(
                                   width: 10,
                                 ),
@@ -57,32 +77,32 @@ class DeviceView extends GetView<DeviceController> {
                           ),
                         ],
                       ),
-                      SizedBox(
-                        height: 20,
-                      ),
                       Expanded(
                         child: Card(
-                          child: Obx(() {
-                            if (controller.loading.value == true) {
-                              return Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      CircularProgressIndicator(),
-                                      SizedBox(
-                                        height: 15,
-                                      ),
-                                      Text('Loading...'),
-                                    ],
-                                  ),
-                                ],
-                              );
-                            } else {
-                              return _dataTable(context);
-                            }
-                          }),
+                          child: Obx(
+                            () {
+                              if (controller.loading.value == true) {
+                                return Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        CircularProgressIndicator(),
+                                        SizedBox(
+                                          height: 15,
+                                        ),
+                                        Text('Loading...'),
+                                      ],
+                                    ),
+                                  ],
+                                );
+                              } else {
+                                return _dataTable(context);
+                              }
+                            },
+                          ),
                         ),
                       ),
                     ],
@@ -161,43 +181,51 @@ class DeviceView extends GetView<DeviceController> {
   }
 
   _dataTable(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: SingleChildScrollView(
-        child: Container(
-          padding: EdgeInsets.all(20),
-          child: Obx(
-            () => Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Devices',
-                  style: TextStyle(fontSize: 18),
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-                DataTable(
-                  columnSpacing: 35,
-                  headingTextStyle:
-                      TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
-                  headingRowColor:
-                      MaterialStateProperty.all(Appearance.backGroundColor),
-                  showBottomBorder: true,
-                  columns: getColumns(),
-                  rows: getRows(
-                    listDevice:
-                        controller.searchText.value.toString().length == 0
-                            ? controller.listDevice
-                            : controller.listSearch,
-                    context: context
-                  ),
-                  showCheckboxColumn: false,
-                ),
-              ],
-            ),
+    return Container(
+      padding: EdgeInsets.all(20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Devices Data',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              Text('${controller.listDevice.length} Devices'),
+            ],
           ),
-        ),
+          Divider(),
+          Expanded(
+            child: Obx(() {
+              return SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: SingleChildScrollView(
+                  child: DataTable(
+                    columnSpacing: 30,
+                    headingTextStyle: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15,
+                    ),
+                    dataTextStyle: TextStyle(fontFamily: 'Inter'),
+                    headingRowColor:
+                        MaterialStateProperty.all(Appearance.backGroundColor),
+                    showBottomBorder: true,
+                    columns: getColumns(),
+                    rows: getRows(
+                        listDevice:
+                            controller.searchText.value.toString().length == 0
+                                ? controller.listDevice
+                                : controller.listSearch,
+                        context: context),
+                    showCheckboxColumn: false,
+                  ),
+                ),
+              );
+            }),
+          )
+        ],
       ),
     );
   }
@@ -257,13 +285,23 @@ class DeviceView extends GetView<DeviceController> {
       )
       .toList();
 
-  List<DataRow> getRows({required RxList<Device> listDevice,required BuildContext context}) => listDevice.map(
+  List<DataRow> getRows(
+          {required RxList<Device> listDevice,
+          required BuildContext context}) =>
+      listDevice.map(
         (row) {
           int index = listDevice.indexOf(row);
+          Color? _color;
+          if (row.statuss == 'In Stock') {
+            _color = Colors.green;
+          } else if (row.statuss == 'In Use') {
+            _color = Colors.amber;
+          }
+
           return DataRow(
             color: MaterialStateProperty.resolveWith<Color?>(
                 (Set<MaterialState> states) {
-              if (index.isEven) {
+              if (index.isOdd) {
                 return Colors.grey.withOpacity(0.3);
               }
               return null;
@@ -282,7 +320,12 @@ class DeviceView extends GetView<DeviceController> {
               DataCell(VerticalDivider()),
               DataCell(Text(row.deviceType.toString())),
               DataCell(VerticalDivider()),
-              DataCell(Text(row.statuss.toString())),
+              DataCell(Text(
+                row.statuss.toString(),
+                style: TextStyle(
+                  color: _color,
+                ),
+              )),
               DataCell(VerticalDivider()),
               DataCell(Text(
                   row.joinDomain == '' ? 'None' : row.joinDomain.toString())),
@@ -301,57 +344,64 @@ class DeviceView extends GetView<DeviceController> {
               DataCell(VerticalDivider()),
               DataCell(Text(row.hardisk.toString())),
               DataCell(VerticalDivider()),
-              DataCell(InkWell(
-                child: Row(
-                  children: [
-                    SvgPicture.asset(
-                      'assets/icons/print.svg',
-                      width: 18,
-                      color: Colors.blue,
+              DataCell(Row(
+                children: [
+                  InkWell(
+                    child: Row(
+                      children: [
+                        SvgPicture.asset(
+                          'assets/icons/print.svg',
+                          width: 18,
+                          color: Colors.blue,
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Text(
+                          'Print',
+                          style: TextStyle(color: Colors.blue, fontSize: 14),
+                        )
+                      ],
                     ),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    Text(
-                      'Print',
-                      style: TextStyle(color: Colors.blue, fontSize: 14),
-                    )
-                  ],
-                ),
-                onTap: () {
-                
-                  showDialog(
-                    context: context,
-                    builder: (context) => AlertDialog(
-                      title: Text('Code'),
-                      content: Text('Barcode'),
-                    ),
-                  );
-                },
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          title: Text('Code'),
+                          content: Container(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Container(
+                                  child: SfBarcodeGenerator(
+                                    value: row.localId.toString(),
+                                    showValue: true,
+                                  ),
+                                  height: 80,
+                                ),
+                              ],
+                            ),
+                          ),
+                          actions: [
+                            TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text('Cancel')),
+                            TextButton(onPressed: () {}, child: Text('Print')),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                  InkWell(
+                    child: Text('Delete'),
+                    onTap: (){},
+                  ),
+                ],
               )),
             ],
           );
         },
       ).toList();
-
-  void buildBarcode(
-    Barcode bc,
-    String data, {
-    String? filename,
-    double? width,
-    double? height,
-    double? fontHeight,
-  }) {
-    /// Create the Barcode
-    final svg = bc.toSvg(
-      data,
-      width: width ?? 200,
-      height: height ?? 80,
-      fontHeight: fontHeight,
-    );
-
-    // Save the image
-    filename ??= bc.name.replaceAll(RegExp(r'\s'), '-').toLowerCase();
-    File('$filename.svg').writeAsStringSync(svg);
-  }
 }
