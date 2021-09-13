@@ -14,7 +14,7 @@ class UpdateDeviceView extends GetView<DeviceController> {
     return GetRouterOutlet.builder(
       builder: (context, delegate, currentRoute) {
         return Container(
-          width: MediaQuery.of(context).size.width / 1.5,
+          width: 600,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -29,144 +29,129 @@ class UpdateDeviceView extends GetView<DeviceController> {
                       controller.deviceDataById.forEach((data) {
                         device = data;
                       });
-                      return Container(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
 
-                              child: Text(
-                                'Device ID: ${device.deviceId.toString()}',
+                      controller.localIDController.text =
+                          device.localId.toString();
+                      controller.computerNameController.text =
+                          device.computername.toString();
+                      controller.deviceNameController.text =
+                          device.deviceName.toString();
+                      controller.modelController.text = device.model.toString();
+                      controller.serviceTagController.text =
+                          device.servicetagSn.toString();
+                      controller.cpuController.text = device.cpus.toString();
+                      controller.ramController.text = device.ram.toString();
+                      controller.hardDiskController.text =
+                          device.hardisk.toString();
+                      controller.joinDomainController.text =
+                          device.joinDomain.toString();
+                      controller.providerController.text =
+                          device.provider.toString();
+                      controller.priceController.text = device.price.toString();
+                      controller.commentController.text =
+                          device.comments.toString();
+                      controller.remarkController.text =
+                          device.remark.toString();
+
+                      return Container(
+                        child: SingleChildScrollView(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                child: DropDownType(),
+                                margin: EdgeInsets.only(top: 10, bottom: 10),
                               ),
-                              margin: EdgeInsets.only(left: 100, top: 20),
-                              color: Colors.black12,
-                              padding: EdgeInsets.all(10),
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Container(
-                                  child: DropDownType(),
-                                  width: 300,
-                                  margin: EdgeInsets.only(top: 15),
-                                ),
-                                Container(
-                                  child: DropdownBrand(),
-                                  width: 300,
-                                  margin: EdgeInsets.only(left: 95, top: 15),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Expanded(
-                                    child: Column(
-                                  children: [
-                                    _textInput(
-                                      title: 'Local ID',
-                                      controller: controller.localIDController,
-                                      hint: 'Local ID',
-                                      message: 'Modify your Local ID',
-                                    ),
-                                    _textInput(
-                                      title: 'Device Name',
-                                      controller:
-                                          controller.deviceNameController,
-                                      hint: 'Device Name',
-                                      message: 'Modify your device name',
-                                    ),
-                                    _textInput(
-                                      title: 'Computer Name',
-                                      controller:
-                                          controller.computerNameController,
-                                      hint: 'Computer Name',
-                                      message: 'Modify your computer name',
-                                    ),
-                                    _textInput(
-                                      title: 'Model',
-                                      controller: controller.modelController,
-                                      hint: 'Device Model',
-                                      message: 'Change device model',
-                                    ),
-                                    _textInput(
-                                      title: 'Service Tag /SN',
-                                      controller:
-                                          controller.serviceTagController,
-                                      hint: 'Service Tag /SN',
-                                      message: 'Modify Service Tag /SN Device',
-                                    ),
-                                    _textInput(
-                                      title: 'CPU',
-                                      controller: controller.cpuController,
-                                      hint: 'CPU',
-                                      message: 'Modify CPU Device',
-                                    ),
-                                    _textInput(
-                                      title: 'RAM',
-                                      controller: controller.ramController,
-                                      hint: 'RAM Size',
-                                      message: 'Modify RAM',
-                                    ),
-                                    _textInput(
-                                      title: 'Hard Disk',
-                                      controller: controller.hardDiskController,
-                                      hint: 'Hard Disk Size',
-                                      message: 'Modify Hard Disk',
-                                    ),
-                                  ],
-                                )),
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      _textInput(
-                                        title: 'Join Domain',
-                                        controller:
-                                            controller.joinDomainController,
-                                        hint: 'Domain Name',
-                                        message:
-                                            'Connect with your organization',
-                                      ),
-                                      _textInput(
-                                        title: 'Provider',
-                                        controller:
-                                            controller.providerController,
-                                        hint: 'Provider',
-                                        message: 'Change your Provider',
-                                      ),
-                                      _textInput(
-                                        title: 'Price',
-                                        controller: controller.priceController,
-                                        hint: 'Price',
-                                        message: 'Change your Price',
-                                      ),
-                                      _textInput(
-                                        title: 'Warranty',
-                                        controller: controller.priceController,
-                                        hint: 'Warranty',
-                                        message: 'Change your Warranty',
-                                      ),
-                                      _textInput(
-                                        title: 'Comment',
-                                        controller:
-                                            controller.commentController,
-                                        hint: 'Comment',
-                                        message: 'Change your Comment',
-                                      ),
-                                      _textInput(
-                                        title: 'Remark',
-                                        controller: controller.remarkController,
-                                        hint: 'Remark',
-                                        message: 'Change your Remark',
-                                      ),
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
-                          ],
+                              Container(
+                                margin: EdgeInsets.only(top: 10, bottom: 10),
+                                child: DropdownBrand(),
+                              ),
+                              _textInput(
+                                title: 'Local ID',
+                                controller: controller.localIDController,
+                                hint: 'Local ID',
+                                message: 'Modify your Local ID',
+                              ),
+                              _textInput(
+                                title: 'Device Name',
+                                controller: controller.deviceNameController,
+                                hint: 'Device Name',
+                                message: 'Modify your device name',
+                              ),
+                              _textInput(
+                                title: 'Computer Name',
+                                controller: controller.computerNameController,
+                                hint: 'Computer Name',
+                                message: 'Modify your computer name',
+                              ),
+                              _textInput(
+                                title: 'Model',
+                                controller: controller.modelController,
+                                hint: 'Device Model',
+                                message: 'Change device model',
+                              ),
+                              _textInput(
+                                title: 'Service Tag /SN',
+                                controller: controller.serviceTagController,
+                                hint: 'Service Tag /SN',
+                                message: 'Modify Service Tag /SN Device',
+                              ),
+                              _textInput(
+                                title: 'CPU',
+                                controller: controller.cpuController,
+                                hint: 'CPU',
+                                message: 'Modify CPU Device',
+                              ),
+                              _textInput(
+                                title: 'RAM',
+                                controller: controller.ramController,
+                                hint: 'RAM Size',
+                                message: 'Modify RAM',
+                              ),
+                              _textInput(
+                                title: 'Hard Disk',
+                                controller: controller.hardDiskController,
+                                hint: 'Hard Disk Size',
+                                message: 'Modify Hard Disk',
+                              ),
+                              _textInput(
+                                title: 'Join Domain',
+                                controller: controller.joinDomainController,
+                                hint: 'Domain Name',
+                                message: 'Connect with your organization',
+                              ),
+                              _textInput(
+                                title: 'Provider',
+                                controller: controller.providerController,
+                                hint: 'Provider',
+                                message: 'Change your Provider',
+                              ),
+                              _textInput(
+                                title: 'Price',
+                                controller: controller.priceController,
+                                hint: 'Price',
+                                message: 'Change your Price',
+                              ),
+                              // _textInput(
+                              //   title: 'Warranty',
+                              //   controller: controller.priceController,
+                              //   hint: 'Warranty',
+                              //   message: 'Change your Warranty',
+                              // ),
+                              _textInput(
+                                title: 'Comment',
+                                controller: controller.commentController,
+                                hint: 'Comment',
+                                message: 'Change your Comment',
+                              ),
+                              _textInput(
+                                title: 'Remark',
+                                controller: controller.remarkController,
+                                hint: 'Remark',
+                                message: 'Change your Remark',
+                              ),
+                            ],
+                          ),
                         ),
                       );
                     }
@@ -211,7 +196,7 @@ class UpdateDeviceView extends GetView<DeviceController> {
             },
             icon: Icon(
               Icons.clear,
-              color: Colors.white,
+              color: Colors.red,
             ),
           ),
         ],
@@ -226,8 +211,7 @@ _textInput(
     String? message,
     TextEditingController? controller}) {
   return Container(
-    margin: EdgeInsets.only(top: 20),
-    width: 400,
+    margin: EdgeInsets.only(top: 20, right: 20),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -262,10 +246,10 @@ _textInput(
                     filled: true,
                     fillColor: Colors.white,
                     border: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey),
+                      borderSide: BorderSide.none,
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Appearance.appBarColor),
+                      borderSide: BorderSide.none,
                     ),
                     hoverColor: Colors.white,
                     contentPadding: EdgeInsets.only(

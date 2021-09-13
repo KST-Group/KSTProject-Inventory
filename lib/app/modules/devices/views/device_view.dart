@@ -394,9 +394,38 @@ class DeviceView extends GetView<DeviceController> {
                       );
                     },
                   ),
+                  SizedBox(
+                    width: 20,
+                  ),
                   InkWell(
-                    child: Text('Delete'),
-                    onTap: (){},
+                    child: Text(
+                      'Delete',
+                      style: TextStyle(color: Colors.red),
+                    ),
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          title: Text("Warning"),
+                          content: Text('Do you want delete this device'),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text('Cancel'),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                controller.deleteDeviceById(
+                                    deviceId: row.deviceId.toString());
+                              },
+                              child: Text('OK'),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
                   ),
                 ],
               )),

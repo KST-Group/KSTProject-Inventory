@@ -78,7 +78,9 @@ class AddNewDeviceView extends GetView<DeviceController> {
                   height: 20,
                 ),
                 DropDownType(),
-                SizedBox(height: 15,),
+                SizedBox(
+                  height: 15,
+                ),
                 DropdownBrand(),
                 _textInput(
                   controller: controller.localIDController,
@@ -93,6 +95,12 @@ class AddNewDeviceView extends GetView<DeviceController> {
                   message: 'Device name',
                 ),
                 _textInput(
+                  controller: controller.computerNameController,
+                  title: 'Computer Name',
+                  hint: 'Computer Name',
+                  message: 'Provide computer name',
+                ),
+                _textInput(
                   controller: controller.joinDomainController,
                   title: 'Join Domain',
                   hint: 'Domain Name',
@@ -104,7 +112,6 @@ class AddNewDeviceView extends GetView<DeviceController> {
                   message: 'Input your device model',
                   controller: controller.modelController,
                 ),
-
                 _textInput(
                   title: 'Service Tag/SN',
                   hint: 'Service Tag /SN',
@@ -149,6 +156,26 @@ class AddNewDeviceView extends GetView<DeviceController> {
                   hint: 'Comment',
                   message: 'Description your device',
                   controller: controller.commentController,
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  children: [
+                    Container(
+                      width: 150,
+                      child: Text(
+                        'Choose File',
+                        textAlign: TextAlign.end,
+                      ),
+                    ),SizedBox(
+                      width: 25,
+                    ),
+                    ElevatedButton(
+                      onPressed: () {},
+                      child: Text('Brows'),
+                    )
+                  ],
                 ),
                 SizedBox(
                   height: 100,

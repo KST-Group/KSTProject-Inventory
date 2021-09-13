@@ -16,7 +16,7 @@ class DeviceViewDetail extends GetView<DeviceController> {
         return Scaffold(
           backgroundColor: Appearance.backGroundColor,
           body: Obx(
-            () {
+                () {
               if (controller.deviceDataById.length == 0) {
                 return CircularProgressIndicator();
               } else {
@@ -45,42 +45,92 @@ class DeviceViewDetail extends GetView<DeviceController> {
                               children: [
                                 Row(
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
                                       'Specifications',
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold),
                                     ),
-                                    TextButton(
-                                      onPressed: () {
-                                        showDialog(
-                                          context: context,
-                                          builder: (context) => AlertDialog(
-                                            title: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Text('Preview'),
-                                                TextButton(
-                                                  onPressed: () {
-                                                    Navigator.of(context).pop();
-                                                  },
-                                                  child: Icon(Icons.clear,color: Colors.red,)
-                                                )
-                                              ],
-                                            ),
-                                            content: PdfView(),
+                                    Row(
+                                      children: [
+                                        InkWell(
+                                          child: Text(
+                                            'Update',
+                                            style:
+                                            TextStyle(color: Colors.amber),
                                           ),
-                                        );
-                                      },
-                                      child: Row(
-                                        children: [
-                                          Icon(Icons.print),
-                                          Text('Print'),
-                                        ],
-                                      ),
+                                          onTap: () {
+                                            showDialog(
+                                              context: context,
+                                              builder: (context) {
+                                                return AlertDialog(
+                                                  contentPadding: EdgeInsets
+                                                      .zero,
+                                                  elevation: 0,
+                                                  backgroundColor: Appearance
+                                                      .backGroundColor,
+                                                  content: UpdateDeviceView(),
+                                                  actions: [
+                                                    TextButton(
+                                                      onPressed: () {
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                      },
+                                                      child: Text('Cancel'),
+                                                    ),
+                                                    TextButton(
+                                                      onPressed: () {
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                      },
+                                                      child: Text('OK'),
+                                                    ),
+                                                  ],
+                                                );
+                                              },
+                                            );
+                                          },
+                                        ),
+                                        SizedBox(
+                                          width: 20,
+                                        ),
+                                        TextButton(
+                                          onPressed: () {
+                                            showDialog(
+                                              context: context,
+                                              builder: (context) =>
+                                                  AlertDialog(
+                                                    title: Row(
+                                                      mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                      children: [
+                                                        Text('Preview'),
+                                                        TextButton(
+                                                            onPressed: () {
+                                                              Navigator.of(
+                                                                  context)
+                                                                  .pop();
+                                                            },
+                                                            child: Icon(
+                                                              Icons.clear,
+                                                              color: Colors.red,
+                                                            ))
+                                                      ],
+                                                    ),
+                                                    content: PdfView(),
+                                                  ),
+                                            );
+                                          },
+                                          child: Row(
+                                            children: [
+                                              Icon(Icons.print),
+                                              Text('Print'),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
                                     )
                                   ],
                                 ),
@@ -89,11 +139,14 @@ class DeviceViewDetail extends GetView<DeviceController> {
                                   child: Center(
                                     child: Container(
                                       width:
-                                          MediaQuery.of(context).size.width / 2,
+                                      MediaQuery
+                                          .of(context)
+                                          .size
+                                          .width / 2,
                                       child: SingleChildScrollView(
                                         child: Column(
                                           crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                          CrossAxisAlignment.start,
                                           children: [
                                             _deviceData(
                                               title: 'Device ID',
@@ -103,12 +156,12 @@ class DeviceViewDetail extends GetView<DeviceController> {
                                             _deviceData(
                                               title: 'Device Name',
                                               data:
-                                                  device.deviceName.toString(),
+                                              device.deviceName.toString(),
                                             ),
                                             _deviceData(
                                               title: 'Join Domain',
                                               data:
-                                                  device.joinDomain.toString(),
+                                              device.joinDomain.toString(),
                                               color: Appearance.backGroundColor,
                                             ),
                                             _deviceData(
@@ -118,13 +171,13 @@ class DeviceViewDetail extends GetView<DeviceController> {
                                             _deviceData(
                                               title: 'Using by',
                                               data:
-                                                  controller.employeeName.value,
+                                              controller.employeeName.value,
                                               color: Appearance.backGroundColor,
                                             ),
                                             _deviceData(
                                               title: 'Device Type',
                                               data:
-                                                  device.deviceType.toString(),
+                                              device.deviceType.toString(),
                                             ),
                                             _deviceData(
                                               title: 'Brand',
@@ -240,55 +293,7 @@ class DeviceViewDetail extends GetView<DeviceController> {
     );
   }
 
-  _update(BuildContext context, Device device) {
-    return Container(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          InkWell(
-            child: SvgPicture.asset(
-              'assets/icons/edit_property.svg',
-              color: Colors.amber,
-            ),
-            onTap: () {
-              controller.localIDController.text = device.localId.toString();
-              controller.deviceNameController.text =
-                  device.deviceName.toString();
-              controller.computerNameController.text =
-                  device.computername.toString();
-
-              showDialog(
-                context: context,
-                builder: (context) {
-                  return AlertDialog(
-                    contentPadding: EdgeInsets.zero,
-                    elevation: 0,
-                    backgroundColor: Appearance.backGroundColor,
-                    content: UpdateDeviceView(),
-                    actions: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: Text('Cancel'),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: Text('OK'),
-                      ),
-                    ],
-                  );
-                },
-              );
-            },
-          ),
-        ],
-      ),
-    );
-  }
-
+  
   _deviceData({required String title, required String data, Color? color}) {
     return Container(
       color: color,

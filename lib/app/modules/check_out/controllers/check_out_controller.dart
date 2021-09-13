@@ -4,7 +4,9 @@ import 'package:get/get.dart';
 import 'package:kst_inventory/models/checkout.dart';
 import 'package:kst_inventory/models/device.dart';
 import 'package:kst_inventory/models/employee.dart';
+import 'package:kst_inventory/models/employee_device.dart';
 import 'package:kst_inventory/models/using_device.dart';
+import 'package:kst_inventory/models/using_device_employee.dart';
 import 'package:kst_inventory/services/checkout_services.dart';
 import 'package:kst_inventory/services/device_services.dart';
 import 'package:kst_inventory/services/employee_services.dart';
@@ -13,20 +15,10 @@ class CheckOutController extends GetxController {
   ///Global
   RxBool loading = RxBool(false);
 
-  // List<String>columns=[
-  //   // DataColumn(label: Text('No')),
-  //   // DataColumn(label: Text('ID')),
-  //   // DataColumn(label: Text('Gender')),
-  //   // DataColumn(label: Text('Name (Lao)')),
-  //   // DataColumn(label: Text('Name (Eng)')),
-  //   // DataColumn(label: Text('Nickname')),
-  //   // DataColumn(label: Text('Email')),
-  //   // DataColumn(label: Text('Option')),
-  // ];
   final List<String> columnsDevice = [
-    'DeviceID',
+    'No',
     '',
-    'LocalID',
+    'ID',
     '',
     'Device Name',
     '',
@@ -43,8 +35,30 @@ class CheckOutController extends GetxController {
     'RAM',
     '',
     'Hard Disk',
+  ];
+
+  final List<String> columnCheckOut = [
+    'No',
     '',
-    'Status'
+    'Employee ID',
+    '',
+    'Gender',
+    '',
+    'Name (Lao)',
+    '',
+    'Name (Eng)',
+    '',
+    'Nickname',
+    '',
+    'Email',
+    '',
+    'Position',
+    '',
+    'Department',
+    '',
+    'Company',
+    '',
+    'Total',
   ];
 
   @override
@@ -91,16 +105,23 @@ class CheckOutController extends GetxController {
 
   Employee employeeData = Employee();
 
-  ///Get Employee Data
-  RxList<Employee> listEmployee = RxList([]);
+  // ///Get Employee Data
+  // RxList<Employee> listEmployee = RxList([]);
+  //
+  // void getEmployeeData() async {
+  //   loading.value = true;
+  //   await Future.delayed(Duration(milliseconds: 3));
+  //   EmployeeServices.to.getDataEmployee().then((value) {
+  //     listEmployee.value = value.data!;
+  //
+  //     loading.value = false;
+  //   });
+  // }
+  RxList<EmployeeDev> listEmployee = RxList([]);
 
-  void getEmployeeData() async {
-    loading.value = true;
-    await Future.delayed(Duration(milliseconds: 3));
-    EmployeeServices.to.getDataEmployee().then((value) {
+  void getEmployeeData() {
+    EmployeeServices.to.getDataDev().then((value) {
       listEmployee.value = value.data!;
-
-      loading.value = false;
     });
   }
 
@@ -169,6 +190,7 @@ class CheckOutController extends GetxController {
   ///Selected Device
   RxList<Device> selectedDevice = RxList([]);
   var device = [].obs;
+
   void onSelected() {
     device.clear();
     selectedDevice.forEach((element) {
@@ -201,9 +223,11 @@ class CheckOutController extends GetxController {
             device.clear();
             selectedDevice.clear();
             Fluttertoast.showToast(
-                msg: 'Success',
-                toastLength: Toast.LENGTH_SHORT,
-                gravity: ToastGravity.CENTER);
+              msg: 'Success',
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.CENTER,
+              webPosition: 'center',
+            );
             print('Update Status:$value}');
             getEmployeeData();
             getDevice();

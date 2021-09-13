@@ -1,25 +1,27 @@
 // To parse this JSON data, do
 //
-//     final employessDevice = employessDeviceFromMap(jsonString);
+//     final checkInViews = checkInViewsFromMap(jsonString);
 
 import 'dart:convert';
 
+CheckInViews checkInViewsFromMap(String str) => CheckInViews.fromMap(json.decode(str));
 
+String checkInViewsToMap(CheckInViews data) => json.encode(data.toMap());
 
-class EmployeeDevice {
-  EmployeeDevice({
+class CheckInViews {
+  CheckInViews({
     this.error,
     this.data,
     this.message,
   });
 
   bool? error;
-  List<EmployeeDev>? data;
+  List<CheckInViewModel>? data;
   String? message;
 
-  factory EmployeeDevice.fromMap(Map<String, dynamic> json) => EmployeeDevice(
+  factory CheckInViews.fromMap(Map<String, dynamic> json) => CheckInViews(
     error: json["error"],
-    data: List<EmployeeDev>.from(json["data"].map((x) => EmployeeDev.fromMap(x))),
+    data: List<CheckInViewModel>.from(json["data"].map((x) => CheckInViewModel.fromMap(x))),
     message: json["message"],
   );
 
@@ -30,8 +32,8 @@ class EmployeeDevice {
   };
 }
 
-class EmployeeDev {
-  EmployeeDev({
+class CheckInViewModel {
+  CheckInViewModel({
     this.employeeId,
     this.gender,
     this.nameLa,
@@ -41,7 +43,7 @@ class EmployeeDev {
     this.position,
     this.department,
     this.company,
-    this.device,
+    this.total,
   });
 
   String? employeeId;
@@ -53,9 +55,9 @@ class EmployeeDev {
   String? position;
   String? department;
   String? company;
-  int? device;
+  int? total;
 
-  factory EmployeeDev.fromMap(Map<String, dynamic> json) => EmployeeDev(
+  factory CheckInViewModel.fromMap(Map<String, dynamic> json) => CheckInViewModel(
     employeeId: json["employeeId"],
     gender: json["gender"],
     nameLa: json["name_la"],
@@ -65,7 +67,7 @@ class EmployeeDev {
     position: json["position"],
     department: json["department"],
     company: json["company"],
-    device: json["device"],
+    total: json["total"],
   );
 
   Map<String, dynamic> toMap() => {
@@ -75,9 +77,9 @@ class EmployeeDev {
     "name_en": nameEn,
     "nickname": nickname,
     "email": email,
-    "positionId": position,
-    "departmentId": department,
-    "companyId": company,
-    "device": device,
+    "position": position,
+    "department": department,
+    "company": company,
+    "total": total,
   };
 }

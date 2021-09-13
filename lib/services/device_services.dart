@@ -145,4 +145,21 @@ class DeviceService extends GetxService {
       throw error;
     }
   }
+
+  Future updateStatus(
+      {required String deviceId, required String status}) async {
+    try {
+      final response = await http.put(updateStatusDeviceUrl, body: {
+        'deviceId': deviceId,
+        'statuss': status,
+      });
+      if (response.statusCode == 200) {
+        return jsonDecode(response.body);
+      } else {
+        throw response.statusCode;
+      }
+    } on HttpException catch (error) {
+      throw error;
+    }
+  }
 }

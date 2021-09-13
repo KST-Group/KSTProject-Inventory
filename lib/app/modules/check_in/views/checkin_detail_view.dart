@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:kst_inventory/app/modules/check_in/controllers/checkin_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:kst_inventory/models/check_in_view.dart';
 import 'package:kst_inventory/models/device.dart';
 import 'package:kst_inventory/models/employee_device.dart';
 import 'package:kst_inventory/utils/constants.dart';
@@ -10,7 +11,7 @@ class CheckInDetailView extends GetView<CheckInController> {
   Widget build(BuildContext context) {
     return GetRouterOutlet.builder(
       builder: (context, delegate, currentRoute) {
-        EmployeeDev? employeeDev = delegate.arguments();
+        CheckInViewModel? employeeDev = delegate.arguments();
         if (employeeDev == null) {
           return CircularProgressIndicator();
         }
@@ -72,7 +73,7 @@ class CheckInDetailView extends GetView<CheckInController> {
                                 ),
                               ),
                               _employeeDetail(employeeDev),
-                              Text('Devices'),
+                              Obx(()=> Text('${controller.listUsingDevice.length} Devices')),
                               Divider(),
                               Expanded(
                                 child: SingleChildScrollView(
@@ -95,7 +96,7 @@ class CheckInDetailView extends GetView<CheckInController> {
                                     Obx(() => Text(
                                         'Selected ${controller.selectedDevice.length} Devices')),
                                     TextButton(
-                                      child: Text('Check In'),
+                                      child: Text('OK'),
                                       style: ButtonStyle(
                                         padding: MaterialStateProperty.all(
                                           EdgeInsets.only(
@@ -158,7 +159,7 @@ class CheckInDetailView extends GetView<CheckInController> {
     );
   }
 
-  _employeeDetail(EmployeeDev data) {
+  _employeeDetail(CheckInViewModel data) {
     return Container(
       padding: EdgeInsets.only(left: 20, top: 20, bottom: 20, right: 500),
       decoration: BoxDecoration(
@@ -175,7 +176,7 @@ class CheckInDetailView extends GetView<CheckInController> {
           employeeData(title: 'EmployeeID', data: '${data.employeeId}'),
           employeeData(title: 'Name (Eng)', data: '${data.nameEn}'),
           employeeData(title: 'Name (Lao)', data: '${data.nameLa}'),
-          employeeData(title: 'Using', data: '${data.device} Devices'),
+          employeeData(title: 'Using', data: '${data.total} Devices'),
         ],
       ),
     );
@@ -189,6 +190,7 @@ class CheckInDetailView extends GetView<CheckInController> {
             return Text('No Data');
           }
           return DataTable(
+            headingTextStyle: TextStyle(fontWeight: FontWeight.bold),
             columns: _createColumn(),
             rows: _createRows(),
           );

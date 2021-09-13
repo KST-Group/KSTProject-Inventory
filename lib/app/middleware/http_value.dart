@@ -20,6 +20,7 @@ Uri getDeviceByIdeUrl(String deviceId) =>
     Uri.http(_baseUrl, '/devices/id/$deviceId');
 Uri deleteByIdeUrl = Uri.http(_baseUrl, '/devices/del');
 Uri usingDevice = Uri.http(_baseUrl, '/devices/use');
+Uri updateStatusDeviceUrl = Uri.http(_baseUrl, '/devices/upstatus');
 
 ///DevicesType
 Uri typeUrl = Uri.http(_baseUrl, '/devicetype');
@@ -64,6 +65,7 @@ Uri checkOutDataUrl = Uri.http(_baseUrl, '/checkout');
 Uri checkInDataUrl = Uri.http(_baseUrl, '/checkin');
 Uri addCheckInDataUrl = Uri.http(_baseUrl, '/checkin/add');
 Uri addCheckInDetailDataUrl = Uri.http(_baseUrl, '/checkin/adddetail');
+Uri checkInViewUrl = Uri.http(_baseUrl, '/checkin/view');
 
 
 ///Order

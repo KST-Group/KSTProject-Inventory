@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:kst_inventory/app/modules/check_out/controllers/check_out_controller.dart';
 import 'package:kst_inventory/app/modules/check_out/views/check_out_detail_view.dart';
 import 'package:kst_inventory/models/employee.dart';
+import 'package:kst_inventory/models/employee_device.dart';
+import 'package:kst_inventory/models/using_device_employee.dart';
 import 'package:kst_inventory/utils/constants.dart';
 import 'package:kst_inventory/utils/dialog.dart';
 
@@ -26,6 +28,7 @@ class CheckOutView extends GetView<CheckOutController> {
                 SizedBox(
                   height: 20,
                 ),
+                _searchBox(),
                 Expanded(
                   child: Card(
                     child: Container(
@@ -36,34 +39,12 @@ class CheckOutView extends GetView<CheckOutController> {
                           Row(
                             children: [],
                           ),
-                          Text('Select the employee for checkout devices'),
-                          _searchBox(),
-                          Row(
-                            children: [
-                              Text('Employees'),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Obx(() {
-                                if (controller.employeeValue.isEmpty ||
-                                    controller.employeeValue.value == '' ||
-                                    controller.employeeValue.value == null) {
-                                  return Container();
-                                }
-                                return TextButton(
-                                    onPressed: () {
-                                      controller.employeeValueController
-                                          .clear();
-                                      controller.employeeValue.value = '';
-                                      controller.getEmployeeData();
-                                    },
-                                    child: Text('Clear'));
-                              }),
-                            ],
+                          Text(
+                            'Select the employee for checkout devices',
+                            style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                           SizedBox(
-                            width: 800,
-                            child: Divider(),
+                            height: 10,
                           ),
                           Expanded(
                             child: resultsData(context),
@@ -88,20 +69,25 @@ class CheckOutView extends GetView<CheckOutController> {
       child: Row(
         children: [
           Expanded(
-            child: TextField(
-              controller: controller.employeeValueController,
-              decoration: InputDecoration(
-                isDense: true,
-                border: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.grey),
+            child: Card(
+              child: Container(
+                padding: EdgeInsets.all(2),
+                child: TextField(
+                  controller: controller.employeeValueController,
+                  decoration: InputDecoration(
+                    isDense: true,
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide.none,
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide.none,
+                    ),
+                    hintText: 'Search...',
+                    suffixIcon: Icon(Icons.search),
+                  ),
+                  onChanged: (value) => controller.employeeValue.value = value,
                 ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.grey),
-                ),
-                hintText: 'Type employee data',
-                suffixIcon: Icon(Icons.search),
               ),
-              onChanged: (value) => controller.employeeValue.value = value,
             ),
           ),
           SizedBox(
@@ -152,61 +138,23 @@ class CheckOutView extends GetView<CheckOutController> {
                 child: Text('No data'),
               );
             }
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                DataTable(
-                  columns: [
-                    DataColumn(label: Text('No')),
-                    DataColumn(label: Text('ID')),
-                    DataColumn(label: Text('Gender')),
-                    DataColumn(label: Text('Name (Lao)')),
-                    DataColumn(label: Text('Name (Eng)')),
-                    DataColumn(label: Text('Nickname')),
-                    DataColumn(label: Text('Email')),
-                    DataColumn(label: Text('Option')),
-                  ],
-                  rows: List.generate(controller.listEmployee.length, (index) {
-                    return DataRow(
-                      cells: [
-                        DataCell(Text('${index + 1}')),
-                        DataCell(Text(
-                            '${controller.listEmployee[index].employeeId}')),
-                        DataCell(
-                            Text('${controller.listEmployee[index].gender}')),
-                        DataCell(
-                            Text('${controller.listEmployee[index].nameLa}')),
-                        DataCell(
-                            Text('${controller.listEmployee[index].nameEn}')),
-                        DataCell(
-                            Text('${controller.listEmployee[index].nickname}')),
-                        DataCell(
-                            Text('${controller.listEmployee[index].email}')),
-                        DataCell(TextButton(
-                          child: Text('Checkout'),
-                          onPressed: () {
-                            controller.searchTextController.clear();
-                            controller.employeeData = Employee(
-                              employeeId:
-                                  controller.listEmployee[index].employeeId,
-                              nameEn: controller.listEmployee[index].nameEn,
-                              company: controller.listEmployee[index].company,
-                              department:
-                                  controller.listEmployee[index].department,
-                              position: controller.listEmployee[index].position,
-                            );
-
-                            controller.getTotalDevice(
-                                data:
-                                    '${controller.listEmployee[index].employeeId}');
-                            showDialogCheckOut(context);
-                          },
-                        )),
-                      ],
-                    );
-                  }),
-                ),
-              ],
+            return SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Obx(
+                    () => DataTable(
+                        headingTextStyle: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 14),
+                        showCheckboxColumn: false,
+                        columnSpacing: 25,
+                        showBottomBorder: true,
+                        columns: _checkOutColumn(controller.columnCheckOut),
+                        rows: _checkOutRows(
+                            list: controller.listEmployee, context: context)),
+                  ),
+                ],
+              ),
             );
           },
         ),
@@ -221,29 +169,7 @@ class CheckOutView extends GetView<CheckOutController> {
         return AlertDialog(
           backgroundColor: Colors.white,
           elevation: 0,
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Check out',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
-              ),
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: IconButton(
-                  icon: Icon(
-                    Icons.clear,
-                    color: Colors.red,
-                  ),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-              )
-            ],
-          ),
+          contentPadding: EdgeInsets.zero,
           actionsPadding: EdgeInsets.only(bottom: 50, right: 50),
           content: CheckOutDetailView(),
           actions: [
@@ -282,4 +208,53 @@ class CheckOutView extends GetView<CheckOutController> {
       },
     );
   }
+
+  List<DataColumn> _checkOutColumn(List<String> list) =>
+      list.map((column) => DataColumn(label: Text(column))).toList();
+
+  List<DataRow> _checkOutRows(
+          {required RxList<EmployeeDev> list,
+          required BuildContext context}) =>
+      list.map((data) {
+        int index = list.indexOf(data);
+        return DataRow(
+          onSelectChanged: (isSelected) {
+            controller.searchTextController.clear();
+            controller.employeeData = Employee(
+              employeeId: data.employeeId,
+              nameEn: data.nameEn,
+              company: data.company,
+              department: data.department,
+              position: data.position,
+            );
+
+            controller.getTotalDevice(
+                data: '${controller.listEmployee[index].employeeId}');
+            showDialogCheckOut(context);
+          },
+          cells: [
+            DataCell(Text('${index + 1}')),
+            DataCell(VerticalDivider()),
+            DataCell(Text('${data.employeeId}')),
+            DataCell(VerticalDivider()),
+            DataCell(Text('${controller.listEmployee[index].gender}')),
+            DataCell(VerticalDivider()),
+            DataCell(Text('${controller.listEmployee[index].nameLa}')),
+            DataCell(VerticalDivider()),
+            DataCell(Text('${controller.listEmployee[index].nameEn}')),
+            DataCell(VerticalDivider()),
+            DataCell(Text('${controller.listEmployee[index].nickname}')),
+            DataCell(VerticalDivider()),
+            DataCell(Text('${controller.listEmployee[index].email}')),
+            DataCell(VerticalDivider()),
+            DataCell(Text('${controller.listEmployee[index].position}')),
+            DataCell(VerticalDivider()),
+            DataCell(Text('${controller.listEmployee[index].department}')),
+            DataCell(VerticalDivider()),
+            DataCell(Text('${controller.listEmployee[index].company}')),
+            DataCell(VerticalDivider()),
+            DataCell(Text('${controller.listEmployee[index].device}')),
+          ],
+        );
+      }).toList();
 }

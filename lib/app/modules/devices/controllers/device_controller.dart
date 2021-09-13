@@ -57,6 +57,7 @@ class DeviceController extends GetxController {
 
   ///Get DeviceBy Id
   RxList<Device> deviceDataById = RxList([]);
+
   void getDeviceById({required String deviceId}) {
     DeviceService.to.getDeviceById(deviceId: deviceId).then((value) {
       deviceDataById.value = value.data!;
@@ -119,6 +120,7 @@ class DeviceController extends GetxController {
   ///Brand
   RxList<Brand> listBrand = RxList([]);
   String? selectedBrandValue;
+
   void getBrandData() {
     DeviceService.to.getDataBrand().then((value) {
       listBrand.value = value.data!;
@@ -149,7 +151,6 @@ class DeviceController extends GetxController {
   ///Add Device type
   RxList<Types> listType = RxList([]);
   String? selectedTypeValue;
-
   void getDeviceType() {
     DeviceService.to.getDeviceTypeData().then((value) {
       listType.value = value.data!;
@@ -233,6 +234,8 @@ class DeviceController extends GetxController {
         brandId: selectedBrandValue.toString(),
       ).toMap())
           .then((value) {
+            selectedBrandValue=null;
+            selectedTypeValue=null;
         Navigator.of(context).pop();
         loading.value = false;
         autoDeviceId();
@@ -244,9 +247,9 @@ class DeviceController extends GetxController {
   ///Delete Device
   void deleteDeviceById({required String deviceId}) {
     DeviceService.to.deleteDevice(deviceId: deviceId).then((value) {
-      print(value);
       getDevice();
       Get.rootDelegate.popRoute().then((value) => Get.rootDelegate.popRoute());
+      Fluttertoast.showToast(msg: 'Success',webPosition: 'center');
     });
   }
 

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:kst_inventory/models/check_in_detail.dart';
+import 'package:kst_inventory/models/check_in_view.dart';
 import 'package:kst_inventory/models/checkin.dart';
 import 'package:kst_inventory/models/device.dart';
 import 'package:kst_inventory/models/employee.dart';
@@ -54,12 +55,12 @@ class CheckInController extends GetxController {
   ];
 
   ///Get employee data list
-  RxList<EmployeeDev> listEmployees = RxList([]);
+  RxList<CheckInViewModel> listEmployees = RxList([]);
 
   void getEmployeeData() {
-    EmployeeServices.to.getDataDev().then((value) {
+    CheckInServices.to.getCheckInView().then((value) {
       listEmployees.value = value.data!.where((element) {
-        int total = element.device!;
+        int total = element.total!;
         return total.isGreaterThan(0);
       }).toList();
     });
@@ -114,7 +115,7 @@ class CheckInController extends GetxController {
   ///Search Employee
   TextEditingController searchController = TextEditingController();
   var searchTextValue = ''.obs;
-  RxList<EmployeeDev> listEmployeesSearch = RxList([]);
+  RxList<CheckInViewModel> listEmployeesSearch = RxList([]);
 
   void getSearchEmployeeData() {
     listEmployeesSearch.value = listEmployees.where((data) {
@@ -126,7 +127,6 @@ class CheckInController extends GetxController {
   ///Selected Device CheckIn
   RxList<Using> selectedDevice = RxList([]);
   var listDeviceId = [].obs;
-
   void onSelectedDeviceCheckIn() {
     listDeviceId.clear();
     selectedDevice.forEach((device) {
@@ -141,7 +141,7 @@ class CheckInController extends GetxController {
       print('Please select device for check in');
     } else {
       loading.value = true;
-      EmployeeDev? employee = Get.rootDelegate.arguments();
+      CheckInViewModel? employee = Get.rootDelegate.arguments();
       print(employee!.employeeId);
       CheckInServices.to
           .createCheckIn(
@@ -160,7 +160,13 @@ class CheckInController extends GetxController {
             deviceId: listDeviceId[i].toString(),
           ).toMap())
               .then((value) {
-            print('Add Success');
+            print('Add Success CheckIn');
+          });
+          DeviceService.to
+              .updateStatus(deviceId: listDeviceId[i], status: 'In Stock')
+              .then((value) {
+            print(value);
+            print('Update Status Successfully');
           });
         }
         listDeviceId.clear();
@@ -168,13 +174,9 @@ class CheckInController extends GetxController {
         getCheckInDataController();
         loading.value = false;
         Get.rootDelegate.popRoute();
-
       });
       Fluttertoast.showToast(
-        msg: 'Success',
-        webPosition: 'center',
-        webBgColor: 'green'
-      );
+          msg: 'Success', webPosition: 'center', webBgColor: 'green');
     }
   }
 }

@@ -11,66 +11,91 @@ class CheckOutDetailView extends GetView<CheckOutController> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Divider(),
+          Container(
+            padding: EdgeInsets.only(left: 20),
+            color: Colors.red,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Check out Device',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      color: Colors.white),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: IconButton(
+                    tooltip: 'Close',
+                    icon: Icon(
+                      Icons.clear,
+                      color: Colors.white,
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                )
+              ],
+            ),
+          ),
           showCheckOutID(),
+          Padding(
+            padding: const EdgeInsets.only(left: 20),
+            child: Text(
+                'Date:${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}'),
+          ),
           _employeeDetail(),
+          Divider(),
           titleBox(),
           Divider(),
           Container(
-            width: MediaQuery.of(context).size.width,
+            margin: EdgeInsets.only(left: 20),
+            child: Obx(
+              ()=> Text(
+                'Selected: ${controller.device.length} Devices',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
           ),
           Expanded(
             child: Container(
+              padding: EdgeInsets.all(20),
               child: SingleChildScrollView(
                 child: Obx(
                   () {
-                    if (controller.listDevices.length == 0) {
-                      return Container(
-                        child: Text('No data'),
-                      );
-                    } else {
-                      return DataTable(
-                        dividerThickness: 1,
-                        headingRowColor:
-                            MaterialStateProperty.all(Colors.grey.shade100),
-                        headingTextStyle: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                          fontFamily: Appearance.font_Roboto,
-                        ),
-                        columnSpacing: 30,
-                        columns: getColumn(),
-                        rows: getRows(
-                          listDevices: controller.searchText.value.length == 0
-                              ? controller.listDevices
-                              : controller.listSearchDevice,
-                        ),
-                      );
-                    }
+                    return DataTable(
+                      dividerThickness: 1,
+                      headingRowColor:
+                          MaterialStateProperty.all(Colors.grey.shade100),
+                      headingTextStyle: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                        fontFamily: Appearance.font_Roboto,
+                      ),
+                      columnSpacing: 30,
+                      columns: getColumn(),
+                      rows: getRows(
+                        listDevices: controller.searchText.value.length == 0
+                            ? controller.listDevices
+                            : controller.listSearchDevice,
+                      ),
+                    );
                   },
                 ),
               ),
             ),
           ),
           Divider(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Padding(
-                padding: EdgeInsets.only(left: 20, top: 20),
-                child: Text(
-                  'Total: ${controller.listDevices.length} Devices',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-              ),
-              Obx(() => Padding(
-                    padding: EdgeInsets.only(top: 20, right: 20),
-                    child: Text(
-                      'Checkout Total: ${controller.device.length} Devices',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  )),
-            ],
+          Padding(
+            padding: EdgeInsets.only(left: 20, top: 20),
+            child: Text(
+              'Total: ${controller.listDevices.length} Devices',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
           ),
         ],
       ),
@@ -81,7 +106,7 @@ class CheckOutDetailView extends GetView<CheckOutController> {
     return Container(
       color: Colors.grey,
       padding: EdgeInsets.all(10),
-      margin: EdgeInsets.only(bottom: 20),
+      margin: EdgeInsets.all(15),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -98,10 +123,9 @@ class CheckOutDetailView extends GetView<CheckOutController> {
   ///Search Box
   titleBox() {
     return Container(
-      margin: EdgeInsets.only(top: 15, bottom: 10),
+      padding: EdgeInsets.all(20),
       child: Row(
         children: [
-          Text('Available Devices'),
           SizedBox(
             width: 500,
             child: Container(
@@ -116,7 +140,7 @@ class CheckOutDetailView extends GetView<CheckOutController> {
                   focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.grey),
                   ),
-                  hintText: 'DeviceID, Name, Brand...',
+                  hintText: 'Search...',
                   suffixIcon: Icon(Icons.search),
                 ),
                 onChanged: (value) {
@@ -138,9 +162,11 @@ class CheckOutDetailView extends GetView<CheckOutController> {
   }
 
   List<DataRow> getRows({required RxList<Device> listDevices}) => listDevices
-      .map((device) => DataRow(
+      .map((device) {
+        int index=listDevices.indexOf(device);
+        return DataRow(
               cells: [
-                DataCell(Text(device.deviceId.toString())),
+                DataCell(Text('${index+1}')),
                 DataCell(VerticalDivider()),
                 DataCell(Text(device.localId.toString())),
                 DataCell(VerticalDivider()),
@@ -159,8 +185,6 @@ class CheckOutDetailView extends GetView<CheckOutController> {
                 DataCell(Text(device.ram.toString())),
                 DataCell(VerticalDivider()),
                 DataCell(Text(device.hardisk.toString())),
-                DataCell(VerticalDivider()),
-                DataCell(Text(device.statuss.toString())),
               ],
               selected: controller.selectedDevice.contains(device),
               onSelectChanged: (isSelected) {
@@ -170,7 +194,8 @@ class CheckOutDetailView extends GetView<CheckOutController> {
                   controller.selectedDevice.remove(device);
                 }
                 controller.onSelected();
-              }))
+              });
+      })
       .toList();
 
   _dataDetail({required String title, required String data}) {
@@ -203,8 +228,8 @@ class CheckOutDetailView extends GetView<CheckOutController> {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
           Container(
             margin: EdgeInsets.only(left: 20, top: 10),
-            child: Obx(() => Text(
-                'Total: ${controller.lisUsingByEmployee.length} Devices')),
+            child: Obx(() =>
+                Text('Total: ${controller.lisUsingByEmployee.length} Devices')),
           ),
         ],
       ),
@@ -213,13 +238,14 @@ class CheckOutDetailView extends GetView<CheckOutController> {
 
   _employeeDetail() {
     return Container(
-      margin: EdgeInsets.only(right: 20),
-      padding: EdgeInsets.all(15),
+      margin: EdgeInsets.all(20),
+      padding: EdgeInsets.all(20),
       decoration: BoxDecoration(
         border: Border.all(color: Colors.grey),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
