@@ -37,6 +37,7 @@ abstract class Routes {
   static String ORDER_DETAIL(String orderId) => '$ORDER/$orderId';
 
   static const REPAIR = Paths.HOME + Paths.REPAIR;
+  static const ADDREPAIR=Paths.HOME+Paths.REPAIR+Paths.ADDREPAIR;
 }
 
 abstract class Paths {
@@ -62,4 +63,5 @@ abstract class Paths {
   static const ORDER_DETAIL = '/:orderId';
 
   static const REPAIR = '/repair';
+  static const ADDREPAIR='/addrepair';
 }

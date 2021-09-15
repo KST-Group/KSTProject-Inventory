@@ -30,6 +30,7 @@ import 'package:kst_inventory/app/modules/positions/bindings/position_binding.da
 import 'package:kst_inventory/app/modules/positions/views/position_detial_view.dart';
 import 'package:kst_inventory/app/modules/positions/views/position_view.dart';
 import 'package:kst_inventory/app/modules/repaires/bindings/repair_binding.dart';
+import 'package:kst_inventory/app/modules/repaires/views/repair_detail_view.dart';
 import 'package:kst_inventory/app/modules/repaires/views/repair_view.dart';
 import 'package:kst_inventory/app/modules/root/bindings/root_binding.dart';
 import 'package:kst_inventory/app/modules/root/views/root_view.dart';
@@ -145,10 +146,16 @@ class AppPages {
             ),
 
             GetPage(
-              name: Paths.REPAIR,
-              page: () => RepairView(),
-              binding: RepairBinding(),
-            ),
+                name: Paths.REPAIR,
+                page: () => RepairView(),
+                binding: RepairBinding(),
+                children: [
+                  GetPage(
+                    name: Paths.ADDREPAIR,
+                    page: () => RepairDetail(),
+                    binding: RepairBinding(),
+                  )
+                ]),
             GetPage(
                 name: Paths.COMPANY,
                 page: () => CompanyView(),

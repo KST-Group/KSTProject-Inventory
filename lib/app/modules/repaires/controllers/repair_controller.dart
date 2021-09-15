@@ -12,7 +12,7 @@ class RepairController extends GetxController {
   final List<String> columnDevice = [
     'No',
     '',
-    'Devie ID',
+    'Devcie ID',
     '',
     'Device Type',
     '',
@@ -40,6 +40,10 @@ class RepairController extends GetxController {
 
   Future getDevice() async {
     DeviceService.to.getAllDevice().then((value) {
+      listDeviceRepair.value= listDevice.value = value.data!.where((data) {
+        String status = data.statuss.toString();
+        return !status.contains('Repair');
+      }).toList();
       listDevice.value = value.data!.where((data) {
         String status = data.statuss.toString();
         return status.contains('Repair');

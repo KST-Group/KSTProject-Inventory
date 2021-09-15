@@ -15,7 +15,7 @@ class HomeView extends GetView<HomeController> {
       builder: (context, delegate, currentRoute) {
         return Scaffold(
           body: GetRouterOutlet(
-            initialRoute: Routes.DASHBOARD,
+            initialRoute: Routes.REPAIR,
             key: Get.nestedKey(Routes.HOME),
           ),
         );

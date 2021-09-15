@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kst_inventory/app/modules/repaires/controllers/repair_controller.dart';
+import 'package:kst_inventory/app/routes/app_routes.dart';
 import 'package:kst_inventory/models/device.dart';
 import 'package:kst_inventory/utils/constants.dart';
 
@@ -38,13 +39,7 @@ class RepairView extends GetView<RepairController> {
                             children: [
                               TextButton(
                                 onPressed: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (context) => AlertDialog(
-                                      title: Text('Repair Device'),
-                                      content: RepairDetail(),
-                                    ),
-                                  );
+                                  delegate.toNamed(Routes.ADDREPAIR);
                                 },
                                 child: Text('Repair device'),
                               ),
