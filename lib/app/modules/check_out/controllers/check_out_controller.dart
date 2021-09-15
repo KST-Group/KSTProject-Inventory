@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:kst_inventory/models/check_out_log.dart';
 import 'package:kst_inventory/models/checkout.dart';
 import 'package:kst_inventory/models/device.dart';
 import 'package:kst_inventory/models/employee.dart';
@@ -217,6 +218,14 @@ class CheckOutController extends GetxController {
           }).then((value) {
             print('CheckOutDetail:$value}');
           });
+          ///Add Log
+          CheckoutServices.to.addCheckoutLog(data: OutLog(
+            checkoutId: checkOutAutoId.value,
+            employeeId: employeeData.employeeId,
+            deviceId: device[i].toString(),
+          ).toMap()).then((value) {
+            print('Add Log Success');
+          });
           CheckoutServices.to.updatesStatus(data: {
             'deviceId': device[i].toString(),
           }).then((value) {
@@ -233,7 +242,7 @@ class CheckOutController extends GetxController {
             getDevice();
             getDataCheckoutOnly();
             getUseDevice();
-            Navigator.of(context).pop();
+            Get.rootDelegate.popRoute();
           });
         }
       });

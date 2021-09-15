@@ -65,4 +65,19 @@ class CheckInServices extends GetxService {
       throw error;
     }
   }
+
+  ///Delete form checkout
+  Future delCheckOutDetail({required String deviceId}) async {
+    try {
+      final response =
+          await http.delete(delCheckOutDe, body: {'deviceId': deviceId});
+      if (response.statusCode == 200) {
+        return CheckInViews.fromMap(jsonDecode(response.body));
+      } else {
+        throw response.statusCode;
+      }
+    } on HttpException catch (error) {
+      throw error;
+    }
+  }
 }

@@ -53,12 +53,14 @@ Uri addEmployeeUrl = Uri.http(_baseUrl, '/employee/add');
 Uri delEmployeeUrl = Uri.http(_baseUrl, '/employee/del');
 Uri delEmployeeDeviceUrl = Uri.http(_baseUrl, '/employee/device');
 Uri employeeUsingDeviceUrl = Uri.http(_baseUrl, '/employee/usings');
+Uri updateUrl = Uri.http(_baseUrl, '/employee/up');
 
 ///Checkout
 Uri checkoutDeviceUrl = Uri.http(_baseUrl, '/checkout/add');
 Uri checkoutDetailUrl = Uri.http(_baseUrl, '/checkout/detail');
 Uri updateStatusUrl = Uri.http(_baseUrl, '/checkout/status');
 Uri checkOutDataUrl = Uri.http(_baseUrl, '/checkout');
+Uri addOutLogUrl = Uri.http(_baseUrl, '/checkout/log');
 
 
 ///CheckIn
@@ -66,6 +68,9 @@ Uri checkInDataUrl = Uri.http(_baseUrl, '/checkin');
 Uri addCheckInDataUrl = Uri.http(_baseUrl, '/checkin/add');
 Uri addCheckInDetailDataUrl = Uri.http(_baseUrl, '/checkin/adddetail');
 Uri checkInViewUrl = Uri.http(_baseUrl, '/checkin/view');
+Uri delCheckOutDe = Uri.http(_baseUrl, '/checkout/delDetail');
+
+
 
 
 ///Order

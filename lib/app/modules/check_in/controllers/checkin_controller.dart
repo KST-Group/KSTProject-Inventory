@@ -127,6 +127,7 @@ class CheckInController extends GetxController {
   ///Selected Device CheckIn
   RxList<Using> selectedDevice = RxList([]);
   var listDeviceId = [].obs;
+
   void onSelectedDeviceCheckIn() {
     listDeviceId.clear();
     selectedDevice.forEach((device) {
@@ -161,6 +162,11 @@ class CheckInController extends GetxController {
           ).toMap())
               .then((value) {
             print('Add Success CheckIn');
+          });
+          CheckInServices.to
+              .delCheckOutDetail(deviceId: listDeviceId[i])
+              .then((value) {
+            print('Delete from check out success');
           });
           DeviceService.to
               .updateStatus(deviceId: listDeviceId[i], status: 'In Stock')

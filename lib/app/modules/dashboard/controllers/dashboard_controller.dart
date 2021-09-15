@@ -8,6 +8,7 @@ import 'package:kst_inventory/models/using_device.dart';
 import 'package:kst_inventory/models/using_device_employee.dart';
 import 'package:kst_inventory/services/device_services.dart';
 import 'package:kst_inventory/services/employee_services.dart';
+import 'package:kst_inventory/utils/save_file.dart';
 import 'package:syncfusion_flutter_xlsio/xlsio.dart';
 
 class DashboardController extends GetxController {
@@ -48,6 +49,8 @@ class DashboardController extends GetxController {
   RxList<Device> listDesktopDevice = RxList([]);
   RxList<Device> listMobileDevice = RxList([]);
   RxList<Device> listUsingDevice = RxList([]);
+  RxList<Device> listStockDevice = RxList([]);
+  RxList<Device> listIssueDevice = RxList([]);
 
   void getAllDeviceData() {
     DeviceService.to.getAllDevice().then((value) {
@@ -66,7 +69,15 @@ class DashboardController extends GetxController {
       }).toList();
       listUsingDevice.value = listDeviceData.where((value) {
         String status = value.statuss.toString();
-        return status.contains('In Use');
+        return status.contains('In use');
+      }).toList();
+      listStockDevice.value = listDeviceData.where((value) {
+        String status = value.statuss.toString();
+        return status.contains('In Stock');
+      }).toList();
+      listIssueDevice.value = listDeviceData.where((value) {
+        String status = value.statuss.toString();
+        return status.contains('Repair');
       }).toList();
     });
   }
@@ -124,12 +135,10 @@ class DashboardController extends GetxController {
     });
   }
 
-  createExcelWorkbook() {
-    // Create a new Excel document.
-    final Workbook workbook = new Workbook();
-//Accessing worksheet via index.
+  Future<void> createExcelWorkbook() async {
+    final Workbook workbook = Workbook();
     final Worksheet sheet = workbook.worksheets[0];
-//Add Text.
+
     sheet.getRangeByName('A1').setText('Hello World');
 //Add Number
     sheet.getRangeByName('A3').setNumber(44);
@@ -138,7 +147,6 @@ class DashboardController extends GetxController {
 // Save the document.
     final List<int> bytes = workbook.saveAsStream();
     File('AddingTextNumberDateTime.xlsx').writeAsBytes(bytes);
-//Dispose the workbook.
     workbook.dispose();
   }
 }

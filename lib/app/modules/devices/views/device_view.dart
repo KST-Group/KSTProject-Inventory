@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:syncfusion_flutter_barcodes/barcodes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -8,6 +9,11 @@ import 'package:kst_inventory/app/routes/app_routes.dart';
 import 'package:kst_inventory/models/device.dart';
 import 'package:kst_inventory/utils/constants.dart';
 import 'add_device_view.dart';
+import 'package:pdf/pdf.dart';
+
+import 'package:printing/printing.dart';
+
+import 'components/pdf_barcode.dart';
 
 class DeviceView extends GetView<DeviceController> {
   @override
@@ -294,8 +300,10 @@ class DeviceView extends GetView<DeviceController> {
           Color? _color;
           if (row.statuss == 'In Stock') {
             _color = Colors.green;
-          } else if (row.statuss == 'In Use') {
+          } else if (row.statuss == 'In use') {
             _color = Colors.amber;
+          }else if(row.statuss == 'Repair'){
+            _color = Colors.redAccent;
           }
 
           return DataRow(
@@ -367,29 +375,11 @@ class DeviceView extends GetView<DeviceController> {
                       showDialog(
                         context: context,
                         builder: (context) => AlertDialog(
-                          title: Text('Code'),
+                          contentPadding: EdgeInsets.zero,
                           content: Container(
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Container(
-                                  child: SfBarcodeGenerator(
-                                    value: row.localId.toString(),
-                                    showValue: true,
-                                  ),
-                                  height: 80,
-                                ),
-                              ],
-                            ),
+                            height: 250,
+                            child: PdfBarCode(code: row.localId,),
                           ),
-                          actions: [
-                            TextButton(
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                                child: Text('Cancel')),
-                            TextButton(onPressed: () {}, child: Text('Print')),
-                          ],
                         ),
                       );
                     },

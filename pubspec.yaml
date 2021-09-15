@@ -31,6 +31,9 @@ dependencies:
   syncfusion_flutter_barcodes: ^19.2.60
   printing: ^5.5.0
   pdf: ^3.5.0
+  zebra: ^0.0.1
+  open_file: ^3.2.1
+  path_provider: ^2.0.3
 
 
 dev_dependencies:

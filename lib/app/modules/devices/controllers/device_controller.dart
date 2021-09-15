@@ -17,7 +17,7 @@ class DeviceController extends GetxController {
   final List<String> deviceColumns = [
     'No',
     '',
-    'Devie ID',
+    'Device ID',
     '',
     'Device Type',
     '',

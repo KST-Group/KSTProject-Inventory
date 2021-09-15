@@ -103,15 +103,15 @@ class DeviceViewDashboard extends GetView<DashboardController> {
         return DataRow(cells: [
           DataCell(Text('${index + 1}')),
           DataCell(Text(device.deviceId.toString())),
-          DataCell(Text(device.deviceId.toString())),
-          DataCell(Text(device.deviceId.toString())),
-          DataCell(Text(device.deviceId.toString())),
-          DataCell(Text(device.deviceId.toString())),
-          DataCell(Text(device.deviceId.toString())),
-          DataCell(Text(device.deviceId.toString())),
-          DataCell(Text(device.deviceId.toString())),
-          DataCell(Text(device.deviceId.toString())),
-          DataCell(Text(device.deviceId.toString())),
+          DataCell(Text(device.deviceName.toString())),
+          DataCell(Text(device.brand.toString())),
+          DataCell(Text(device.deviceType.toString())),
+          DataCell(Text(device.model.toString())),
+          DataCell(Text(device.servicetagSn.toString())),
+          DataCell(Text(device.deviceName.toString())),
+          DataCell(Text(device.cpus.toString())),
+          DataCell(Text(device.ram.toString())),
+          DataCell(Text(device.hardisk.toString())),
         ]);
       }).toList();
 

@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kst_inventory/app/modules/employees/controlers/employee_controller.dart';
+import 'package:kst_inventory/models/companys.dart';
+import 'package:kst_inventory/models/departments.dart';
+import 'package:kst_inventory/models/position.dart';
 import 'package:kst_inventory/utils/constants.dart';
+
+import 'components/add_employee.dart';
+import 'components/update_employee.dart';
 
 class EmployeeView extends GetView<EmployeeController> {
   @override
@@ -29,7 +35,6 @@ class EmployeeView extends GetView<EmployeeController> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 _searchTextBox(),
                                 addButton(context: context),
@@ -38,7 +43,7 @@ class EmployeeView extends GetView<EmployeeController> {
                             Row(
                               children: [
                                 Obx(
-                                ()=> DataTable(
+                                  () => DataTable(
                                     columns: [
                                       DataColumn(label: Text('No')),
                                       DataColumn(label: Text('Employee ID')),
@@ -52,42 +57,168 @@ class EmployeeView extends GetView<EmployeeController> {
                                       DataColumn(label: Text('Company')),
                                       DataColumn(label: Text('Action')),
                                     ],
-                                    rows: List.generate(
-                                        controller.listEmployee.length, (index) {
+                                    rows:
+                                        controller.listEmployee.map((employee) {
+                                      int index = controller.listEmployee
+                                          .indexOf(employee);
                                       return DataRow(cells: [
                                         DataCell(Text('${index + 1}')),
+                                        DataCell(
+                                            Text('${employee.employeeId}')),
+                                        DataCell(Text('${employee.gender}')),
+                                        DataCell(Text('${employee.nameLa}')),
+                                        DataCell(Text('${employee.nameEn}')),
                                         DataCell(Text(
-                                            '${controller.listEmployee[index].employeeId}')),
+                                            '${employee.nickname ?? 'No Data'}')),
                                         DataCell(Text(
-                                            '${controller.listEmployee[index].gender}')),
+                                            '${employee.email ?? 'No data'}')),
                                         DataCell(Text(
-                                            '${controller.listEmployee[index].nameLa}')),
+                                            '${employee.position ?? 'No data'}')),
                                         DataCell(Text(
-                                            '${controller.listEmployee[index].nameEn}')),
+                                            '${employee.department ?? 'No data'}')),
                                         DataCell(Text(
-                                            '${controller.listEmployee[index].nickname ?? 'No Data'}')),
-                                        DataCell(Text(
-                                            '${controller.listEmployee[index].email ?? 'No data'}')),
-                                        DataCell(Text(
-                                            '${controller.listEmployee[index].position ?? 'No data'}')),
-                                        DataCell(Text(
-                                            '${controller.listEmployee[index].department ?? 'No data'}')),
-                                        DataCell(Text(
-                                            '${controller.listEmployee[index].company ?? 'No data'}')),
-                                        DataCell(IconButton(
-                                          icon: Icon(
-                                            Icons.delete,
-                                            color: Colors.red,
+                                            '${employee.company ?? 'No data'}')),
+                                        DataCell(
+                                          Row(
+                                            children: [
+                                              InkWell(
+                                                child: Text(
+                                                  'Update',
+                                                  style: TextStyle(
+                                                      color: Colors.amber),
+                                                ),
+                                                onTap: () {
+                                                  ///Get Data
+
+                                                  ///Company Data
+
+                                                  List<Company> comp =
+                                                      controller.listCompany
+                                                          .where((data) {
+                                                    String company =
+                                                        data.company.toString();
+                                                    return company.contains(
+                                                        employee.company
+                                                            .toString());
+                                                  }).toList();
+                                                  controller.selectedCompany =
+                                                      comp[0].companyId;
+
+                                                  ///Department
+                                                  List<Department> depart =
+                                                      controller.listDepartment
+                                                          .where((data) {
+                                                    String dep = data.department
+                                                        .toString();
+                                                    return dep.contains(employee
+                                                        .department
+                                                        .toString());
+                                                  }).toList();
+
+                                                  controller
+                                                          .selectedDepartment =
+                                                      depart[0].departmentId;
+
+                                                  ///Position
+                                                  List<Position> pos =
+                                                      controller.listPosition
+                                                          .where((data) {
+                                                    String po = data.position
+                                                        .toString();
+                                                    return po.contains(employee
+                                                        .position
+                                                        .toString());
+                                                  }).toList();
+
+                                                  controller.selectedPosition =
+                                                      pos[0].positionId;
+
+                                                  ///Gender
+                                                  controller.selectedGender =
+                                                      employee.gender;
+                                                  controller.nameLaController
+                                                          .text =
+                                                      employee.nameLa
+                                                          .toString();
+                                                  controller.nameEnController
+                                                          .text =
+                                                      employee.nameEn
+                                                          .toString();
+                                                  controller.nicknameController
+                                                          .text =
+                                                      employee.nickname
+                                                          .toString();
+                                                  controller.emailController
+                                                          .text =
+                                                      employee.email.toString();
+
+                                                  showDialog(
+                                                    context: context,
+                                                    builder: (context) =>
+                                                        AlertDialog(
+                                                      actionsPadding:
+                                                          EdgeInsets.only(
+                                                              right: 10,
+                                                              bottom: 10),
+                                                      backgroundColor:
+                                                          Appearance
+                                                              .backGroundColor,
+                                                      contentPadding:
+                                                          EdgeInsets.zero,
+                                                      content: UpdateEmployee(
+                                                        employeeId: employee
+                                                            .employeeId
+                                                            .toString(),
+                                                      ),
+                                                      actions: [
+                                                        TextButton(
+                                                          onPressed: () {
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop();
+                                                          },
+                                                          child: Text('Cancel'),
+                                                        ),
+                                                        TextButton(
+                                                          onPressed: () {
+
+                                                            controller.updateEmployee(
+                                                                employeeId: employee
+                                                                    .employeeId
+                                                                    .toString(),
+                                                                context:
+                                                                    context);
+                                                          },
+                                                          child: Text('OK'),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  );
+                                                },
+                                              ),
+                                              SizedBox(
+                                                width: 10,
+                                              ),
+                                              InkWell(
+                                                child: Text(
+                                                  'Delete',
+                                                  style: TextStyle(
+                                                      color: Colors.redAccent),
+                                                ),
+                                                onTap: () {
+                                                  _dialogOptionDelete(
+                                                      context, index);
+                                                },
+                                              )
+                                            ],
                                           ),
-                                          onPressed: () {
-                                            _dialogOptionDelete(context, index);
-                                          },
-                                        )),
+                                        ),
                                       ]);
-                                    }),
+                                    }).toList(),
                                     headingRowColor: MaterialStateProperty.all(
                                         Appearance.backGroundColor),
-                                  headingTextStyle: TextStyle(fontWeight: FontWeight.bold),
+                                    headingTextStyle:
+                                        TextStyle(fontWeight: FontWeight.bold),
                                   ),
                                 ),
                               ],
@@ -130,122 +261,9 @@ class EmployeeView extends GetView<EmployeeController> {
     );
   }
 
-  _filterBox() {
-    return Container(
-      margin: EdgeInsets.only(top: 20, bottom: 20),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Obx(
-            () => Container(
-              margin: EdgeInsets.only(left: 20),
-              child: Row(
-                children: [
-                  Text('Position:'),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Container(
-                    padding: EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey),
-                    ),
-                    child: DropdownButton(
-                      isDense: true,
-                      underline: Container(),
-                      hint: Text('Position'),
-                      value: controller.dropDownPosition.value,
-                      items: controller.listPosition.map((element) {
-                        return DropdownMenuItem(
-                          child: Text(element.position.toString()),
-                          value: element.position.toString(),
-                        );
-                      }).toList(),
-                      onChanged: (value) {
-                        controller.onChangePosition(value.toString());
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Obx(
-            () => Container(
-              margin: EdgeInsets.only(left: 20),
-              child: Row(
-                children: [
-                  Text('Department:'),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Container(
-                    padding: EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey),
-                    ),
-                    child: DropdownButton(
-                      isDense: true,
-                      underline: Container(),
-                      hint: Text('Department'),
-                      value: controller.dropDownDepartment.value,
-                      items: controller.listDepartment.map((element) {
-                        return DropdownMenuItem(
-                          child: Text(element.department.toString()),
-                          value: element.departmentId.toString(),
-                        );
-                      }).toList(),
-                      onChanged: (value) {
-                        controller.onChangeDepartment(value.toString());
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Obx(
-            () => Container(
-              margin: EdgeInsets.only(left: 20),
-              child: Row(
-                children: [
-                  Text('Company:'),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Container(
-                    padding: EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey),
-                    ),
-                    child: DropdownButton(
-                      isDense: true,
-                      underline: Container(),
-                      hint: Text('Company'),
-                      value: controller.dropDownCompany.value,
-                      items: controller.listCompany.map((element) {
-                        return DropdownMenuItem(
-                          child: Text(element.company.toString()),
-                          value: element.companyId.toString(),
-                        );
-                      }).toList(),
-                      onChanged: (value) {
-                        controller.onChangeCompany(value.toString());
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   addButton({required BuildContext context}) {
     return Container(
-      margin: EdgeInsets.only(bottom: 10),
+      margin: EdgeInsets.only(left: 20),
       child: InkWell(
         child: Container(
           padding: EdgeInsets.all(8),
@@ -265,47 +283,18 @@ class EmployeeView extends GetView<EmployeeController> {
           ),
         ),
         onTap: () {
+          controller.selectedCompany = null;
+          controller.selectedDepartment = null;
+          controller.selectedPosition = null;
+          controller.selectedGender = null;
           showDialog(
             context: context,
             builder: (context) {
               return AlertDialog(
-                title: Text('New Employee'),
-                content: Container(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Container(
-                        margin: EdgeInsets.only(top: 10, bottom: 10),
-                        child: Row(
-                          children: [
-                            Text('Employee ID:'),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              '${controller.employeeIdAuto.value}',
-                              style: TextStyle(color: Colors.grey),
-                            ),
-                          ],
-                        ),
-                      ),
-                      selectedDropdown(),
-                      _textInputData(
-                          title: 'Name (lao)',
-                          onChange: (value) => controller.nameLa.value = value),
-                      _textInputData(
-                          title: 'Name (eng)',
-                          onChange: (value) => controller.nameEn.value = value),
-                      _textInputData(
-                          title: 'Nick name',
-                          onChange: (value) =>
-                              controller.nickname.value = value),
-                      _textInputData(
-                          title: 'Email',
-                          onChange: (value) => controller.email.value = value),
-                    ],
-                  ),
-                ),
+                backgroundColor: Appearance.backGroundColor,
+                contentPadding: EdgeInsets.zero,
+                actionsPadding: EdgeInsets.only(bottom: 20, right: 10),
+                content: AddEmployee(),
                 actions: [
                   TextButton(
                     child: Text('Cancel'),
@@ -317,7 +306,7 @@ class EmployeeView extends GetView<EmployeeController> {
                     child: Text('OK'),
                     onPressed: () {
                       Navigator.of(context).pop();
-                      controller.addEmployeeData();
+                      controller.addEmployeeData(context);
                     },
                   ),
                 ],
@@ -325,137 +314,6 @@ class EmployeeView extends GetView<EmployeeController> {
             },
           );
         },
-      ),
-    );
-  }
-
-  _textInputData({String? title, ValueChanged<String>? onChange}) {
-    return Container(
-      margin: EdgeInsets.only(top: 10, bottom: 10),
-      child: TextField(
-        decoration: InputDecoration(
-          border: OutlineInputBorder(
-            borderSide: BorderSide(),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(),
-          ),
-          isDense: true,
-          labelText: '$title',
-        ),
-        onChanged: onChange,
-      ),
-    );
-  }
-
-  selectedDropdown() {
-    return Container(
-      margin: EdgeInsets.only(top: 10, bottom: 10),
-      child: Row(
-        children: [
-          Obx(
-            () => Container(
-              margin: EdgeInsets.only(left: 20),
-              child: Row(
-                children: [
-                  Text('Company:'),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Container(
-                    padding: EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey),
-                    ),
-                    child: DropdownButton(
-                      isDense: true,
-                      underline: Container(),
-                      hint: Text('Company'),
-                      value: controller.selectedCompany.value,
-                      items: controller.listCompany.map((element) {
-                        return DropdownMenuItem(
-                          child: Text(element.company.toString()),
-                          value: element.companyId.toString(),
-                        );
-                      }).toList(),
-                      onChanged: (value) {
-                        controller.onSelectCompany(value.toString());
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Obx(
-            () => Container(
-              margin: EdgeInsets.only(left: 20),
-              child: Row(
-                children: [
-                  Text('Department:'),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Container(
-                    padding: EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey),
-                    ),
-                    child: DropdownButton(
-                      isDense: true,
-                      underline: Container(),
-                      hint: Text('Department'),
-                      value: controller.selectedDepartment.value,
-                      items: controller.listDepartment.map((element) {
-                        return DropdownMenuItem(
-                          child: Text(element.department.toString()),
-                          value: element.departmentId.toString(),
-                        );
-                      }).toList(),
-                      onChanged: (value) {
-                        controller.onSelectedDepartment(value.toString());
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Obx(
-            () => Container(
-              margin: EdgeInsets.only(left: 20),
-              child: Row(
-                children: [
-                  Text('Position:'),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Container(
-                    padding: EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey),
-                    ),
-                    child: DropdownButton(
-                      isDense: true,
-                      underline: Container(),
-                      hint: Text('Position'),
-                      value: controller.selectedPosition.value,
-                      items: controller.listPosition.map((element) {
-                        return DropdownMenuItem(
-                          child: Text(element.position.toString()),
-                          value: element.positionId.toString(),
-                        );
-                      }).toList(),
-                      onChanged: (value) {
-                        controller.onSelectedPosition(value.toString());
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }

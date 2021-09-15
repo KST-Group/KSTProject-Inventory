@@ -81,7 +81,7 @@ class DashboardView extends GetView<DashboardController> {
                                           cardItems(
                                             title: 'In Stock',
                                             ico: 'assets/icons/product.svg',
-                                            data: '0',
+                                            data: '${controller.listStockDevice.length}',
                                             color: Colors.amber,
                                           ),
                                           cardItems(
@@ -140,7 +140,7 @@ class DashboardView extends GetView<DashboardController> {
                                   _deviceActivity(
                                       title: 'Issues',
                                       color: Colors.red.shade900,
-                                      data: controller.listUsingDevice.length
+                                      data: controller.listIssueDevice.length
                                           .toString(),
                                       icon: 'assets/icons/device_warning.svg'),
                                 ],

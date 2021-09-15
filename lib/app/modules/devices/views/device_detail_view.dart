@@ -101,6 +101,7 @@ class DeviceViewDetail extends GetView<DeviceController> {
                                               context: context,
                                               builder: (context) =>
                                                   AlertDialog(
+                                                    contentPadding: EdgeInsets.zero,
                                                     title: Row(
                                                       mainAxisAlignment:
                                                       MainAxisAlignment

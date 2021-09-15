@@ -1,11 +1,19 @@
 import 'dart:math';
 
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:kst_inventory/app/modules/employees/views/components/add_employee.dart';
+import 'package:kst_inventory/models/companys.dart';
+import 'package:kst_inventory/models/departments.dart';
 import 'package:kst_inventory/models/employee.dart';
+import 'package:kst_inventory/models/employee_model.dart';
+import 'package:kst_inventory/models/position.dart';
 import 'package:kst_inventory/services/company_services.dart';
 import 'package:kst_inventory/services/department_services.dart';
 import 'package:kst_inventory/services/employee_services.dart';
 import 'package:kst_inventory/services/position_service.dart';
+import 'package:kst_inventory/utils/dialog.dart';
 
 class EmployeeController extends GetxController {
   ///Global
@@ -48,62 +56,42 @@ class EmployeeController extends GetxController {
         'EMP${year.year.toString().substring(2)}${year.month.toString()}${max.toString().padLeft(4, '0')}';
   }
 
-  ///Filter dropdown position
-  var listPosition = [].obs;
-  var dropDownPosition = ''.obs;
+  ///Gender
+  String? selectedGender;
+  RxList<String> genders = RxList(['Male', 'Female']);
+
+  ///dropdown position
+  RxList<Position> listPosition = RxList([]);
+  int? selectedPosition;
 
   void getPosition() {
     PositionServices.to.getPosition().then((value) {
       listPosition.value = value.data!;
-      dropDownPosition.value = listPosition[0].position.toString();
-      selectedPosition.value = listPosition[0].positionId.toString();
-      print(selectedPosition);
     });
   }
 
-  void onChangePosition(String value) {
-    dropDownPosition.value = value;
-
-    listEmployee.value = listEmployee.where((data) {
-      String position = data.position.toString();
-      return position.contains(dropDownPosition.value);
-    }).toList();
-  }
-
-  ///Filter dropdown department
-  var dropDownDepartment = ''.obs;
-  var listDepartment = [].obs;
+  /// dropdown department
+  int? selectedDepartment;
+  RxList<Department> listDepartment = RxList([]);
 
   void getDepartmentData() {
     DepartmentServices.to.getData().then((value) {
       listDepartment.value = value.data!;
-      dropDownDepartment.value = listDepartment[0].departmentId.toString();
-      selectedDepartment.value = listDepartment[0].departmentId.toString();
     });
   }
 
-  void onChangeDepartment(String value) {
-    dropDownDepartment.value = value;
-  }
-
-  ///Filter dropdown Company
-  var dropDownCompany = ''.obs;
-  var listCompany = [].obs;
+  ///dropdown Company
+  RxList<Company> listCompany = RxList([]);
+  int? selectedCompany;
 
   void getCompany() {
     CompanyService.to.getCompany().then((value) {
       listCompany.value = value.data!;
-      dropDownCompany.value = listCompany[0].companyId.toString();
-      selectedCompany.value = listCompany[0].companyId.toString();
     });
   }
 
-  void onChangeCompany(String value) {
-    dropDownCompany.value = value;
-  }
-
   ///Get Employee data
-  var listEmployee = [].obs;
+  RxList<Employee> listEmployee = RxList([]);
 
   void getEmployeeData() {
     EmployeeServices.to.getDataEmployee().then((value) {
@@ -126,48 +114,85 @@ class EmployeeController extends GetxController {
     }
   }
 
+  ///Add Employee
+  TextEditingController nameLaController = TextEditingController();
+  TextEditingController nameEnController = TextEditingController();
+  TextEditingController nicknameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+
   ////////////////////////////////////////////////////////////////////
-  ///Select insert
-  var selectedCompany = ''.obs;
+  String? nameLa;
+  String? nameEn;
+  String? nickname;
+  String? email;
 
-  void onSelectCompany(String value) {
-    selectedCompany.value = value;
-    print(selectedCompany.value);
+  void addEmployeeData(BuildContext context) async {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          contentPadding: EdgeInsets.zero,
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              CircularProgressIndicator(),
+              SizedBox(
+                height: 10,
+              ),
+              Text(
+                'Saving...',
+                style: TextStyle(color: Colors.white),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+
+    EmployeeServices.to
+        .addEmployee(
+            data: EmpModel(
+      employeeId: employeeIdAuto.value.toString(),
+      nameLa: nameLa,
+      nameEn: nameEn,
+      nickname: nickname,
+      email: email,
+      companyId: selectedCompany.toString(),
+      departmentId: selectedDepartment.toString(),
+      positionId: selectedPosition.toString(),
+      gender: selectedGender,
+    ).toMap())
+        .then((value) {
+      getEmployeeData();
+      print(value);
+      Get.rootDelegate.popRoute();
+      Fluttertoast.showToast(msg: 'Success', webPosition: 'center');
+    });
   }
 
-  ///Department
-  var selectedDepartment = ''.obs;
+  ///Update Employee
+  void updateEmployee(
+      {required String employeeId, required BuildContext context}) async{
+    Dialogs(context: context, message: 'Updating...').progressDialog();
 
-  void onSelectedDepartment(String value) {
-    selectedDepartment.value = value;
-  }
-
-  ///Position
-  var selectedPosition = ''.obs;
-
-  void onSelectedPosition(String value) {
-    selectedPosition.value = value;
-  }
-
-  ///Add Employee Data
-  var gender = 'Male'.obs;
-  var nameEn = ''.obs;
-  var nameLa = ''.obs;
-  var nickname = ''.obs;
-  var email = ''.obs;
-
-  void addEmployeeData() {
-    EmployeeServices.to.addEmployee(data: {
-      'employeeId': employeeIdAuto.value,
-      'companyId': selectedCompany.value,
-      'departmentId': selectedDepartment.value,
-      'positionId': selectedPosition.value,
-      'gender': gender.value,
-      'name_en': nameEn.value,
-      'name_la': nameLa.value,
-      'nickname': nickname.value,
-      'email': email.value,
-    }).then((value) {
+    EmployeeServices.to
+        .updateEmployeeService(
+            data: EmpModel(
+      employeeId: employeeId,
+      gender: selectedGender,
+      positionId: selectedPosition.toString(),
+      departmentId: selectedDepartment.toString(),
+      companyId: selectedCompany.toString(),
+      nameLa: nameLaController.text,
+      nameEn: nameEnController.text,
+      nickname: nicknameController.text,
+      email: emailController.text,
+    ).toMap())
+        .then((value) {
+      Get.rootDelegate.popRoute().then((value) => Get.rootDelegate.popRoute());
+      Fluttertoast.showToast(msg: 'Success', webPosition: 'center');
       getEmployeeData();
       print(value);
     });
@@ -180,5 +205,14 @@ class EmployeeController extends GetxController {
       getEmployeeData();
       print(value);
     });
+  }
+
+  @override
+  void dispose() {
+    nameLaController.dispose();
+    nameEnController.dispose();
+    nicknameController.dispose();
+    emailController.dispose();
+    super.dispose();
   }
 }

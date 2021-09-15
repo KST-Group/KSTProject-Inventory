@@ -43,11 +43,6 @@ class CheckOutDetailView extends GetView<CheckOutController> {
             ),
           ),
           showCheckOutID(),
-          Padding(
-            padding: const EdgeInsets.only(left: 20),
-            child: Text(
-                'Date:${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}'),
-          ),
           _employeeDetail(),
           Divider(),
           titleBox(),
@@ -55,7 +50,7 @@ class CheckOutDetailView extends GetView<CheckOutController> {
           Container(
             margin: EdgeInsets.only(left: 20),
             child: Obx(
-              ()=> Text(
+              () => Text(
                 'Selected: ${controller.device.length} Devices',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
@@ -161,42 +156,41 @@ class CheckOutDetailView extends GetView<CheckOutController> {
         .toList();
   }
 
-  List<DataRow> getRows({required RxList<Device> listDevices}) => listDevices
-      .map((device) {
-        int index=listDevices.indexOf(device);
+  List<DataRow> getRows({required RxList<Device> listDevices}) =>
+      listDevices.map((device) {
+        int index = listDevices.indexOf(device);
         return DataRow(
-              cells: [
-                DataCell(Text('${index+1}')),
-                DataCell(VerticalDivider()),
-                DataCell(Text(device.localId.toString())),
-                DataCell(VerticalDivider()),
-                DataCell(Text(device.deviceName.toString())),
-                DataCell(VerticalDivider()),
-                DataCell(Text(device.deviceType.toString())),
-                DataCell(VerticalDivider()),
-                DataCell(Text(device.comments.toString())),
-                DataCell(VerticalDivider()),
-                DataCell(Text(device.model.toString())),
-                DataCell(VerticalDivider()),
-                DataCell(Text(device.brand.toString())),
-                DataCell(VerticalDivider()),
-                DataCell(Text(device.cpus.toString())),
-                DataCell(VerticalDivider()),
-                DataCell(Text(device.ram.toString())),
-                DataCell(VerticalDivider()),
-                DataCell(Text(device.hardisk.toString())),
-              ],
-              selected: controller.selectedDevice.contains(device),
-              onSelectChanged: (isSelected) {
-                if (isSelected == true) {
-                  controller.selectedDevice.add(device);
-                } else {
-                  controller.selectedDevice.remove(device);
-                }
-                controller.onSelected();
-              });
-      })
-      .toList();
+            cells: [
+              DataCell(Text('${index + 1}')),
+              DataCell(VerticalDivider()),
+              DataCell(Text(device.localId.toString())),
+              DataCell(VerticalDivider()),
+              DataCell(Text(device.deviceName.toString())),
+              DataCell(VerticalDivider()),
+              DataCell(Text(device.deviceType.toString())),
+              DataCell(VerticalDivider()),
+              DataCell(Text(device.comments.toString())),
+              DataCell(VerticalDivider()),
+              DataCell(Text(device.model.toString())),
+              DataCell(VerticalDivider()),
+              DataCell(Text(device.brand.toString())),
+              DataCell(VerticalDivider()),
+              DataCell(Text(device.cpus.toString())),
+              DataCell(VerticalDivider()),
+              DataCell(Text(device.ram.toString())),
+              DataCell(VerticalDivider()),
+              DataCell(Text(device.hardisk.toString())),
+            ],
+            selected: controller.selectedDevice.contains(device),
+            onSelectChanged: (isSelected) {
+              if (isSelected == true) {
+                controller.selectedDevice.add(device);
+              } else {
+                controller.selectedDevice.remove(device);
+              }
+              controller.onSelected();
+            });
+      }).toList();
 
   _dataDetail({required String title, required String data}) {
     return Container(
@@ -228,8 +222,10 @@ class CheckOutDetailView extends GetView<CheckOutController> {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
           Container(
             margin: EdgeInsets.only(left: 20, top: 10),
-            child: Obx(() =>
-                Text('Total: ${controller.lisUsingByEmployee.length} Devices')),
+            child: Obx(
+              () => Text(
+                  'Total: ${controller.lisUsingByEmployee.length} Devices'),
+            ),
           ),
         ],
       ),
@@ -275,6 +271,9 @@ class CheckOutDetailView extends GetView<CheckOutController> {
               _dataDetail(
                 title: 'Position',
                 data: controller.employeeData.position.toString(),
+              ),_dataDetail(
+                title: 'Date',
+                data: '${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}',
               ),
             ],
           ),

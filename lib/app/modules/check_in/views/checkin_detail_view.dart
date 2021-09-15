@@ -73,7 +73,8 @@ class CheckInDetailView extends GetView<CheckInController> {
                                 ),
                               ),
                               _employeeDetail(employeeDev),
-                              Obx(()=> Text('${controller.listUsingDevice.length} Devices')),
+                              Obx(() => Text(
+                                  '${controller.listUsingDevice.length} Devices')),
                               Divider(),
                               Expanded(
                                 child: SingleChildScrollView(
@@ -177,6 +178,10 @@ class CheckInDetailView extends GetView<CheckInController> {
           employeeData(title: 'Name (Eng)', data: '${data.nameEn}'),
           employeeData(title: 'Name (Lao)', data: '${data.nameLa}'),
           employeeData(title: 'Using', data: '${data.total} Devices'),
+          employeeData(
+              title: 'Date',
+              data:
+                  '${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}'),
         ],
       ),
     );

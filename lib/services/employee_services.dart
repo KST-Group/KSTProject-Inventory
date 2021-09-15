@@ -81,4 +81,18 @@ class EmployeeServices extends GetxService {
       throw error;
     }
   }
+
+  ///Update employee
+  Future updateEmployeeService({required Map<String,dynamic>data}) async {
+    try {
+      final response = await http.put(updateUrl,body: data);
+      if (response.statusCode == 200) {
+        return jsonDecode(response.body);
+      } else {
+        throw response.statusCode;
+      }
+    } on HttpException catch (error) {
+      throw error;
+    }
+  }
 }
