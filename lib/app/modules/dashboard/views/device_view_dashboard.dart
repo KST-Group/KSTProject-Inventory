@@ -44,19 +44,25 @@ class DeviceViewDashboard extends GetView<DashboardController> {
                                   color: Colors.black,
                                 ),
                                 onTap: () {
-                                  controller.createExcelWorkbook();
+                               // print(controller.listUsingDeviceData.length);
+                                controller.createExcel(data: employeeUsing);
                                 },
                               ),
                             ],
                           ),
                           _employeeData(employeeUsing),
-                          Text('List Device'),
+                          Text(
+                            'List Device',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
                           Divider(),
                           Expanded(
                             child: Container(
                               child: SingleChildScrollView(
                                 child: Obx(
                                   () => DataTable(
+                                    headingTextStyle:
+                                        TextStyle(fontWeight: FontWeight.bold),
                                     columns:
                                         createColumn(controller.deviceColumn),
                                     rows: createRows(
@@ -79,15 +85,22 @@ class DeviceViewDashboard extends GetView<DashboardController> {
     );
   }
 
-  _employeeData(UsingEmployee employeeUsing) {
+  _employeeData(UsingEmployee emp) {
     return Container(
+      padding: EdgeInsets.all(20),
+      decoration: BoxDecoration(border: Border.all(color: Colors.grey)),
       margin: EdgeInsets.only(top: 10, bottom: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Employee Field'),
-          Text('Employee ID : ${employeeUsing.employeeId}'),
-          Text('Name'),
+          _data(label: 'Employee ID', data: emp.employeeId.toString()),
+          _data(label: 'Gender', data: emp.gender.toString()),
+          _data(label: 'Name (Lao)', data: emp.nameLa.toString()),
+          _data(label: 'Name (Eng)', data: emp.nameEn.toString()),
+          _data(label: 'Nickname', data: emp.nickname.toString()),
+          _data(label: 'Position', data: emp.position.toString()),
+          _data(label: 'Department', data: emp.department.toString()),
+          _data(label: 'Company', data: emp.company.toString()),
         ],
       ),
     );
@@ -102,7 +115,7 @@ class DeviceViewDashboard extends GetView<DashboardController> {
         int index = listDevice.indexOf(device);
         return DataRow(cells: [
           DataCell(Text('${index + 1}')),
-          DataCell(Text(device.deviceId.toString())),
+          DataCell(Text(device.localId.toString())),
           DataCell(Text(device.deviceName.toString())),
           DataCell(Text(device.brand.toString())),
           DataCell(Text(device.deviceType.toString())),
@@ -115,5 +128,25 @@ class DeviceViewDashboard extends GetView<DashboardController> {
         ]);
       }).toList();
 
-  void _createExcel() {}
+  _data({required String label, required String data}) {
+    return Container(
+      margin: EdgeInsets.only(bottom: 10, left: 20),
+      child: Row(
+        children: [
+          Container(
+            width: 100,
+            child: Text(
+              '$label:',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              textAlign: TextAlign.end,
+            ),
+          ),
+          SizedBox(
+            width: 20,
+          ),
+          Text('$data'),
+        ],
+      ),
+    );
+  }
 }

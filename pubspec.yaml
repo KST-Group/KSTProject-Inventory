@@ -34,6 +34,12 @@ dependencies:
   zebra: ^0.0.1
   open_file: ^3.2.1
   path_provider: ^2.0.3
+  syncfusion_flutter_charts: ^19.2.62
+  syncfusion_officechart: ^19.2.62-beta
+  url_launcher: ^6.0.2
+  path_provider_macos: ^2.0.0
+  desktop_window: 0.4.0
+  excel: ^2.0.0-null-safety-3
 
 
 dev_dependencies:

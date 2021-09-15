@@ -9,8 +9,6 @@ import 'package:kst_inventory/app/routes/app_routes.dart';
 import 'package:kst_inventory/models/using_device_employee.dart';
 import 'package:kst_inventory/utils/constants.dart';
 
-import 'data_source.dart';
-
 class DashboardView extends GetView<DashboardController> {
   @override
   Widget build(BuildContext context) {
@@ -81,7 +79,8 @@ class DashboardView extends GetView<DashboardController> {
                                           cardItems(
                                             title: 'In Stock',
                                             ico: 'assets/icons/product.svg',
-                                            data: '${controller.listStockDevice.length}',
+                                            data:
+                                                '${controller.listStockDevice.length}',
                                             color: Colors.amber,
                                           ),
                                           cardItems(

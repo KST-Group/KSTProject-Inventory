@@ -9,6 +9,9 @@ import 'package:kst_inventory/models/using_device_employee.dart';
 import 'package:kst_inventory/services/device_services.dart';
 import 'package:kst_inventory/services/employee_services.dart';
 import 'package:kst_inventory/utils/save_file.dart';
+import 'dart:convert';
+import "dart:html";
+
 import 'package:syncfusion_flutter_xlsio/xlsio.dart';
 
 class DashboardController extends GetxController {
@@ -135,18 +138,88 @@ class DashboardController extends GetxController {
     });
   }
 
-  Future<void> createExcelWorkbook() async {
-    final Workbook workbook = Workbook();
-    final Worksheet sheet = workbook.worksheets[0];
+  ///Excel
 
-    sheet.getRangeByName('A1').setText('Hello World');
-//Add Number
-    sheet.getRangeByName('A3').setNumber(44);
-//Add DateTime
-    sheet.getRangeByName('A5').setDateTime(DateTime(2020, 12, 12, 1, 10, 20));
-// Save the document.
+  Future<void> createExcel({required UsingEmployee data}) async {
+// Create a new Excel Document.
+    final Workbook workbook = Workbook();
+
+// Accessing worksheet via index.
+    final Worksheet sheet = workbook.worksheets[0];
+    sheet.showGridlines = false;
+
+// Set the text value.
+    sheet.getRangeByName('B2').setText('Device Activity');
+
+    sheet.getRangeByName('B3').setText('Employee ID');
+    sheet.getRangeByName('D3').setText(data.employeeId.toString());
+
+    sheet.getRangeByName('B4').setText('Gender');
+    sheet.getRangeByName('D4').setText(data.gender.toString());
+
+    sheet.getRangeByName('B5').setText('Name (Lao)');
+    sheet.getRangeByName('D5').setText(data.nameLa.toString());
+
+    sheet.getRangeByName('B6').setText('Name (Eng)');
+    sheet.getRangeByName('D6').setText(data.nameEn.toString());
+
+    sheet.getRangeByName('B7').setText('Nickname');
+    sheet.getRangeByName('D7').setText(data.nickname.toString());
+
+    sheet.getRangeByName('B8').setText('Position');
+    sheet.getRangeByName('D8').setText(data.position.toString());
+
+    sheet.getRangeByName('B9').setText('Department');
+    sheet.getRangeByName('D9').setText(data.department.toString());
+
+    sheet.getRangeByName('B10').setText('Company');
+    sheet.getRangeByName('D10').setText(data.company.toString());
+
+    sheet.getRangeByName('B11').setText('Email');
+    sheet.getRangeByName('D11').setText(data.email.toString());
+
+    sheet.getRangeByName('B13').setText('List Device');
+
+    ///Column
+    for (int col = 2; col < deviceColumn.length + 2; col++) {
+      sheet.getRangeByIndex(14, col).text = "${deviceColumn[col - 2]}";
+      sheet.getRangeByIndex(2, col + 1).columnWidth = 20;
+    }
+
+    ///Create rows
+    for (int row = 15; row < listUsingDeviceData.length + 15; row++) {
+      sheet.getRangeByIndex(row, 2).text = '${row - 14}';
+      sheet.getRangeByIndex(row, 3).text =
+          "${listUsingDeviceData[row - 15].deviceId}";
+      sheet.getRangeByIndex(row, 4).text =
+          "${listUsingDeviceData[row - 15].deviceName}";
+      sheet.getRangeByIndex(row, 5).text =
+          "${listUsingDeviceData[row - 15].brand}";
+      sheet.getRangeByIndex(row, 6).text =
+          "${listUsingDeviceData[row - 15].deviceType}";
+      sheet.getRangeByIndex(row, 7).text =
+          "${listUsingDeviceData[row - 15].model}";
+      sheet.getRangeByIndex(row, 8).text =
+          "${listUsingDeviceData[row - 15].servicetagSn}";
+      sheet.getRangeByIndex(row, 9).text =
+          "${listUsingDeviceData[row - 15].deviceName}";
+      sheet.getRangeByIndex(row, 10).text =
+          "${listUsingDeviceData[row - 15].cpus}";
+      sheet.getRangeByIndex(row, 11).text =
+          "${listUsingDeviceData[row - 15].ram}";
+      sheet.getRangeByIndex(row, 12).text =
+          "${listUsingDeviceData[row - 15].hardisk}";
+    }
+
+// Save and dispose the document.
     final List<int> bytes = workbook.saveAsStream();
-    File('AddingTextNumberDateTime.xlsx').writeAsBytes(bytes);
     workbook.dispose();
+
+//Download the output file in web.
+    AnchorElement(
+        href:
+            "data:application/octet-stream;charset=utf-16le;base64,${base64.encode(bytes)}")
+      ..setAttribute("download", "${data.employeeId}.xlsx")
+      ..click();
   }
 }

@@ -92,6 +92,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0"
+  desktop_window:
+    dependency: "direct main"
+    description:
+      name: desktop_window
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.4.0"
   dio:
     dependency: "direct main"
     description:
@@ -99,6 +106,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.0.0"
+  equatable:
+    dependency: transitive
+    description:
+      name: equatable
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.3"
+  excel:
+    dependency: "direct main"
+    description:
+      name: excel
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0-null-safety-3"
   fake_async:
     dependency: transitive
     description:
@@ -283,7 +304,7 @@ packages:
     source: hosted
     version: "2.0.0"
   path_provider_macos:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: path_provider_macos
       url: "https://pub.dartlang.org"
@@ -448,27 +469,41 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "19.2.60"
+  syncfusion_flutter_charts:
+    dependency: "direct main"
+    description:
+      name: syncfusion_flutter_charts
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "19.2.62"
   syncfusion_flutter_core:
     dependency: transitive
     description:
       name: syncfusion_flutter_core
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "19.2.60"
+    version: "19.2.62"
   syncfusion_flutter_xlsio:
     dependency: "direct main"
     description:
       name: syncfusion_flutter_xlsio
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "19.2.60-beta"
+    version: "19.2.62-beta"
+  syncfusion_officechart:
+    dependency: "direct main"
+    description:
+      name: syncfusion_officechart
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "19.2.62-beta"
   syncfusion_officecore:
     dependency: transitive
     description:
       name: syncfusion_officecore
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "19.2.60-beta"
+    version: "19.2.62-beta"
   term_glyph:
     dependency: transitive
     description:
@@ -490,6 +525,48 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.3.0"
+  url_launcher:
+    dependency: "direct main"
+    description:
+      name: url_launcher
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "6.0.10"
+  url_launcher_linux:
+    dependency: transitive
+    description:
+      name: url_launcher_linux
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.2"
+  url_launcher_macos:
+    dependency: transitive
+    description:
+      name: url_launcher_macos
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.2"
+  url_launcher_platform_interface:
+    dependency: transitive
+    description:
+      name: url_launcher_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.4"
+  url_launcher_web:
+    dependency: transitive
+    description:
+      name: url_launcher_web
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.4"
+  url_launcher_windows:
+    dependency: transitive
+    description:
+      name: url_launcher_windows
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.2"
   url_strategy:
     dependency: "direct main"
     description:
