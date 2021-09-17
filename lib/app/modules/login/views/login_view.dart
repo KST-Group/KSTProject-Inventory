@@ -51,7 +51,7 @@ class LoginView extends GetView<LoginController> {
                                   'Log In',
                                   style: GoogleFonts.notoSans(
                                     textStyle:
-                                        Theme.of(context).textTheme.headline6,
+                                    Theme.of(context).textTheme.headline6,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -73,7 +73,7 @@ class LoginView extends GetView<LoginController> {
                                   hint: 'Password',
                                   secure: true,
                                   onSaved: (value) =>
-                                      controller.password = value!,
+                                  controller.password = value!,
                                   validator: (value) =>
                                       controller.validatePassword(value!),
                                 ),
@@ -140,7 +140,7 @@ class LoginView extends GetView<LoginController> {
         dense: true,
         contentPadding: EdgeInsets.all(0),
         leading: Obx(
-          () => Checkbox(
+              () => Checkbox(
             value: controller.isCheck.value,
             onChanged: (bool? value) => controller.isCheck.value = value!,
           ),
@@ -168,7 +168,7 @@ class LoginView extends GetView<LoginController> {
           ),
           onTap: () {
             controller.isLoggedIn.value = false;
-            controller.checkLogin(delegate);
+            controller.checkLogin();
           },
         ),
       ),

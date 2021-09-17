@@ -52,14 +52,17 @@ class AppPages {
       binding: RootBinding(),
       participatesInRootNavigator: true,
       preventDuplicates: true,
+      middlewares: [
+        //EnsureAuthedMiddleware(),
+      ],
       children: [
         GetPage(
-          middlewares: [
-            EnsureNotAuthedMiddleware(),
-          ],
           name: Paths.LOGIN,
           page: () => LoginView(),
           binding: LoginBinding(),
+          middlewares: [
+           // EnsureNotAuthedMiddleware(),
+          ],
         ),
         GetPage(
           preventDuplicates: true,
@@ -69,24 +72,29 @@ class AppPages {
             HomeBinding(),
           ],
           middlewares: [
-            OnReadLoggedIn(),
+            //EnsureAuthedMiddleware(),
           ],
           title: null,
           children: [
             GetPage(
-                name: Paths.DASHBOARD,
-                page: () => DashboardView(),
-                binding: DashboardBinding(),
-                children: [
-                  GetPage(
-                    name: Paths.DEVICE_VIEW_DASHBOARD,
-                    page: () => DeviceViewDashboard(),
-                    binding: DashboardBinding(),
-                  )
-                ]),
+              name: Paths.DASHBOARD,
+              page: () => DashboardView(),
+              binding: DashboardBinding(),
+              middlewares: [
+                //EnsureAuthedMiddleware(),
+              ],
+              children: [
+                GetPage(
+                  name: Paths.DEVICE_VIEW_DASHBOARD,
+                  page: () => DeviceViewDashboard(),
+                  binding: DashboardBinding(),
+
+                )
+              ],
+            ),
             GetPage(
               middlewares: [
-                EnsureAuthedMiddleware(),
+                //EnsureAuthedMiddleware(),
               ],
               name: Paths.SETTING,
               page: () => SettingView(),
@@ -97,9 +105,6 @@ class AppPages {
                 name: Paths.DEVICE,
                 page: () => DeviceView(),
                 binding: DeviceBinding(),
-                // middlewares: [
-                //   EnsureAuthedMiddleware(),
-                // ],
                 children: [
                   GetPage(
                     name: Paths.DEVICE_DETAIL,

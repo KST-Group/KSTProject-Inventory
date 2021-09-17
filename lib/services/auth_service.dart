@@ -2,13 +2,11 @@ import 'dart:convert';
 
 import 'package:get/get.dart';
 import 'package:kst_inventory/models/user_model.dart';
-import 'package:kst_inventory/services/prefs_service.dart';
 import 'package:http/http.dart' as http;
 import 'package:kst_inventory/app/middleware/http_value.dart';
 
 class AuthService extends GetxService {
   static AuthService get to => Get.find();
-
   final isLoggedIn = false.obs;
 
   bool get isLoggedInValue => isLoggedIn.value;

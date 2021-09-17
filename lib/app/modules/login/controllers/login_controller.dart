@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:kst_inventory/app/routes/app_routes.dart';
 import 'package:kst_inventory/services/auth_service.dart';
 import 'package:kst_inventory/services/prefs_service.dart';
@@ -43,7 +42,7 @@ class LoginController extends GetxController {
     return null;
   }
 
-  void checkLogin(GetDelegate delegate) async {
+  void checkLogin() async {
     final isValid = loginFormKey.currentState!.validate();
     if (isValid) {
       loading.value = true;

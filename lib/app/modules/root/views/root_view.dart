@@ -9,28 +9,32 @@ import 'package:kst_inventory/utils/constants.dart';
 
 import 'menu_bar.dart';
 
-class RootView extends GetView {
+final String username = 'admin';
+
+///login?then=%2F
+class RootView extends GetView<RootController> {
   @override
   Widget build(BuildContext context) {
     return GetRouterOutlet.builder(
       builder: (context, delegate, currentRoute) {
+        print(currentRoute!.location);
         return Scaffold(
-          appBar: _appBar(),
-          body: GetRouterOutlet.builder(
-            builder: (context, delegate, currentRoute) {
-              return Row(
-                children: [
-                  MenuBar(),
-                  Expanded(
-                    child: Container(
-                      child: GetRouterOutlet(
-                        initialRoute: Routes.HOME,
-                      ),
-                    ),
+          appBar: currentRoute.location == '/login?then=%2F' ? null : _appBar(),
+          body: Row(
+            children: [
+              Container(
+                child: currentRoute.location == '/login?then=%2F'
+                    ? null
+                    : MenuBar(),
+              ),
+              Expanded(
+                child: Container(
+                  child: GetRouterOutlet(
+                    initialRoute: Routes.HOME,
                   ),
-                ],
-              );
-            },
+                ),
+              ),
+            ],
           ),
         );
       },
@@ -52,7 +56,6 @@ class RootView extends GetView {
         style: TextStyle(color: Colors.white),
       ),
       elevation: 2,
-
       actions: [
         Container(
           margin: EdgeInsets.only(right: 20),
@@ -98,7 +101,7 @@ class RootView extends GetView {
                   offset: Offset(-20, 50),
                   onSelected: (value) {
                     if (value == 1) {
-                      print('User: ${controller.userPrefs.value}');
+                      print('User: Admin');
                     }
                   },
                 ),

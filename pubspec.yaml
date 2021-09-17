@@ -41,6 +41,10 @@ dependencies:
   desktop_window: 0.4.0
   excel: ^2.0.0-null-safety-3
   uuid: ^3.0.4
+  image_picker: ^0.8.4+1
+  file_picker: ^4.0.3
+  image_picker_web: ^2.0.3+1
+
 
 
 dev_dependencies:

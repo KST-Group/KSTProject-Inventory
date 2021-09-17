@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:kst_inventory/app/modules/root/views/root_view.dart';
 import 'package:kst_inventory/models/check_in_detail.dart';
+import 'package:kst_inventory/models/check_in_log.dart';
 import 'package:kst_inventory/models/check_in_view.dart';
 import 'package:kst_inventory/models/checkin.dart';
 import 'package:kst_inventory/models/device.dart';
@@ -72,7 +74,6 @@ class CheckInController extends GetxController {
   void getCheckInDataController() {
     CheckInServices.to.getDataCheckIn().then((value) {
       listCheckInData.value = value.data!;
-      print(listCheckInData.length);
       getAutoCheckInId();
     });
   }
@@ -133,7 +134,6 @@ class CheckInController extends GetxController {
     selectedDevice.forEach((device) {
       listDeviceId.add(device.deviceId);
     });
-    print(listDeviceId);
   }
 
   ///Check In
@@ -149,40 +149,81 @@ class CheckInController extends GetxController {
               data: CheckIn(
         checkinId: autoCheckInId.value,
         employeeId: employee.employeeId,
-        username: 'admin',
+        username: username,
       ).toMap())
           .then((value) {
-        print('Success CheckIn');
-        for (int i = 0; i < listDeviceId.length; i++) {
-          CheckInServices.to
-              .addCheckIn(
-                  data: Details(
-            checkinId: autoCheckInId.value,
-            deviceId: listDeviceId[i].toString(),
-          ).toMap())
-              .then((value) {
-            print('Add Success CheckIn');
-          });
-          CheckInServices.to
-              .delCheckOutDetail(deviceId: listDeviceId[i])
-              .then((value) {
-            print('Delete from check out success');
-          });
-          DeviceService.to
-              .updateStatus(deviceId: listDeviceId[i], status: 'In Stock')
-              .then((value) {
-            print(value);
-            print('Update Status Successfully');
-          });
+        print(value['message']);
+
+        if (value['error'] == false) {
+          for (int i = 0; i < listDeviceId.length; i++) {
+            /// add CheckIn Detail
+            addCheckInDetail(i);
+
+            ///Delete from check out
+            delCheckOut(i);
+
+            ///Update Status
+            updateStatusDevice(i);
+
+            ///Add Log
+            addCheckInLog(
+                data: CheckInLog(
+              checkinId: autoCheckInId.value.toString(),
+              deviceId: listDeviceId[i].toString(),
+              employeeId: employee.employeeId.toString(),
+              descriptions: descriptionController.text,
+            ).toMap());
+          }
+          listDeviceId.clear();
+          getEmployeeData();
+          getCheckInDataController();
+          loading.value = false;
+          Get.rootDelegate
+              .popRoute()
+              .then((value) => Get.rootDelegate.popRoute());
         }
-        listDeviceId.clear();
-        getEmployeeData();
-        getCheckInDataController();
-        loading.value = false;
-        Get.rootDelegate.popRoute();
       });
-      Fluttertoast.showToast(
-          msg: 'Success', webPosition: 'center', webBgColor: 'green');
     }
+  }
+
+  ///add check in detail
+  void addCheckInDetail(int index) {
+    CheckInServices.to
+        .addCheckIn(
+            data: Details(
+      checkinId: autoCheckInId.value,
+      deviceId: listDeviceId[index].toString(),
+    ).toMap())
+        .then((value) {
+      print(value['message']);
+    });
+  }
+
+  /// Delete data from check out
+  void delCheckOut(int index) {
+    CheckInServices.to
+        .delCheckOutDetail(deviceId: listDeviceId[index])
+        .then((value) {
+      print(value['message']);
+    });
+  }
+
+  ///Update device status
+
+  void updateStatusDevice(int index) {
+    DeviceService.to
+        .updateStatus(deviceId: listDeviceId[index], status: 'In Stock')
+        .then((value) {
+      print(value['message']);
+    });
+  }
+
+  ///Add log Check
+  TextEditingController descriptionController = TextEditingController();
+
+  void addCheckInLog({required Map<String, dynamic> data}) {
+    CheckInServices.to.addCheckInLog(data: data).then((value) {
+      print(value['message']);
+    });
   }
 }

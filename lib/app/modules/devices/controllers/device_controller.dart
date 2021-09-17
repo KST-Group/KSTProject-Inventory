@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:kst_inventory/models/brand.dart';
 import 'package:kst_inventory/models/device.dart';
 import 'package:kst_inventory/models/device_model.dart';
@@ -151,6 +153,7 @@ class DeviceController extends GetxController {
   ///Add Device type
   RxList<Types> listType = RxList([]);
   String? selectedTypeValue;
+
   void getDeviceType() {
     DeviceService.to.getDeviceTypeData().then((value) {
       listType.value = value.data!;
@@ -234,8 +237,8 @@ class DeviceController extends GetxController {
         brandId: selectedBrandValue.toString(),
       ).toMap())
           .then((value) {
-            selectedBrandValue=null;
-            selectedTypeValue=null;
+        selectedBrandValue = null;
+        selectedTypeValue = null;
         Navigator.of(context).pop();
         loading.value = false;
         autoDeviceId();
@@ -249,7 +252,7 @@ class DeviceController extends GetxController {
     DeviceService.to.deleteDevice(deviceId: deviceId).then((value) {
       getDevice();
       Get.rootDelegate.popRoute().then((value) => Get.rootDelegate.popRoute());
-      Fluttertoast.showToast(msg: 'Success',webPosition: 'center');
+      Fluttertoast.showToast(msg: 'Success', webPosition: 'center');
     });
   }
 
@@ -271,6 +274,15 @@ class DeviceController extends GetxController {
         }
       },
     );
+  }
+
+  ///Get image
+  File? imageFile;
+
+  Future<void> getImageDevice() async {
+    final ImagePicker _picker = ImagePicker();
+    final File? image = (await _picker.pickImage(source: ImageSource.gallery)) as File?;
+    imageFile = image;
   }
 
   @override

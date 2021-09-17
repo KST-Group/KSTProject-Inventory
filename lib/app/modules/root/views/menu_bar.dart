@@ -42,43 +42,43 @@ class MenuBar extends GetView<HomeController> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
-                    height: 150,
-                    child: Stack(
-                      children: [
-                        Center(
-                          child: Container(
-                            height: 150,
-                            color: Colors.blueGrey,
-                          ),
-                        ),
-                        Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              CircleAvatar(
-                                radius: 35,
-                                backgroundColor: Colors.transparent,
-                                backgroundImage: AssetImage(
-                                  'assets/images/user.png',
-                                ),
-                              ),
-                              SizedBox(
-                                height: 12,
-                              ),
-                              Text(
-                                'Adam Smith',
-                                style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                  // Container(
+                  //   height: 150,
+                  //   child: Stack(
+                  //     children: [
+                  //       Center(
+                  //         child: Container(
+                  //           height: 150,
+                  //           color: Colors.blueGrey,
+                  //         ),
+                  //       ),
+                  //       Center(
+                  //         child: Column(
+                  //           mainAxisAlignment: MainAxisAlignment.center,
+                  //           children: [
+                  //             CircleAvatar(
+                  //               //radius: 35,
+                  //               backgroundColor: Colors.transparent,
+                  //               backgroundImage: AssetImage(
+                  //                 'assets/images/kst.png',
+                  //               ),
+                  //             ),
+                  //             SizedBox(
+                  //               height: 12,
+                  //             ),
+                  //             Text(
+                  //               'KST Inventory',
+                  //               style: TextStyle(
+                  //                   fontSize: 16,
+                  //                   fontWeight: FontWeight.bold,
+                  //                   color: Colors.white),
+                  //             ),
+                  //           ],
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
 
                   ////////Menu
 

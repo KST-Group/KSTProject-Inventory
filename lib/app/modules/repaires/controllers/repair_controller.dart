@@ -72,6 +72,8 @@ class RepairController extends GetxController {
     'Storage',
     '',
     'Description',
+    '',
+    'Date'
   ];
 
   RxList<Device> listDevice = RxList([]);

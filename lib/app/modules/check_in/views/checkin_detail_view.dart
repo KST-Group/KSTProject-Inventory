@@ -115,7 +115,41 @@ class CheckInDetailView extends GetView<CheckInController> {
                                                 Colors.white),
                                       ),
                                       onPressed: () {
-                                        controller.checkInDevice(context);
+                                        showDialog(
+                                          context: context,
+                                          builder: (context) => AlertDialog(
+                                            title: Text('Warning'),
+                                            content: Container(
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  Text(
+                                                      'Do you want to check in device?'),
+                                                  TextField(
+                                                    controller: controller
+                                                        .descriptionController,
+                                                    decoration: InputDecoration(
+                                                      hintText: 'Description',
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            actions: [
+                                              TextButton(
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  child: Text('Cancel')),
+                                              TextButton(
+                                                  onPressed: () {
+                                                    controller
+                                                        .checkInDevice(context);
+                                                  },
+                                                  child: Text('OK')),
+                                            ],
+                                          ),
+                                        );
                                       },
                                     )
                                   ],

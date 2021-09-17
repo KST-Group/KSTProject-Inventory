@@ -1,20 +1,27 @@
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RootController extends GetxController {
-  final count = 0.obs;
-
+  final String PREP_KEY = 'username';
+  RxString username = RxString('');
   @override
   void onInit() {
+    checkUserLogin();
     super.onInit();
   }
 
-  @override
-  void onReady() {
-    super.onReady();
+  Future checkUserLogin() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    username.value = preferences.getString(PREP_KEY)!;
   }
 
-  @override
-  void onClose() {}
+  Future setUserPrep({required String username}) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    preferences.setString(PREP_KEY, username);
+  }
 
-  void increment() => count.value++;
+  Future delUserPrep() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    preferences.clear();
+  }
 }

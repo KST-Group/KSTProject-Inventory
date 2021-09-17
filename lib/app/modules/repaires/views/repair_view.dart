@@ -116,12 +116,11 @@ class RepairView extends GetView<RepairController> {
                   // contentPadding: EdgeInsets.zero,
                   // backgroundColor: Appearance.backGroundColor,
                   // content: ReceiveDevice(),
-                  title: Text('Warning'),
+                  title: Text('Receive device'),
                   content: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text('Receive device'),
                       Text('Do you want to receive this device'),
                       TextField(
                         controller: controller.descriptionController,
@@ -177,6 +176,8 @@ class RepairView extends GetView<RepairController> {
               DataCell(Text(device.hardisk.toString())),
               DataCell(VerticalDivider()),
               DataCell(Text(device.descriptions.toString())),
+              DataCell(VerticalDivider()),
+              DataCell(Text(device.repairDate.toString())),
             ],
           );
         },

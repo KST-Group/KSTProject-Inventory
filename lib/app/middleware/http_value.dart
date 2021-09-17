@@ -71,6 +71,7 @@ Uri addCheckInDataUrl = Uri.http(_baseUrl, '/checkin/add');
 Uri addCheckInDetailDataUrl = Uri.http(_baseUrl, '/checkin/adddetail');
 Uri checkInViewUrl = Uri.http(_baseUrl, '/checkin/view');
 Uri delCheckOutDe = Uri.http(_baseUrl, '/checkout/delDetail');
+Uri addLogUrl = Uri.http(_baseUrl, '/checkin/log');
 
 
 

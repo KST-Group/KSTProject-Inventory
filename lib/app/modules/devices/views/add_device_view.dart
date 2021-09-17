@@ -1,6 +1,7 @@
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:kst_inventory/app/modules/devices/controllers/device_controller.dart';
 import 'package:kst_inventory/utils/constants.dart';
 
@@ -164,18 +165,29 @@ class AddNewDeviceView extends GetView<DeviceController> {
                   children: [
                     Container(
                       width: 150,
-                      child: Text(
-                        'Choose File',
-                        textAlign: TextAlign.end,
-                      ),
-                    ),SizedBox(
+                      alignment: Alignment.centerRight,
+                    ),
+                    SizedBox(
                       width: 25,
                     ),
-                    ElevatedButton(
-                      onPressed: () {},
-                      child: Text('Brows'),
-                    )
+                    Container(
+                      height: 200,
+                      width: 200,
+                      decoration: BoxDecoration(border: Border.all(color: Colors.grey)),
+                      child: Center(
+                        child:Container(),
+                      ),
+                    ),
                   ],
+                ),
+                Container(
+                  margin: EdgeInsets.only(left: 175),
+                  child: TextButton(
+                    onPressed: () {
+                      controller.getImageDevice();
+                    },
+                    child: Text('Choose image'),
+                  ),
                 ),
                 SizedBox(
                   height: 100,

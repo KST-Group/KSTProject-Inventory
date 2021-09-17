@@ -1,7 +1,6 @@
 import 'package:get/get.dart';
 import 'package:kst_inventory/app/routes/app_routes.dart';
 import 'package:kst_inventory/services/auth_service.dart';
-import 'package:kst_inventory/services/prefs_service.dart';
 
 class EnsureAuthedMiddleware extends GetMiddleware {
   @override
@@ -14,6 +13,9 @@ class EnsureAuthedMiddleware extends GetMiddleware {
   }
 }
 
+
+
+
 class EnsureNotAuthedMiddleware extends GetMiddleware {
   @override
   Future<GetNavConfig?> redirectDelegate(GetNavConfig route) async {
@@ -24,18 +26,6 @@ class EnsureNotAuthedMiddleware extends GetMiddleware {
       //OR redirect user to another screen
       //return GetNavConfig.fromRoute(Routes.PROFILE);
     }
-    return await super.redirectDelegate(route);
-  }
-}
-
-class OnReadLoggedIn extends GetMiddleware {
-  @override
-  Future<GetNavConfig?> redirectDelegate(GetNavConfig route) async {
-    PrefsService.to.getUser().then((value) {
-      if (value.isEmpty || value.toString() == '') {
-        return GetNavConfig.fromRoute(Routes.LOGIN);
-      }
-    });
     return await super.redirectDelegate(route);
   }
 }
