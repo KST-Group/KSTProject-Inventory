@@ -1,10 +1,13 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kst_inventory/app/modules/repaires/controllers/repair_controller.dart';
 import 'package:kst_inventory/app/routes/app_routes.dart';
 import 'package:kst_inventory/models/device.dart';
+import 'package:kst_inventory/models/repaie_device.dart';
 import 'package:kst_inventory/utils/constants.dart';
 
+import 'components/receive_device_repair.dart';
 import 'repair_detail_view.dart';
 
 class RepairView extends GetView<RepairController> {
@@ -35,19 +38,33 @@ class RepairView extends GetView<RepairController> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
+                              Text(
+                                'Repairing List device',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 20),
+                              ),
                               TextButton(
                                 onPressed: () {
                                   delegate.toNamed(Routes.ADDREPAIR);
                                 },
+                                style: ButtonStyle(
+                                    padding: MaterialStateProperty.all(
+                                      EdgeInsets.only(
+                                        left: 20,
+                                        top: 20,
+                                        bottom: 20,
+                                        right: 20,
+                                      ),
+                                    ),
+                                    backgroundColor: MaterialStateProperty.all(
+                                        Appearance.appBarColor),
+                                    foregroundColor: MaterialStateProperty.all(
+                                        Colors.white)),
                                 child: Text('Repair device'),
                               ),
                             ],
-                          ),
-                          Text(
-                            'Repairing List device',
-                            style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                           Divider(),
                           SingleChildScrollView(
@@ -58,10 +75,12 @@ class RepairView extends GetView<RepairController> {
                                   columnSpacing: 30,
                                   showBottomBorder: true,
                                   showCheckboxColumn: false,
-                                  headingTextStyle:
-                                      TextStyle(fontWeight: FontWeight.bold),
+                                  headingTextStyle: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16),
                                   columns: getColumn(controller.columnDevice),
-                                  rows: getRows(controller.listDevice, context),
+                                  rows: getRows(
+                                      controller.lisRepairDevice, context),
                                 ),
                               ),
                             ),
@@ -82,16 +101,48 @@ class RepairView extends GetView<RepairController> {
   List<DataColumn> getColumn(List<String> columnDevice) =>
       columnDevice.map((column) => DataColumn(label: Text(column))).toList();
 
-  List<DataRow> getRows(RxList<Device> listDevice, BuildContext context) =>
+  List<DataRow> getRows(
+          RxList<RepairDevice> listDevice, BuildContext context) =>
       listDevice.map(
         (device) {
           int index = listDevice.indexOf(device);
           return DataRow(
             onSelectChanged: (isSelected) {
+              controller.getEmployeeByDeviceId(
+                  deviceId: device.deviceId.toString());
               showDialog(
                 context: context,
                 builder: (context) => AlertDialog(
-                  title: Text('Receive device'),
+                  // contentPadding: EdgeInsets.zero,
+                  // backgroundColor: Appearance.backGroundColor,
+                  // content: ReceiveDevice(),
+                  title: Text('Warning'),
+                  content: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text('Receive device'),
+                      Text('Do you want to receive this device'),
+                      TextField(
+                        controller: controller.descriptionController,
+                        decoration: InputDecoration(
+                          hintText: 'Description',
+                        ),
+                      ),
+                    ],
+                  ),
+                  actions: [
+                    TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Text('Cancel')),
+                    TextButton(
+                        onPressed: () {
+                          controller.delRepair(device: device);
+                        },
+                        child: Text('OK')),
+                  ],
                 ),
               );
             },
@@ -100,9 +151,14 @@ class RepairView extends GetView<RepairController> {
               DataCell(VerticalDivider()),
               DataCell(Text(device.localId.toString())),
               DataCell(VerticalDivider()),
-              DataCell(Text(device.deviceType.toString())),
+              DataCell(Text(device.devicetype.toString())),
               DataCell(VerticalDivider()),
-              DataCell(Text(device.statuss.toString())),
+              DataCell(Text(
+                device.statuss == 'Repair'
+                    ? 'Repairing'
+                    : device.statuss.toString(),
+                style: TextStyle(color: Colors.amber),
+              )),
               DataCell(VerticalDivider()),
               DataCell(Text(device.joinDomain.toString())),
               DataCell(VerticalDivider()),
@@ -119,6 +175,8 @@ class RepairView extends GetView<RepairController> {
               DataCell(Text(device.ram.toString())),
               DataCell(VerticalDivider()),
               DataCell(Text(device.hardisk.toString())),
+              DataCell(VerticalDivider()),
+              DataCell(Text(device.descriptions.toString())),
             ],
           );
         },
@@ -126,10 +184,18 @@ class RepairView extends GetView<RepairController> {
 
   _searchBox() {
     return Card(
+      margin: EdgeInsets.only(top: 10, bottom: 20, left: 20),
       child: Container(
+        width: 500,
         child: TextField(
           decoration: InputDecoration(
-              border: OutlineInputBorder(borderSide: BorderSide.none)),
+            isDense: true,
+            hintText: 'Search...',
+            suffixIcon: Icon(Icons.search),
+            border: OutlineInputBorder(
+              borderSide: BorderSide.none,
+            ),
+          ),
         ),
       ),
     );

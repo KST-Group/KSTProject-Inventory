@@ -6,6 +6,7 @@ import 'package:kst_inventory/app/middleware/http_value.dart';
 import 'package:kst_inventory/models/employee.dart';
 import 'package:http/http.dart' as http;
 import 'package:kst_inventory/models/employee_device.dart';
+import 'package:kst_inventory/models/employee_using.dart';
 import 'package:kst_inventory/models/using_device_employee.dart';
 
 class EmployeeServices extends GetxService {
@@ -83,11 +84,26 @@ class EmployeeServices extends GetxService {
   }
 
   ///Update employee
-  Future updateEmployeeService({required Map<String,dynamic>data}) async {
+  Future updateEmployeeService({required Map<String, dynamic> data}) async {
     try {
-      final response = await http.put(updateUrl,body: data);
+      final response = await http.put(updateUrl, body: data);
       if (response.statusCode == 200) {
         return jsonDecode(response.body);
+      } else {
+        throw response.statusCode;
+      }
+    } on HttpException catch (error) {
+      throw error;
+    }
+  }
+
+  ///Get Employee by device ID
+  Future<EmployeeUsing> getEmployeeByDeviceId(
+      {required String deviceId}) async {
+    try {
+      final response = await http.get(empDeviceUrl(deviceId));
+      if (response.statusCode == 200) {
+        return EmployeeUsing.fromMap(jsonDecode(response.body));
       } else {
         throw response.statusCode;
       }

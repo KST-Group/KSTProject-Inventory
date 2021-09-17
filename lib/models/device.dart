@@ -52,6 +52,7 @@ class Device {
     this.expireDate,
     this.remark,
     this.statuss,
+    this.buy_date,
   });
 
   String? deviceId;
@@ -72,6 +73,7 @@ class Device {
   String? expireDate;
   String? remark;
   String? statuss;
+  String? buy_date;
 
   factory Device.fromMap(Map<String, dynamic> json) => Device(
     deviceId: json["deviceId"],
@@ -92,6 +94,7 @@ class Device {
     expireDate: json["expireDate"],
     remark: json["remark"],
     statuss: json["statuss"],
+    buy_date: json["buy_date"],
   );
 
   Map<String, dynamic> toMap() => {
@@ -113,6 +116,7 @@ class Device {
     "expireDate": expireDate,
     "remark": remark,
     "statuss": statuss,
+    "buy_date":buy_date,
   };
 }
 

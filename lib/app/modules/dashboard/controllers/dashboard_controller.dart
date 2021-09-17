@@ -105,7 +105,6 @@ class DashboardController extends GetxController {
 
   ///Grt Employee Using device
   RxList<UsingEmployee> listEmployeeUsingDevice = RxList([]);
-
   void getEmployeeUsingDeviceData() {
     EmployeeServices.to.getDeviceUsingDataEmployee().then((value) {
       listEmployeeUsingDevice.value = value.data!;
@@ -222,4 +221,7 @@ class DashboardController extends GetxController {
       ..setAttribute("download", "${data.employeeId}.xlsx")
       ..click();
   }
+
+
+  ///Receive device
 }

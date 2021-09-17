@@ -170,7 +170,7 @@ class DeviceViewDetail extends GetView<DeviceController> {
                                               data: device.statuss.toString(),
                                             ),
                                             _deviceData(
-                                              title: 'Using by',
+                                              title: 'Employee',
                                               data:
                                               controller.employeeName.value,
                                               color: Appearance.backGroundColor,

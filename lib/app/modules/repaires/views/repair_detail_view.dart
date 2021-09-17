@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:kst_inventory/app/modules/repaires/controllers/repair_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:kst_inventory/models/device.dart';
+import 'package:kst_inventory/models/repairs.dart';
 import 'package:kst_inventory/utils/constants.dart';
 
 import 'components/add_device_repair.dart';
@@ -27,16 +28,38 @@ class RepairDetail extends GetView<RepairController> {
                     margin: EdgeInsets.only(top: 20),
                     child: Container(
                       padding: EdgeInsets.all(20),
-                      child: Obx(
-                        () => SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: DataTable(
-                            showCheckboxColumn: false,
-                            columnSpacing: 30,
-                            columns: _getColumn(controller.columnDevice),
-                            rows: getRows(controller.listDeviceRepair, context),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Align(child: Text('Device data', style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),),
+                            alignment: Alignment.centerLeft,),
+                          SizedBox(height: 15,),
+                          Text('Select device for repair'),
+                          Divider(),
+                          Expanded(
+                            child: Obx(
+                                  () =>
+                                  SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: SingleChildScrollView(
+                                      child: DataTable(
+                                        showCheckboxColumn: false,
+                                        headingTextStyle: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16),
+                                        columnSpacing: 30,
+                                        columns: _getColumn(
+                                            controller.columnRepair),
+                                        rows: getRows(
+                                            controller.listDeviceRepair,
+                                            context),
+                                      ),
+                                    ),
+                                  ),
+                            ),
                           ),
-                        ),
+                        ],
                       ),
                     ),
                   ),
@@ -82,27 +105,31 @@ class RepairDetail extends GetView<RepairController> {
               DataCell(Text(row.hardisk.toString())),
             ],
             onSelectChanged: (isSelected) {
+              controller.usingByEmployee(data: row.deviceId.toString());
               showDialog(
-                //barrierColor: Appearance.backGroundColor,
                 context: context,
-                builder: (context) => AlertDialog(
-                  backgroundColor: Appearance.backGroundColor,
-                  contentPadding: EdgeInsets.zero,
-                  content: AddDeviceRepair(),
-                  actionsPadding: EdgeInsets.only(right: 15, bottom: 15),
-                  actions: [
-                    TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: Text('Cancel')),
-                    TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: Text('OK')),
-                  ],
-                ),
+                builder: (context) =>
+                    AlertDialog(
+                      backgroundColor: Appearance.backGroundColor,
+                      contentPadding: EdgeInsets.zero,
+                      content: AddDeviceRepair(
+                        device: row,
+                      ),
+                      actionsPadding: EdgeInsets.only(right: 15, bottom: 15),
+                      actions: [
+                        TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Text('Cancel')),
+                        TextButton(
+                            onPressed: () {
+                              controller.addRepairData(
+                                  deviceId: row.deviceId.toString());
+                            },
+                            child: Text('OK')),
+                      ],
+                    ),
               );
             });
       }).toList();

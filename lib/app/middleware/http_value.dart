@@ -1,4 +1,5 @@
 import 'package:kst_inventory/app/modules/orders/controllers/order_controller.dart';
+import 'package:kst_inventory/models/repairs.dart';
 
 const String _baseUrl = "127.0.0.1:3000";
 
@@ -54,6 +55,7 @@ Uri delEmployeeUrl = Uri.http(_baseUrl, '/employee/del');
 Uri delEmployeeDeviceUrl = Uri.http(_baseUrl, '/employee/device');
 Uri employeeUsingDeviceUrl = Uri.http(_baseUrl, '/employee/usings');
 Uri updateUrl = Uri.http(_baseUrl, '/employee/up');
+Uri empDeviceUrl(String deviceId) => Uri.http(_baseUrl, '/employee/device/$deviceId');
 
 ///Checkout
 Uri checkoutDeviceUrl = Uri.http(_baseUrl, '/checkout/add');
@@ -75,3 +77,11 @@ Uri delCheckOutDe = Uri.http(_baseUrl, '/checkout/delDetail');
 
 ///Order
 Uri orderDataUrl = Uri.http(_baseUrl, '/order');
+
+///Repair
+Uri addRepairUrl = Uri.http(_baseUrl, '/repairs/add');
+Uri getRepairUrl = Uri.http(_baseUrl, '/repairs');
+Uri adRepairLogUrl = Uri.http(_baseUrl, '/repairs/log');
+Uri delRepairLogUrl = Uri.http(_baseUrl, '/repairs/del');
+Uri getDevRepairLogUrl = Uri.http(_baseUrl, '/repairs/dev');
+Uri addReceiveLogUrl = Uri.http(_baseUrl, '/repairs/addrev');

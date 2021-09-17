@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kst_inventory/app/routes/app_page.dart';
+import 'package:kst_inventory/services/repair_services.dart';
 import 'package:kst_inventory/utils/constants.dart';
 import 'package:url_strategy/url_strategy.dart';
 
@@ -45,6 +46,7 @@ class MyApp extends StatelessWidget {
           Get.put(CheckoutServices());
           Get.put(CheckInServices());
           Get.put(OrderService());
+          Get.put(RepairServices());
         },
       ),
       getPages: AppPages.routes,
