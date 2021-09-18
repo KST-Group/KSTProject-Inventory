@@ -29,6 +29,10 @@ class MenuBar extends GetView<HomeController> {
           currentIndex = 5;
         }else if (currentLocation?.startsWith(Routes.EMPLOYEE) == true) {
           currentIndex = 6;
+        }else if (currentLocation?.startsWith(Routes.USER) == true) {
+          currentIndex = 7;
+        }else if (currentLocation?.startsWith(Routes.REPORT_DEVICE) == true) {
+          currentIndex = 8;
         }
 
         return Container(
@@ -195,27 +199,27 @@ class MenuBar extends GetView<HomeController> {
                               ico: 'assets/icons/company.svg',
                             ),
 
-                            // menuButton(
-                            //   ico: 'assets/icons/company.svg',
-                            //   title: 'Company Profile',
-                            //   onTap: () {
-                            //     delegate.toNamed(Routes.COMPANY);
-                            //   },
-                            // ),
-                            // menuButton(
-                            //   ico: 'assets/icons/small_business.svg',
-                            //   title: 'Departments',
-                            //   onTap: () {
-                            //     delegate.toNamed(Routes.DEPARTMENT);
-                            //   },
-                            // ),
-                            // menuButton(
-                            //   ico: 'assets/icons/bulleted_list.svg',
-                            //   title: 'Positions',
-                            //   onTap: () {
-                            //     delegate.toNamed(Routes.POSITION);
-                            //   },
-                            // ),
+                            menuButton(
+                              ico: 'assets/icons/company.svg',
+                              title: 'Company Profile',
+                              onTap: () {
+                                delegate.toNamed(Routes.COMPANY);
+                              },
+                            ),
+                            menuButton(
+                              ico: 'assets/icons/small_business.svg',
+                              title: 'Departments',
+                              onTap: () {
+                                delegate.toNamed(Routes.DEPARTMENT);
+                              },
+                            ),
+                            menuButton(
+                              ico: 'assets/icons/bulleted_list.svg',
+                              title: 'Positions',
+                              onTap: () {
+                                delegate.toNamed(Routes.POSITION);
+                              },
+                            ),
                             menuButton(
                               selectedColor: currentIndex == 6
                                   ? Appearance.selectedColor
@@ -230,6 +234,11 @@ class MenuBar extends GetView<HomeController> {
                             ),
                             //_title(tile: 'Settings'),
                             menuButton(
+                              selectedColor: currentIndex == 7
+                                  ? Appearance.selectedColor
+                                  : null,
+                              showSelectedColor:
+                              currentIndex == 7 ? Colors.white : null,
                               title: 'User',
                               ico: 'assets/icons/user.svg',
                               onTap: () {
@@ -238,29 +247,42 @@ class MenuBar extends GetView<HomeController> {
                             ),
                             _title(
                               tile: 'Reports',
-                              ico: 'assets/icons/company.svg',
+                              ico: 'assets/icons/report_file.svg',
                             ),
                             menuButton(
-                              ico: 'assets/icons/maintenance.svg',
+                              selectedColor: currentIndex == 8
+                                  ? Appearance.selectedColor
+                                  : null,
+                              showSelectedColor:
+                              currentIndex == 8 ? Colors.white : null,
+                              ico: 'assets/icons/report_file.svg',
                               title: 'Report Device',
                               onTap: () {
-                                delegate.toNamed(Routes.COMPANY);
+                                delegate.toNamed(Routes.REPORT_DEVICE);
                               },
                             ),
-                            menuButton(
-                              ico: 'assets/icons/maintenance.svg',
-                              title: 'Report Repair',
-                              onTap: () {
-                                delegate.toNamed(Routes.COMPANY);
-                              },
-                            ),
-                            menuButton(
-                              ico: 'assets/icons/maintenance.svg',
-                              title: 'Report Employee',
-                              onTap: () {
-                                delegate.toNamed(Routes.COMPANY);
-                              },
-                            ),
+                            // menuButton(
+                            //   ico: 'assets/icons/report_file.svg',
+                            //   title: 'Report CheckIn',
+                            //   onTap: () {
+                            //     delegate.toNamed(Routes.COMPANY);
+                            //   },
+                            // ),
+                            // menuButton(
+                            //   ico: 'assets/icons/report_file.svg',
+                            //   title: 'Report CheckOut',
+                            //   onTap: () {
+                            //     delegate.toNamed(Routes.COMPANY);
+                            //   },
+                            // ),
+                            // menuButton(
+                            //   ico: 'assets/icons/report_file.svg',
+                            //   title: 'Report Repair',
+                            //   onTap: () {
+                            //     delegate.toNamed(Routes.COMPANY);
+                            //   },
+                            // ),
+
                           ],
                         ),
                       ),

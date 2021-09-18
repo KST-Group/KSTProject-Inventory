@@ -21,11 +21,13 @@ class Assets {
   static const String iconsInventory = 'assets/icons/inventory.svg';
   static const String iconsLaptop = 'assets/icons/laptop.svg';
   static const String iconsMaintenance = 'assets/icons/maintenance.svg';
+  static const String iconsMicrosoftExcel = 'assets/icons/microsoft_excel.svg';
   static const String iconsMobile = 'assets/icons/mobile.svg';
   static const String iconsMultipleDevices = 'assets/icons/multiple_devices.svg';
   static const String iconsPc = 'assets/icons/pc.svg';
   static const String iconsPrint = 'assets/icons/print.svg';
   static const String iconsProduct = 'assets/icons/product.svg';
+  static const String iconsReportFile = 'assets/icons/report_file.svg';
   static const String iconsReset = 'assets/icons/reset.svg';
   static const String iconsSadFace = 'assets/icons/sad_face.svg';
   static const String iconsSetting = 'assets/icons/setting.png';

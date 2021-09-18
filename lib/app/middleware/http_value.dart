@@ -9,6 +9,7 @@ final Uri loginUrl = Uri.http(_baseUrl, '/login');
 Uri getAUserUrl(String username) => Uri.http(_baseUrl, '/users/$username');
 Uri getUserUrl = Uri.http(_baseUrl, '/users');
 Uri addUserUrl = Uri.http(_baseUrl, '/users/add');
+Uri updateUserUrl = Uri.http(_baseUrl, '/users/up');
 
 Uri deleteUserUrl(String username) => Uri.http(_baseUrl, '/users/$username');
 
@@ -86,3 +87,9 @@ Uri adRepairLogUrl = Uri.http(_baseUrl, '/repairs/log');
 Uri delRepairLogUrl = Uri.http(_baseUrl, '/repairs/del');
 Uri getDevRepairLogUrl = Uri.http(_baseUrl, '/repairs/dev');
 Uri addReceiveLogUrl = Uri.http(_baseUrl, '/repairs/addrev');
+
+
+///Repaort
+Uri addReportUrl = Uri.http(_baseUrl, '/reports/device');
+///
+///

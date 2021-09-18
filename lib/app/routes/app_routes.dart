@@ -39,6 +39,8 @@ abstract class Routes {
 
   static const REPAIR = Paths.HOME + Paths.REPAIR;
   static const ADDREPAIR = Paths.HOME + Paths.REPAIR + Paths.ADDREPAIR;
+
+  static const REPORT_DEVICE = Paths.HOME + Paths.REPORT_DEVICE;
 }
 
 abstract class Paths {
@@ -67,4 +69,6 @@ abstract class Paths {
   static const ADDREPAIR = '/addrepair';
 
   static const ROOT = '/root';
+
+  static const REPORT_DEVICE = '/report-device';
 }

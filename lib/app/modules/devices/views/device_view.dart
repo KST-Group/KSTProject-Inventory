@@ -253,6 +253,8 @@ class DeviceView extends GetView<DeviceController> {
           ],
         ),
         onPressed: () {
+          controller.selectedTypeValue=null;
+          controller.selectedBrandValue=null;
           showDialog(
             context: context,
             builder: (context) {

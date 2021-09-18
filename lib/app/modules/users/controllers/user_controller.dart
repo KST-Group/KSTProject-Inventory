@@ -1,12 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:kst_inventory/models/user_model.dart';
 
 import 'package:kst_inventory/services/user_service.dart';
 import 'package:kst_inventory/utils/dialog.dart';
 
 class UserController extends GetxController {
-  var userList = [].obs;
   TextEditingController? username;
   TextEditingController? password;
   TextEditingController? displayName;
@@ -35,21 +36,35 @@ class UserController extends GetxController {
     return null;
   }
 
+  final List<String> userColumn = [
+    'No',
+    '',
+    'Username',
+    '',
+    'Display Name',
+    '',
+    'Crate Date',
+    '',
+    'Last Update',
+    '',
+    'Action'
+  ];
+
   @override
   void onInit() {
-    fetchAllUser();
+    getAllUser();
     username = TextEditingController();
     password = TextEditingController();
     displayName = TextEditingController();
     super.onInit();
   }
 
-  Future<void> fetchAllUser() async {
-    userList.clear();
+  ///Get All User data
+  RxList<User> listUser = RxList([]);
+
+  Future<void> getAllUser() async {
     UserServices.to.getUserData().then((value) {
-      value.data!.forEach((docs) {
-        userList.add(docs);
-      });
+      listUser.value = value.data!;
     });
   }
 
@@ -64,7 +79,7 @@ class UserController extends GetxController {
         )
             .then(
           (value) {
-            fetchAllUser();
+            getAllUser();
             username!.clear();
             password!.clear();
             displayName!.clear();
@@ -76,11 +91,37 @@ class UserController extends GetxController {
   }
 
   Future<void> deleteUser(
-      {required String username, required BuildContext context}) async {
+      {required String username}) async {
     UserServices.to.deleteUser(username: username).then((value) {
-      fetchAllUser();
-      Dialogs(context: context, message: 'Success').showToast();
-      print('message=$value');
+      getAllUser();
+      Get.rootDelegate.popRoute();
+      Fluttertoast.showToast(msg: 'Success', webPosition: 'center');
+
+
+    });
+  }
+
+  ///Update user
+  String? usernameController;
+  TextEditingController displayNameController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
+  void updateUserData() {
+    UserServices.to
+        .updateUser(
+            data: User(
+      username: usernameController,
+      surname: displayNameController.text,
+      passwords: passwordController.text,
+    ).toMap())
+        .then((value) {
+      print(value['message']);
+      getAllUser();
+      usernameController = '';
+      displayNameController.clear();
+      Get.rootDelegate.popRoute();
+      passwordController.clear();
+      Fluttertoast.showToast(msg: 'Success', webPosition: 'center');
     });
   }
 

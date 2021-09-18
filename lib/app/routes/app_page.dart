@@ -32,6 +32,8 @@ import 'package:kst_inventory/app/modules/positions/views/position_view.dart';
 import 'package:kst_inventory/app/modules/repaires/bindings/repair_binding.dart';
 import 'package:kst_inventory/app/modules/repaires/views/repair_detail_view.dart';
 import 'package:kst_inventory/app/modules/repaires/views/repair_view.dart';
+import 'package:kst_inventory/app/modules/reports/bindings/report_binding.dart';
+import 'package:kst_inventory/app/modules/reports/views/device_report.dart';
 import 'package:kst_inventory/app/modules/root/bindings/root_binding.dart';
 import 'package:kst_inventory/app/modules/root/views/root_view.dart';
 import 'package:kst_inventory/app/modules/settings/bindings/settong_binding.dart';
@@ -53,7 +55,7 @@ class AppPages {
       participatesInRootNavigator: true,
       preventDuplicates: true,
       middlewares: [
-        //EnsureAuthedMiddleware(),
+        EnsureAuthedMiddleware(),
       ],
       children: [
         GetPage(
@@ -61,7 +63,7 @@ class AppPages {
           page: () => LoginView(),
           binding: LoginBinding(),
           middlewares: [
-           // EnsureNotAuthedMiddleware(),
+            EnsureNotAuthedMiddleware(),
           ],
         ),
         GetPage(
@@ -88,7 +90,6 @@ class AppPages {
                   name: Paths.DEVICE_VIEW_DASHBOARD,
                   page: () => DeviceViewDashboard(),
                   binding: DashboardBinding(),
-
                 )
               ],
             ),
@@ -211,6 +212,11 @@ class AppPages {
               page: () => UserView(),
               binding: UserBinding(),
             ),
+            GetPage(
+              name: Paths.REPORT_DEVICE,
+              page: () => ReportDevice(),
+              binding: ReportBinding(),
+            )
           ],
         ),
       ],
